@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePointApp", "SharePointApp\SharePointApp.csproj", "{02F4279A-B114-4028-B12A-64D6DEC9FBB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharePointAddIns", "SharePointAddIns", "{3EBE659D-617B-4B5D-8869-984ADC60A461}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InlineSearchAddIn", "SharePointAddIns\InlineSearchAddIn\InlineSearchAddIn.csproj", "{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{937D20C1-F7B1-4956-88DA-154597172DF8}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02F4279A-B114-4028-B12A-64D6DEC9FBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02F4279A-B114-4028-B12A-64D6DEC9FBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02F4279A-B114-4028-B12A-64D6DEC9FBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02F4279A-B114-4028-B12A-64D6DEC9FBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3ABAB2C-E45D-4259-9013-6BD6E6D09F78}
+	EndGlobalSection
+EndGlobal

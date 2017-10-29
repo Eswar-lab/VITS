@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="17bdd223-03f0-4563-a944-9e1899f72fb6" 
+        solutionId="17bdd223-03f0-4563-a944-9e1899f72fb6" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="InlineSearchAddIn"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="45a39537-3f93-4d02-a623-1eb8a4ab609a" />
+  </features>
+</package>

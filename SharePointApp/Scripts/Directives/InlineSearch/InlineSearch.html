@@ -1,0 +1,58 @@
+﻿<section>
+    <div ng-if="ShowSpinner == true">
+        <img src="../Images/load.gif" />
+    </div>
+    <div id="content" ng-if="ShowSpinner == false">
+        <!--<div>
+            <label for="searchTextBox">Search: </label>
+            <input id="searchTextBox" name="searchTextBox" type="text" ng-model="SearchText"/>
+            <input id="searchButton" type="button" value="Search" ng-click="Search()"/>
+        </div>-->
+
+        <div id="resultsDiv">
+
+            <div ng-if="sampleConfigTxt">
+                <h4>sample config on filterQuery setting:</h4>
+                {{sampleConfigTxt}}
+            </div>
+
+            <!-- SIMPLE VERSION-->
+            <div ng-show="template == 1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{quickLinkTitle}} </h3>
+                        <a href="#" class="btn btn-default" ng-click="ClearCacheAndSearch($event)"><span class="glyphicon glyphicon-refresh"></span></a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <div class="list-group-item" ng-repeat="item in SearchResults">
+                                <a class="dark-link" target="_blank" ng-href="{{item.serverRedirectedURL || item.path}}">{{item.title}}</a>
+                                <a target="_blank" ng-href="{{item.path}}"><span class="glyphicon glyphicon-save"> </span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUPING VERSION-->
+            <div ng-show="template == 2">
+                <a href="#" class="btn btn-default" ng-click="ClearCacheAndSearch($event)"><span class="glyphicon glyphicon-refresh"></span></a>
+                <accordion>
+                    <accordion-group ng-repeat="item in SearchResults | orderBy:'+groupBy'">
+                        <accordion-heading>
+                            {{item.groupBy}}
+                        </accordion-heading>
+
+                        <ul>
+                            <li ng-repeat="child in item.children | orderBy:'+title'">
+                                <a class="" target="_blank" ng-href="{{child.serverRedirectedURL || child.path}}">{{child.title}}</a>
+                                <a class="pull-right" target="_blank" ng-href="{{child.path}}"><span class="glyphicon glyphicon-save"> </span></a>
+                            </li>
+                        </ul>
+
+                    </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </div>
+</section>

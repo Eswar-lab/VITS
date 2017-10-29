@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/packages
+/SharePointApp/bin
+/SharePointApp/obj/Debug
+/SharePointAppService/bin
+/SharePointAppService/obj/Debug
