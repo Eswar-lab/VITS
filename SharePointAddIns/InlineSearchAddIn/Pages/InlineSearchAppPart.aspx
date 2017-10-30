@@ -8,8 +8,7 @@
 
 <html>
 <head>
-    <title>Inline Search App Part </title>
-
+    <title>Inline Search</title>
     
      <!-- Add your CSS styles to the following file -->
     <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
@@ -38,21 +37,21 @@
     
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.min.js"></script>
 
-<%--    <script src="https://mjcdn.azurewebsites.net/scripts/app.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/controllers/SharePointOnlineControllers.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/services/SharePointOnlineServices.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/services/SearchService.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/services/EnvironmentService.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/directives/SharePointOnlineDirectives.js"></script>
-    <script src="https://mjcdn.azurewebsites.net/scripts/directives/InlineSearch/InlineSearch.js"></script>--%>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/app.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/controllers/SharePointOnlineControllers.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/services/SharePointOnlineServices.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/services/SearchService.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/services/EnvironmentService.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/InlineSearch/InlineSearch.js"></script>
 
-    <script src="https://localhost:44326/scripts/app.js"></script>
+  <%--  <script src="https://localhost:44326/scripts/app.js"></script>
     <script src="https://localhost:44326/scripts/controllers/SharePointOnlineControllers.js"></script>
     <script src="https://localhost:44326/scripts/services/SharePointOnlineServices.js"></script>
     <script src="https://localhost:44326/scripts/services/SearchService.js"></script>
     <script src="https://localhost:44326/scripts/services/EnvironmentService.js"></script>
     <script src="https://localhost:44326/scripts/directives/SharePointOnlineDirectives.js"></script>
-    <script src="https://localhost:44326/scripts/directives/InlineSearch/InlineSearch.js"></script>
+    <script src="https://localhost:44326/scripts/directives/InlineSearch/InlineSearch.js"></script>--%>
 
     
 </head>

@@ -9,7 +9,7 @@
 
     function EnvironmentService($http, $localStorageProvider, $q, $timeout) {
         //var BaseServiceUrl = "http://vit.azurewebsites.net";
-        var BaseServiceUrl ="http://localhost:2787/"
+        var BaseServiceUrl ="https://vitspoaddins.blob.core.windows.net"
         var config = null;
         var EnvironmentServiceFactory = {}
 
