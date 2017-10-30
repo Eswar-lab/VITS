@@ -8,10 +8,10 @@
     EnvironmentService.$inject = ['$http', '$localStorageProvider', '$q', '$timeout'];
 
     function EnvironmentService($http, $localStorageProvider, $q, $timeout) {
-        var BaseServiceUrl = "http://tippintotsservice.azurewebsites.net";
+        //var BaseServiceUrl = "http://vit.azurewebsites.net";
+        var BaseServiceUrl ="http://localhost:2787/"
         var config = null;
         var EnvironmentServiceFactory = {}
-        //var _baseServiceUrl = "http://localhost:1960";
 
         EnvironmentServiceFactory.GetConfig = function () {
             return config;

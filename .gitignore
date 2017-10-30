@@ -7,3 +7,9 @@
 /SharePointApp/obj/Debug
 /SharePointAppService/bin
 /SharePointAppService/obj/Debug
+/.vs/SharePointApps/v15/Server/sqlite3
+/.vs/VIT/v15
+/.vs/SharePointApps/v15
+/SharePointApp/obj/Release
+/SharePointAddIns/InlineSearchAddIn/pkg/Debug/InlineSearchAddIn
+/.vs/VSWorkspaceState.json

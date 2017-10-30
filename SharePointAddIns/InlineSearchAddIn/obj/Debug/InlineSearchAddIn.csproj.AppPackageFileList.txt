@@ -1,0 +1,1 @@
+D:\Code\VIT\SharePointAddIns\InlineSearchAddIn\bin\Debug\app.publish\1.0.0.3\InlineSearchAddIn.app

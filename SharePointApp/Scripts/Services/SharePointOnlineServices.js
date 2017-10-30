@@ -8,17 +8,7 @@
     SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage'];
 
     function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage) {
-        var AppServiceFactory = {};        
-        
-       
-        
-      
-
-        //if (!Array.prototype.last) {
-        //    Array.prototype.last = function () {
-        //        return this[this.length - 1];
-        //    };
-        //};
+        var AppServiceFactory = {};                
 
         // Read a page's GET URL variables and return them as an associative array.
         AppServiceFactory.GetURLParameters = function (paramName) {
