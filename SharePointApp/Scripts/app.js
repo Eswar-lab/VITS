@@ -16,7 +16,7 @@
     config.$inject = ['$routeProvider', '$locationProvider', '$localStorageProvider','$sceProvider'];
 
     function config($routeProvider, $locationProvider, $localStorageProvider, $sceProvider) {
-        $localStorageProvider.setKeyPrefix('SharePointOnlineApps');        
+        //$localStorageProvider.setKeyPrefix('SharePointOnlineApps');        
         $sceProvider.enabled(false);
         
 
