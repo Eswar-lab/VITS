@@ -81,6 +81,8 @@
   <ItemGroup>
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Controllers\SharePointOnlineControllers.js" />
+    <Content Include="Scripts\Directives\ElectronicRecords\ElectronicRecords.js" />
+    <Content Include="Scripts\Directives\ElectronicRecords\ElectronicRecords.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.js" />
     <Content Include="Scripts\Directives\SharePointOnlineDirectives.js" />

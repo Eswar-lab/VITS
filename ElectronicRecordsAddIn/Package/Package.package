@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="ed1c1636-cfe3-467e-b854-b3430e224681" 
+        solutionId="ed1c1636-cfe3-467e-b854-b3430e224681" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="ElectronicRecordsAddIn"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="49708539-b656-49f1-98fe-b140868738f4" />
+  </features>
+</package>
