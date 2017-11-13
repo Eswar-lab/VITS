@@ -12,7 +12,7 @@
                 tenant: '='
             },
             //templateUrl: currentScriptPath.replace('InlineSearch.js', 'InlineSearch.html'),
-            templateUrl: 'https://localhost/scripts/Directives/InlineSearch/InlineSearch.html',
+            templateUrl: 'https://localhost:44326/scripts/Directives/ElectronicRecords/ElectronicRecords.html',
             //template: 'blah'    ,
             replace: true,
             //require: 'ngModel',
@@ -39,7 +39,7 @@
 
         }
 
-        function SaveDocumentSet(properties[]) {
+        function SaveDocumentSet(properties) {
 
         }
 

@@ -11,7 +11,7 @@
         var AppServiceFactory = {};                
 
 
-        AppServiceFactory.GetDocumentSets(libraryUrl) {
+        AppServiceFactory.GetDocumentSets(libraryUrl) = function() {
             // TODO: Add JSOM code to load all documentSet properties from given library
         }
         // Read a page's GET URL variables and return them as an associative array.
