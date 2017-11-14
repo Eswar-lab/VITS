@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
+<App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
+     Name="CEOsiteAddIn"
+     ProductID="{d5eb3d61-dbd1-4ecd-ac47-78935e4bd10b}"
+     Version="1.0.0.1"
+     SharePointMinVersion="16.0.0.0"
+>
+  <Properties>
+    <Title>CEOsiteAddIn</Title>
+    <StartPage>~appWebUrl/Pages/CEOsiteWebPart.aspx?{StandardTokens}</StartPage>
+  </Properties>
+
+  <AppPrincipal>
+    <Internal />
+  </AppPrincipal>
+
+
+</App>

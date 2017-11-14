@@ -2,3 +2,7 @@ D:\Code\VIT\SharePointAddIns\InlineSearchAddIn\bin\Debug\InlineSearchAddIn.pdb
 D:\Code\VIT\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.csproj.CoreCompileInputs.cache
 D:\Code\VIT\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.dll
 D:\Code\VIT\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.pdb
+C:\Code\VIT-spo\SharePointAddIns\InlineSearchAddIn\bin\Debug\InlineSearchAddIn.pdb
+C:\Code\VIT-spo\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.csproj.CoreCompileInputs.cache
+C:\Code\VIT-spo\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.dll
+C:\Code\VIT-spo\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.pdb

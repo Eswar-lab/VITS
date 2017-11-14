@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="1fbdf019-3901-4f75-b298-9605c048c6ad" 
+        solutionId="1fbdf019-3901-4f75-b298-9605c048c6ad" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="CEOsiteAddIn"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="3bacb613-4314-41d6-9cb9-24fc4937911c" />
+  </features>
+</package>
