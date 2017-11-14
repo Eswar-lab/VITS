@@ -12,7 +12,7 @@
                 tenant: '='
             },
             //templateUrl: currentScriptPath.replace('InlineSearch.js', 'InlineSearch.html'),
-            templateUrl: 'https://mjcdn.azurewebsites.net/scripts/Directives/InlineSearch/InlineSearch.html',
+            templateUrl: 'https://localhost:44326/scripts/Directives/InlineSearch/InlineSearch.html',
             //template: 'blah'    ,
             replace: true,
             //require: 'ngModel',

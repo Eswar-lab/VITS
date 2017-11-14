@@ -86,6 +86,8 @@
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.js" />
     <Content Include="Scripts\Directives\SharePointOnlineDirectives.js" />
+    <Content Include="Scripts\Directives\Timesheet\Timesheet.html" />
+    <Content Include="Scripts\Directives\Timesheet\Timesheet.js" />
     <Content Include="Scripts\Services\EnvironmentService.js" />
     <Content Include="Scripts\Services\SearchService.js" />
     <Content Include="Scripts\Services\SharePointOnlineServices.js" />

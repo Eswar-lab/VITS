@@ -7,21 +7,17 @@
 
 <html>
 <head>
-    <title>Electronic Records</title>
-     <!-- Add your CSS styles to the following file -->
-    <link rel="Stylesheet" type="text/css" href="../Content/App.css" />
+    <title>Timesheet</title>
 
-    <!-- Add your JavaScript to the following file -->
-    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-
+    <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/_layouts/15/MicrosoftAjax.js"></script>
     <script type="text/javascript" src="/_layouts/15/init.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.init.js"></script>
     <script type="text/javascript" src="/_layouts/sp.core.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.runtime.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.js"></script>
-    
-    <!-- AngularJS-->
+
+   <!-- AngularJS-->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>   
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-resource.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
@@ -40,20 +36,23 @@
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/services/SearchService.js"></script>
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/services/EnvironmentService.js"></script>
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
-    <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/ElectronicRecords/ElectronicRecords.js"></script>--%>
+    <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/Timesheet/Timesheet.js"></script>--%>
 
     <script src="https://localhost:44326/scripts/app.js"></script>
     <script src="https://localhost:44326/scripts/controllers/SharePointOnlineControllers.js"></script>
     <script src="https://localhost:44326/scripts/services/SharePointOnlineServices.js"></script>
     <script src="https://localhost:44326/scripts/services/EnvironmentService.js"></script>
     <script src="https://localhost:44326/scripts/directives/SharePointOnlineDirectives.js"></script>
-    <script src="https://localhost:44326/scripts/directives/ElectronicRecords/ElectronicRecords.js"></script>
+    <script src="https://localhost:44326/scripts/directives/Timesheet/Timesheet.js"></script>
 
 </head>
 <body>
+    <form runat="server">
+        <SharePoint:FormDigest ID="FormDigest1" runat="server"></SharePoint:FormDigest>
+    </form>
      <div ng-app="SharePointOnlineApp">
-        <span>Electronic Records</span>
-        <spo-electronicrecords></spo-electronicrecords>
+        <span>Timesheet</span>
+        <spo-timesheet></spo-timesheet>
     </div>
 </body>
 </html>

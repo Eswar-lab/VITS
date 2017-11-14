@@ -11,7 +11,7 @@
         var AppServiceFactory = {};                
 
 
-        AppServiceFactory.GetDocumentSets(libraryUrl) = function() {
+        AppServiceFactory.GetDocumentSets = function (libraryUrl) {
             // TODO: Add JSOM code to load all documentSet properties from given library
         }
         // Read a page's GET URL variables and return them as an associative array.
@@ -130,6 +130,25 @@
             return $localStorage.name;
         }
 
+        AppServiceFactory.Timesheet_Get_TimesheetData_ForPeriod = function (useremail, startDate, endDate) {
+            return
+            new [
+                new {
+                    'Employee': 'khang@vit.edu.au', 'Manager': 'Aaron',
+                    'Department': 'Moodle', 'Period': 'Fortnightly', 'TimesheetType': 'General',
+                    'TaskCodes': [], 'StartDate': '13-Nov-2017', 'StartTimes': ['8:00 AM'], 
+                    'EndTimes': ['10:00 AM'], 'BreakTime': '30', 'Total': '6', 'Absent': false,
+                    'AbsentReason': '', 'ApprovalStatus': 'Not Started'
+                },
+                  new {
+                    'Employee': 'khang@vit.edu.au', 'Manager': 'Aaron',
+                    'Department': 'Moodle', 'Period': 'Fortnightly', 'TimesheetType': 'Academic',
+                    'TaskCodes': ['LEC', 'RLEC'], 'StartDate': '14-Nov-2017', 'StartTimes': ['8:00 AM', '1:00 PM'],
+                    'EndTimes': ['10:00 AM', '3:00 PM'], 'BreakTime': '30', 'Total': '6', 'Absent': false,
+                    'AbsentReason': '', 'ApprovalStatus': 'Not Started'
+                }
+            ];
+        }
         // Local Storage Helper Functions
         // From http://brynner.net/html5-localstorage-with-expiration/
         function removeHtmlStorage(name) {

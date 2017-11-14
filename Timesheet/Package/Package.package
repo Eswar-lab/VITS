@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="fe09aed4-6d66-44c8-a84d-7a084a418b41" 
+        solutionId="fe09aed4-6d66-44c8-a84d-7a084a418b41" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="Timesheet"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="45f30a88-9425-4102-82ec-ed05635aa114" />
+  </features>
+</package>
