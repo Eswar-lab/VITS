@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="1346fb39-1ceb-40db-a2d0-c197ba433364" 
+        solutionId="1346fb39-1ceb-40db-a2d0-c197ba433364" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="LeaveApplication"
+        sharePointProductVersion="16.0">
+  <features>
+        <featureReference itemId="fb2f5c05-11b8-4138-822c-fcfec68546c2" />
+  </features>
+</package>
