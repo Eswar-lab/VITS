@@ -152,22 +152,38 @@
 
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
-             obj = [
-                    {
-                        'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                        'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
-                    },
-                    {
-                        'Employee': 'khang@vit.edu.au', 'StartDate': '1-Dec-2017',
-                        'EndDate': '15-Dec-2017', 'Status': 'Rejected', 'ReportTo': 'Aaron@vit.edu.au'
-                    }
-            ];
+             
+             if (filter == 'Pending') {
+                 obj = [
+                     {
+                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
+                         'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au',
+                         'RejectionReason': ''
+                     },
+                     {
+                         'Employee': 'khang@vit.edu.au', 'StartDate': '1-Dec-2017',
+                         'EndDate': '15-Dec-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au',
+                         'RejectionReason': ''
+                     }
+                 ];
+             }
              if (filter == 'Rejected') {
                  obj = [
                      {
                          'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                         'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
-                     }];
+                         'EndDate': '15-Nov-2017', 'Status': 'Rejected', 'ReportTo': 'Aaron@vit.edu.au',
+                         'RejectionReason' : 'You do not have enough leave balance left.'
+                     }
+                 ];
+             }
+             if (filter == 'Approved') {
+                 obj = [
+                     {
+                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
+                         'EndDate': '15-Nov-2017', 'Status': 'Approved', 'ReportTo': 'Aaron@vit.edu.au',
+                         'RejectionReason': ''
+                     }
+                 ];
              }
             return obj;
            

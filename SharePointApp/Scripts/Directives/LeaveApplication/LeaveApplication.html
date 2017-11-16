@@ -1,30 +1,79 @@
 ﻿<section>
-    <div class="panel panel-default" ng-show="View == 'UserView'">
+    <!-- Create Leave Application -->
+    <div id="modalCreate" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New  Leave Application</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">Employee</div>
+                        <div class="col-md-4">First Day of Leave</div>
+                        <div class="col-md-4">Last Day of Leave</div>
+                        <div class="col-md-4">Status</div>
+                        <div class="col-md-4">Approver</div>
+                        <div class="col-md-4">Rejection Reason</div>
+                    </div>
+                    <div class="row" ng-repeat="data in LeaveApplicationData">
+                        <div class="col-md-4"><button type="button" ng-show="data.Status == 'Pending' || data.Status == 'Rejected'" class="btn btn-success">Edit</button></div>
+                        <div class="col-md-4"><button type="button" class="btn btn-danger" ng-show="data.Status == 'Pending'">Delete</button></div>
+                        <div class="col-md-4">{{data.Employee}}</div>
+                        <div class="col-md-4">{{data.StartDate}}</div>
+                        <div class="col-md-4">{{data.EndDate}}</div>
+                        <div class="col-md-4">{{data.Status}}</div>
+                        <div class="col-md-4">{{data.ReportTo}}</div>
+                        <div class="col-md-4"><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary" ng-show="View == 'UserView'">
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications for {{username}}</div>
         <div class="panel-body">
             <p>Please select an existing leave application form or click on the Create button to create a new one</p>
         </div>
         <div>
-            <button class="btn">Create New Leave Application</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCreate">New Leave Application</button>
         </div>
+        <br />
+        <ul id="userTabs" class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+        </ul>
         <!-- Table -->
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
+                    <th></th>
                     <th>Employee</th>
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
-                    <th>Approver</th>
                     <th>Status</th>
+                    <th>Approver</th>
+                    <th>Rejection Reason</th>
                 </tr>
             </thead>
             <tr ng-repeat="data in LeaveApplicationData">
+                <td><button type="button" ng-show="data.Status == 'Pending' || data.Status == 'Rejected'" class="btn btn-success">Edit</button></td>
+                <td><button type="button" class="btn btn-danger" ng-show="data.Status == 'Pending'">Delete</button></td>
                 <td>{{data.Employee}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.EndDate}}</td>
                 <td>{{data.Status}}</td>
                 <td>{{data.ReportTo}}</td>
+                <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
             </tr>
         </table>
     </div>
@@ -38,7 +87,7 @@
         <ul class="nav nav-pills">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
-            <li  role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
         <!-- Table -->
         <table class="table">
@@ -47,8 +96,8 @@
                     <th>Employee</th>
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
-                    <th>Approver</th>
                     <th>Status</th>
+                    <th>Approver</th>
                     <td></td>
                     <th></th>
                 </tr>

@@ -55,7 +55,7 @@
 
         $scope.GetLeaveApplications = function () {
             // the start date will be passed in the querystring, ex? startDate = ''
-            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, 'pending');
+            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, 'Pending');
         }
 
         $scope.ClearCacheAndSearch = function (event) {
@@ -72,5 +72,9 @@
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();
+        $('#userTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        })
     }
 })();
