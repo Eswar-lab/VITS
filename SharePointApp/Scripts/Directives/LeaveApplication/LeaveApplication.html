@@ -10,24 +10,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">Employee</div>
-                        <div class="col-md-4">First Day of Leave</div>
-                        <div class="col-md-4">Last Day of Leave</div>
-                        <div class="col-md-4">Status</div>
-                        <div class="col-md-4">Approver</div>
-                        <div class="col-md-4">Rejection Reason</div>
+                        <div class="col-sm-2">Employee</div>
+                        <div class="col-sm-2">[Name]</div>
+                        <div class="col-sm-2">Employee ID</div>
+                        <div class="col-sm-2">[EID from User Profile]</div>
+                        <div class="col-sm-2">Department</div>
+                        <div class="col-sm-2">[Department]</div>
                     </div>
-                    <div class="row" ng-repeat="data in LeaveApplicationData">
-                        <div class="col-md-4"><button type="button" ng-show="data.Status == 'Pending' || data.Status == 'Rejected'" class="btn btn-success">Edit</button></div>
-                        <div class="col-md-4"><button type="button" class="btn btn-danger" ng-show="data.Status == 'Pending'">Delete</button></div>
-                        <div class="col-md-4">{{data.Employee}}</div>
-                        <div class="col-md-4">{{data.StartDate}}</div>
-                        <div class="col-md-4">{{data.EndDate}}</div>
-                        <div class="col-md-4">{{data.Status}}</div>
-                        <div class="col-md-4">{{data.ReportTo}}</div>
-                        <div class="col-md-4"><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></div>
+                    <div class="row">
+                        <div class="col-sm-2">Designation</div>
+                        <div class="col-sm-2">[Designation]</div>
+                        <div class="col-sm-2">Reports To</div>
+                        <div class="col-sm-2">[Reports To]</div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

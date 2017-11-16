@@ -8,7 +8,7 @@
 <html>
 <head>
     <title>VIT Leave Application Form</title>
-        <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/_layouts/15/MicrosoftAjax.js"></script>
     <script type="text/javascript" src="/_layouts/15/init.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.init.js"></script>
@@ -37,6 +37,7 @@
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/Timesheet/Timesheet.js"></script>--%>
 
+    <link rel="stylesheet" href="https://localhost:44326/Content/app.css"> 
     <script src="https://localhost:44326/scripts/app.js"></script>
     <script src="https://localhost:44326/scripts/controllers/SharePointOnlineControllers.js"></script>
     <script src="https://localhost:44326/scripts/services/SharePointOnlineServices.js"></script>
