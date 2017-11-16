@@ -88,6 +88,8 @@
     <Content Include="Scripts\Directives\ElectronicRecords\ElectronicRecords.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.js" />
+    <Content Include="Scripts\Directives\LeaveApplication\LeaveApplication.html" />
+    <Content Include="Scripts\Directives\LeaveApplication\LeaveApplication.js" />
     <Content Include="Scripts\Directives\SharePointOnlineDirectives.js" />
     <Content Include="Scripts\Services\CEOsiteService.js" />
     <Content Include="Scripts\Directives\Timesheet\Timesheet.html" />

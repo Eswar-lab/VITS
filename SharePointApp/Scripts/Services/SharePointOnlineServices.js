@@ -5,9 +5,9 @@
         .module('SharePointOnlineServices', ['ngRoute', 'ngStorage'])
         .factory('SharePointOnlineService', SharePointOnlineService);
 
-    SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage'];
+    SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location'];
 
-    function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage) {
+    function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location) {
         var AppServiceFactory = {};                
 
 
@@ -113,7 +113,7 @@
             } else
                 ExecuteOrDelayUntilScriptLoaded(onLoadAction, sodScripts[0]);
         }
-
+        
 
         AppServiceFactory.getQueryStringParameter = function(paramToRetrieve) {
             var params =
@@ -148,6 +148,29 @@
                     'AbsentReason': '', 'ApprovalStatus': 'Not Started'
                 }
             ];
+        }
+
+        AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
+            var obj = new Object();
+             obj = [
+                    {
+                        'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
+                        'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
+                    },
+                    {
+                        'Employee': 'khang@vit.edu.au', 'StartDate': '1-Dec-2017',
+                        'EndDate': '15-Dec-2017', 'Status': 'Rejected', 'ReportTo': 'Aaron@vit.edu.au'
+                    }
+            ];
+             if (filter == 'Rejected') {
+                 obj = [
+                     {
+                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
+                         'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
+                     }];
+             }
+            return obj;
+           
         }
         // Local Storage Helper Functions
         // From http://brynner.net/html5-localstorage-with-expiration/
