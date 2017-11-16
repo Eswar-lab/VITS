@@ -9,23 +9,64 @@
                     <h4 class="modal-title">New  Leave Application</h4>
                 </div>
                 <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpEmployee">Employee</label>
+                                <input type="text" readonly class="form-control" id="inpEmployee" value="">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpEmployeeId">Employee ID</label>
+                                <input type="text" readonly class="form-control" id="inpEmployeeId" value="">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpDepartment">Department</label>
+                                <input type="text" class="form-control" id="inpDepartment" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpDesignation">Designation</label>
+                                <input type="text" readonly class="form-control" id="inpDesignation" value="">
+                            </div>
+                            <div class="col-xs-8 form-group">
+                                <label for="ppReportsTo">Reports To</label>
+                                <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
+                                <input type="text" data-provide="typeahead" class="form-control" id="ppReportsTo" value="" placeholder="Start typing a name to autocomplete">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpLeaveType">Leave Type</label>
+                                <select class="custom-select form-control" id="inpLeaveType">
+                                    <option selected value="1">Annual Leave</option>
+                                    <option value="2">Loss of Pay</option>
+                                    <option value="3">Sick Leave</option>
+                                    <option value="4">Family Leave</option>
+                                    <option value="4">Compassionate Leave</option>
+                                    <option value="5">Study Leave</option>
+                                    <option value="6">Parental Leave</option>
+                                    <option value="7">Jury Service Leave</option>
+                                    <option value="8">Long Leave</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpPayrollCode">Payroll Code</label>
+                                <input type="text" class="form-control" id="inpPayrollCode" value="">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpLeaveCat">Leave Category</label>
+                                <input type="text" class="form-control" id="inpLeaveCat" value="">
+                            </div>
+                        </div>
                     <div class="row">
-                        <div class="col-sm-2">Employee</div>
-                        <div class="col-sm-2">[Name]</div>
-                        <div class="col-sm-2">Employee ID</div>
-                        <div class="col-sm-2">[EID from User Profile]</div>
-                        <div class="col-sm-2">Department</div>
-                        <div class="col-sm-2">[Department]</div>
+                        <div class="col-xs-12 form-group">
+                            <label for="inpFile">Supporting file</label>
+                            <label class="custom-file form-control">
+                                <input type="file" class="custom-file-input" id="inpFile" value="">
+                                <span class="custom-file-control"></span>
+                            </label></div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2">Designation</div>
-                        <div class="col-sm-2">[Designation]</div>
-                        <div class="col-sm-2">Reports To</div>
-                        <div class="col-sm-2">[Reports To]</div>
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-2"></div>
                     </div>
-                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>

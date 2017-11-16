@@ -39,6 +39,7 @@
 
     <link rel="stylesheet" href="https://localhost:44326/Content/app.css"> 
     <script src="https://localhost:44326/scripts/app.js"></script>
+    <script src="https://localhost:44326/scripts/external/bootstrap3-typeahead.min.js"></script>
     <script src="https://localhost:44326/scripts/controllers/SharePointOnlineControllers.js"></script>
     <script src="https://localhost:44326/scripts/services/SharePointOnlineServices.js"></script>
     <script src="https://localhost:44326/scripts/services/EnvironmentService.js"></script>
