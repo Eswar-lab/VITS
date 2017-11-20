@@ -25,6 +25,7 @@
 
         var vm = this;
         $scope.selectedLeaveApplication = {};
+        $scope.LeaveApplicationData = {};
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
 
@@ -87,8 +88,9 @@
 
         $scope.SaveLeaveApplication = function () {
             console.log("Saving leave application");
-            files = $scope.selectedLeaveApplication.SupportingFiles;
-            $('#modalLeaveApplication').modal('hide');
+            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            //files = $scope.selectedLeaveApplication.SupportingFiles;
+            //$('#modalLeaveApplication').modal('hide');
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();

@@ -11,6 +11,10 @@
         var AppServiceFactory = {};                
 
 
+        var hostweburl = decodeURIComponent(SharePointOnlineService.getQueryStringParameter("SPHostUrl"));
+        var appweburl = decodeURIComponent(SharePointOnlineService.getQueryStringParameter("SPAppWebUrl"));
+        appweburl = appweburl.replace('#/', '')
+
         AppServiceFactory.GetDocumentSets = function (libraryUrl) {
             // TODO: Add JSOM code to load all documentSet properties from given library
         }
@@ -175,6 +179,10 @@
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
             return [{ id: "someId1", name: "Display name 1" },
             { id: "someId2", name: "Display name 2" }];
+        }
+
+        AppServiceFactory.LeaveApplication_SaveOrCreateData = function(data) {
+         //... Nidhi's code will go here > JSOM
         }
 
         AppServiceFactory.LeaveApplication_CreateNewLeaveData = function() {
