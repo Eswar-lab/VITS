@@ -150,41 +150,61 @@
             ];
         }
 
+        function CreateFakeLeaveData(status) {
+            return {
+                'EmployeeEmail': 'khang@vit.edu.au',
+                'EmployeeSurname': 'Khang',
+                'EmployeeFirstname': 'Cao',
+                'EmployeeID': '1234',
+                'Department': 'Moodle',
+                'Designation': 'Web Developer',
+                'ReportsTo': 'Aaron@vit.edu.au',
+                'LeaveType': 'Sick Leave',
+                'PayrollCode': 'SIC',
+                'LeaveCategory': 'WithCertificate',
+                'StartDate': '12-Nov-2017',
+                'ReturnDate': '15-Nov-2017',
+                'TotalDays': '3',
+                'ActualLeaveChecked': 'false',
+                'ActualLeave': '0',
+                'Status': status,
+                'RejectionReason': 'Please attach sick certificate'
+            };
+        }
+
+        AppServiceFactory.LeaveApplication_Get_Approvers = function () {
+            return [{ id: "someId1", name: "Display name 1" },
+            { id: "someId2", name: "Display name 2" }];
+        }
+
+        AppServiceFactory.LeaveApplication_CreateNewLeaveData = function() {
+             return {
+                 'EmployeeEmail': 'shailen@vit.edu.au',
+                 'EmployeeSurname': 'Sukul',
+                 'EmployeeFirstname': 'Shailen',
+                 'EmployeeID': '3456',
+                 'Department': 'IT',
+                 'Designation': 'Consultant',
+                'ReportsTo': 'arjun@vit.edu.au',
+                'LeaveType': '3',
+                'PayrollCode': 'P123',
+                'LeaveCategory': 'WithCertificate',
+                'StartDate':new Date(2017, 11, 10),
+                'ReturnDate': new Date(2017, 11, 15),
+                'SupportingFiles': {},
+                'TotalDays': '5',
+                'ActualLeaveChecked': true,
+                'ActualLeave': '4.5',
+                'Remarks' : 'My remarks are remarkable',
+                'Status': 'Draft',
+                'RejectionReason': ''
+            };
+        }
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
-            var obj = new Object();
-             
-             if (filter == 'Pending') {
-                 obj = [
-                     {
-                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                         'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au',
-                         'RejectionReason': ''
-                     },
-                     {
-                         'Employee': 'khang@vit.edu.au', 'StartDate': '1-Dec-2017',
-                         'EndDate': '15-Dec-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au',
-                         'RejectionReason': ''
-                     }
-                 ];
-             }
-             if (filter == 'Rejected') {
-                 obj = [
-                     {
-                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                         'EndDate': '15-Nov-2017', 'Status': 'Rejected', 'ReportTo': 'Aaron@vit.edu.au',
-                         'RejectionReason' : 'You do not have enough leave balance left.'
-                     }
-                 ];
-             }
-             if (filter == 'Approved') {
-                 obj = [
-                     {
-                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                         'EndDate': '15-Nov-2017', 'Status': 'Approved', 'ReportTo': 'Aaron@vit.edu.au',
-                         'RejectionReason': ''
-                     }
-                 ];
-             }
+            var obj = new Object();            
+            obj = [];
+            obj.push(CreateFakeLeaveData(filter));
+            
             return obj;
            
         }

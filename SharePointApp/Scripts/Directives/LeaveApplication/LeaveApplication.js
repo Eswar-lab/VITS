@@ -24,6 +24,7 @@
     function Controller($scope, SharePointOnlineService, $timeout) {
 
         var vm = this;
+        $scope.selectedLeaveApplication = {};
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
 
@@ -70,10 +71,29 @@
             $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);        
 
         }
+        $scope.ActualLeaveToggle = function (event) {
+            document.getElementById("inpActualLeave").readOnly = !event.target.checked;
+            document.getElementById("inpActualLeave").focus(); 
+        }
+
+        $scope.newLeaveApplication_Click = function() {
+            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
+            $('#modalLeaveApplication').modal('show');
+        }
+
+        $scope.ClearFile = function () {
+            document.getElementById("inpFile").value = "";
+        }
+
+        $scope.SaveLeaveApplication = function () {
+            console.log("Saving leave application");
+            files = $scope.selectedLeaveApplication.SupportingFiles;
+            $('#modalLeaveApplication').modal('hide');
+        }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();
-        $("#ppReportsTo").typeahead({source:[{ id: "someId1", name: "Display name 1" },
-        { id: "someId2", name: "Display name 2" }],
+        $("#ppReportsTo").typeahead({
+            source: SharePointOnlineService.LeaveApplication_Get_Approvers(),
             autoSelect: true});
         $('#userTabs a').click(function (e) {
             e.preventDefault()
