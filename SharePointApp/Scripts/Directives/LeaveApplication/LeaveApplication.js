@@ -86,7 +86,7 @@
             document.getElementById("inpFile").value = "";
         }
 
-        $scope.SaveLeaveApplication = function () {
+        $scope.SaveLeaveApplication = function (event) {
             console.log("Saving leave application");
             SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
             //files = $scope.selectedLeaveApplication.SupportingFiles;
@@ -100,6 +100,9 @@
         $('#userTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
-        })
+        });
+
+       // alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
+       // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
     }
 })();
