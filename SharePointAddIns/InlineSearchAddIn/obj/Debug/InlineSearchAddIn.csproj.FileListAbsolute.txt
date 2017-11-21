@@ -10,3 +10,8 @@ D:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\bin\Debug\Inline
 D:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.csproj.CoreCompileInputs.cache
 D:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.dll
 D:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.pdb
+C:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\bin\Debug\InlineSearchAddIn.pdb
+C:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.csproj.CoreCompileInputs.cache
+C:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.dll
+C:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.pdb
+C:\Code\VIT-SharePointOnline\SharePointAddIns\InlineSearchAddIn\obj\Debug\InlineSearchAddIn.csprojResolveAssemblyReference.cache
