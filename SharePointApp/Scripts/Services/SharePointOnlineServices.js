@@ -232,11 +232,51 @@
             }
         }
 
+        //AppServiceFactory.LoadUserProfile = function (userName) {
+        //    var deferred = $q.defer();
+        //    var profileData = null;
+        //    try {
+        //         Data not cached
+        //        SPSODAction(["sp.js", "SP.UserProfiles.js"],
+        //            function () {
+        //                 Get the current client context and PeopleManager instance.
+        //                var clientContext = new SP.ClientContext.get_current();
+        //                var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
+
+        //                personProperties = peopleManager.getPropertiesFor(userName);
+        //                 Load the PersonProperties object and send the request.
+        //                clientContext.load(personProperties);
+        //                clientContext.executeQueryAsync(
+        //                    Function.createDelegate(this, function () {
+        //                        try {
+        //                            profileData = {
+        //                                userProfileProperties: personProperties.get_userProfileProperties(),
+        //                                userUrl: personProperties.get_userUrl()
+        //                            };
+
+        //                            console.log("userUrl: " + profileData.userUrl);
+
+        //                        }
+        //                        catch (err) {
+        //                            deferred.resolve(null);
+        //                        }
+        //                        deferred.resolve(profileData);
+        //                    }),
+        //                    Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
+        //            });
+        //    }
+        //    catch (err) {
+        //        deferred.resolve(null);
+        //    }
+        //    return deferred.promise;
+        //}
+
         AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
+           // AppServiceFactory.LoadUserProfile();
             return {
-                'EmployeeEmail': 'shailen@vit.edu.au',
-                'EmployeeSurname': 'Sukul',
-                'EmployeeFirstname': 'Shailen',
+                'EmployeeEmail': 'test@gmail.com',
+                'EmployeeSurname': 'nidhi',
+                'EmployeeFirstname': 'Mishra',
                 'EmployeeID': '3456',
                 'Department': 'IT',
                 'Designation': 'Consultant',

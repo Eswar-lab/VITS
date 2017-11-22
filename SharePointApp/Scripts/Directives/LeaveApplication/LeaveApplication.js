@@ -102,7 +102,27 @@
             $(this).tab('show');
         });
 
-       // alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
+        $scope.GetUserProfile = function () {
+           
+           
+            var hostwebUrl = SharePointOnlineService.GetHostWebUrl();
+                var UPN = "i:0#.f|membership|" + _spPageContextInfo.userLoginName;
+
+                //AppService.LoadUserProfile(UPN).then(function (data) {
+                //    if (data) {
+                //        // Yay, we have our data!
+                //        $scope.ProfileData = data.userProfileProperties;
+                //    }
+                //}, function (data) {
+                //    // Error
+                //    console.log(data);
+
+                //});
+
+            
+        }
+        $scope.GetUserProfile();
+       /// call the service menhod/ alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
        // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
     }
 })();
