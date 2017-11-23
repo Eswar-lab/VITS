@@ -86,11 +86,13 @@
     <Content Include="Scripts\Directives\CEOsite\CEOsite.js" />
     <Content Include="Scripts\Directives\ElectronicRecords\ElectronicRecords.js" />
     <Content Include="Scripts\Directives\ElectronicRecords\ElectronicRecords.html" />
+    <Content Include="Scripts\Directives\FilesInput\FilesInput.js" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.html" />
     <Content Include="Scripts\Directives\InlineSearch\InlineSearch.js" />
     <Content Include="Scripts\Directives\LeaveApplication\LeaveApplication.html" />
     <Content Include="Scripts\Directives\LeaveApplication\LeaveApplication.js" />
     <Content Include="Scripts\Directives\SharePointOnlineDirectives.js" />
+    <Content Include="Scripts\External\bootstrap3-typeahead.min.js" />
     <Content Include="Scripts\Services\CEOsiteService.js" />
     <Content Include="Scripts\Directives\Timesheet\Timesheet.html" />
     <Content Include="Scripts\Directives\Timesheet\Timesheet.js" />
