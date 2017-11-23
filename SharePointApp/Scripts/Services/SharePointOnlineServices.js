@@ -232,19 +232,20 @@
             }
         }
 
-        //AppServiceFactory.LoadUserProfile = function (userName) {
+        //AppServiceFactory.LeaveApplication_LoadUserProfile = function (userName) {
+           
         //    var deferred = $q.defer();
         //    var profileData = null;
         //    try {
-        //         Data not cached
+        //      //   Data not cached
         //        SPSODAction(["sp.js", "SP.UserProfiles.js"],
         //            function () {
-        //                 Get the current client context and PeopleManager instance.
+        //                // Get the current client context and PeopleManager instance.
         //                var clientContext = new SP.ClientContext.get_current();
         //                var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
 
         //                personProperties = peopleManager.getPropertiesFor(userName);
-        //                 Load the PersonProperties object and send the request.
+        //                // Load the PersonProperties object and send the request.
         //                clientContext.load(personProperties);
         //                clientContext.executeQueryAsync(
         //                    Function.createDelegate(this, function () {
@@ -269,15 +270,54 @@
         //        deferred.resolve(null);
         //    }
         //    return deferred.promise;
+           
+            
+          
+        //}
+        //AppServiceFactory.LeaveApplication_test = function () {
+        //    alert('hi');
         //}
 
+        var userProfileProperties;
+        var userProfilePropertiesManager;
+
+        AppServiceFactory.getUserProperties = function () {
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var clientContext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = clientContext.get_web();
+            //  var clientContext = new SP.ClientContext.get_current();
+            var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
+            userProfileProperties = peopleManager.getMyProperties();
+            clientContext.load(userProfileProperties);
+            clientContext.executeQueryAsync(onRequestSuccess, onRequestFail);
+            appcontext.executeQueryAsync(
+                LeaveApplication_getUserProperties_onQueryItemSucceeded,
+                LeaveApplication_getUserProperties_onQueryItemFailed);
+        }
+        function LeaveApplication_getUserProperties_onQueryItemSucceeded() {
+            var firstName = userProfileProperties.get_userProfileProperties()['FirstName']
+
+            alert(firstName);
+
+
+
+        }
+
+        function LeaveApplication_getUserProperties_onQueryItemFailed(sender, args) {
+            //alert( args.get_message());
+        }
+
+
         AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
-           // AppServiceFactory.LoadUserProfile();
+           // AppServiceFactory.LeaveApplication_getUserProperties();
             return {
-                'EmployeeEmail': 'test@gmail.com',
+                
+                'EmployeeEmail': _spPageContextInfo.userLoginName,
                 'EmployeeSurname': 'nidhi',
                 'EmployeeFirstname': 'Mishra',
-                'EmployeeID': '3456',
+                'EmployeeID': 'E001',
                 'Department': 'IT',
                 'Designation': 'Consultant',
                 'ReportsTo': 'arjun@vit.edu.au',

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/_layouts/sp.core.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.runtime.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.js"></script>
+    <script type="text/javascript" src="/_layouts/15/sp.userprofiles.js"></script>
 
    <!-- AngularJS-->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>   
