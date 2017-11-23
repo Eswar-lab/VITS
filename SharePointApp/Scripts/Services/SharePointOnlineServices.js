@@ -232,81 +232,46 @@
             }
         }
 
-        //AppServiceFactory.LeaveApplication_LoadUserProfile = function (userName) {
-           
-        //    var deferred = $q.defer();
-        //    var profileData = null;
-        //    try {
-        //      //   Data not cached
-        //        SPSODAction(["sp.js", "SP.UserProfiles.js"],
-        //            function () {
-        //                // Get the current client context and PeopleManager instance.
-        //                var clientContext = new SP.ClientContext.get_current();
-        //                var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
+        /* LoadUserProfile */
+        AppServiceFactory.LoadUserProfile = function () {
+            var deferred = $q.defer();
 
-        //                personProperties = peopleManager.getPropertiesFor(userName);
-        //                // Load the PersonProperties object and send the request.
-        //                clientContext.load(personProperties);
-        //                clientContext.executeQueryAsync(
-        //                    Function.createDelegate(this, function () {
-        //                        try {
-        //                            profileData = {
-        //                                userProfileProperties: personProperties.get_userProfileProperties(),
-        //                                userUrl: personProperties.get_userUrl()
-        //                            };
+            var profileData = null;
 
-        //                            console.log("userUrl: " + profileData.userUrl);
+            try {
+                // Data not cached
+                AppServiceFactory.SPSODAction(["sp.js", "SP.UserProfiles.js"],
+                    function () {
+                        // Get the current client context and PeopleManager instance.
+                        var clientContext = new SP.ClientContext.get_current();
+                        var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
 
-        //                        }
-        //                        catch (err) {
-        //                            deferred.resolve(null);
-        //                        }
-        //                        deferred.resolve(profileData);
-        //                    }),
-        //                    Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
-        //            });
-        //    }
-        //    catch (err) {
-        //        deferred.resolve(null);
-        //    }
-        //    return deferred.promise;
-           
-            
-          
-        //}
-        //AppServiceFactory.LeaveApplication_test = function () {
-        //    alert('hi');
-        //}
+                        var personProperties = peopleManager.getMyProperties();
+                        // Load the PersonProperties object and send the request.
+                        clientContext.load(personProperties);
+                        clientContext.executeQueryAsync(
+                            Function.createDelegate(this, function () {
+                                try {
+                                    profileData = {
+                                        userProfileProperties: personProperties.get_userProfileProperties(),
+                                        userUrl: personProperties.get_userUrl()
+                                    };
 
-        var userProfileProperties;
-        var userProfilePropertiesManager;
-
-        AppServiceFactory.getUserProperties = function () {
-            var hostUrl = AppServiceFactory.GetHostWebUrl();
-            var appUrl = AppServiceFactory.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
-            var clientContext = new SP.AppContextSite(appcontext, hostUrl);
-            var hostweb = clientContext.get_web();
-            //  var clientContext = new SP.ClientContext.get_current();
-            var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
-            userProfileProperties = peopleManager.getMyProperties();
-            clientContext.load(userProfileProperties);
-            clientContext.executeQueryAsync(onRequestSuccess, onRequestFail);
-            appcontext.executeQueryAsync(
-                LeaveApplication_getUserProperties_onQueryItemSucceeded,
-                LeaveApplication_getUserProperties_onQueryItemFailed);
-        }
-        function LeaveApplication_getUserProperties_onQueryItemSucceeded() {
-            var firstName = userProfileProperties.get_userProfileProperties()['FirstName']
-
-            alert(firstName);
-
-
-
-        }
-
-        function LeaveApplication_getUserProperties_onQueryItemFailed(sender, args) {
-            //alert( args.get_message());
+                                    console.log("userUrl: " + profileData.userUrl);
+                                   
+                                }
+                                catch (err) {
+                                    deferred.resolve(null);
+                                }
+                                deferred.resolve(profileData);
+                            }),
+                            Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
+                    });
+            }
+            catch (err) {
+                deferred.resolve(null);
+            }
+            return deferred.promise;
         }
 
 

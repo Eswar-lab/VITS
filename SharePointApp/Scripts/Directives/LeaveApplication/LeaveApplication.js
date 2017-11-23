@@ -107,10 +107,20 @@
            
         
             var hostwebUrl = SharePointOnlineService.GetHostWebUrl();
-            var UPN = "i:0#.f|membership|" + _spPageContextInfo.userLoginName;
+            //var UPN = "i:0#.f|membership|" + _spPageContextInfo.userLoginName;
 
+            SharePointOnlineService.LoadUserProfile().then(function (data) {
+                //success
+                if (data) {
+                    $scope.ProfileData = data.userProfileProperties;
+                    alert($scope.ProfileData.FirstName);
+                }
 
-            SharePointOnlineService.getUserProperties();
+            }, function (data) {
+                //error
+                console.log(data);
+
+            });
               //AppServiceFactory.LeaveApplication_getUserProperties();
            // SP.SOD.executeOrDelayUntilScriptLoaded($scope.getUserProperties(), 'SP.UserProfiles.js');  
             
@@ -119,4 +129,5 @@
        /// call the service menhod/ alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
        // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
     }
+
 })();
