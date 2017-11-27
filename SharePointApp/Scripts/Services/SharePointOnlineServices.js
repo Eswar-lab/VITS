@@ -9,29 +9,7 @@
 
     function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location) {
         var AppServiceFactory = {};
-        var leaveApplicationObj = {
-            'EmployeeEmail': undefined,
-            'EmployeeSurname': undefined,
-            'EmployeeFirstname': undefined,
-            'EmployeeID': undefined,
-            'Department': undefined,
-            'Designation': undefined,
-            'ReportsTo': undefined,
-            'LeaveType': undefined,
-            'PayrollCode': undefined,
-            'LeaveCategory': undefined,
-            'StartDate': undefined,
-            'ReturnDate': undefined,
-            'TotalDays': undefined,
-            'ActualLeaveChecked': undefined,
-            'ActualLeave': undefined,
-            'Status': undefined,
-            'RejectionReason': undefined
-        };
-        var userProfileObj = {
-            'userProfileProperties': undefined,
-            'userUrl': undefined
-        };
+       
 
         function getQueryStringParameter(paramToRetrieve) {
             var params =
@@ -383,6 +361,7 @@
             return obj;
 
         }
+
         // Local Storage Helper Functions
         // From http://brynner.net/html5-localstorage-with-expiration/
         function removeHtmlStorage(name) {
@@ -395,5 +374,250 @@
         }
 
         return AppServiceFactory;
+    }
+})();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('SharePointOnlineServices')
+        .factory('LeaveApplicationService', LeaveApplicationService);
+
+    LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
+
+    function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
+
+
+        var LeaveApplicationService = {};
+
+        var leaveApplicationObj = {
+            'EmployeeEmail': undefined,
+            'EmployeeSurname': undefined,
+            'EmployeeFirstname': undefined,
+            'EmployeeID': undefined,
+            'Department': undefined,
+            'Designation': undefined,
+            'ReportsTo': undefined,
+            'LeaveType': undefined,
+            'PayrollCode': undefined,
+            'LeaveCategory': undefined,
+            'StartDate': undefined,
+            'ReturnDate': undefined,
+            'TotalDays': undefined,
+            'ActualLeaveChecked': undefined,
+            'ActualLeave': undefined,
+            'Status': undefined,
+            'RejectionReason': undefined
+        };
+        var userProfileObj = {
+            'userProfileProperties': undefined,
+            'userUrl': undefined
+        };
+
+
+        LeaveApplicationService.cacheKey = null;
+      
+
+
+        
+
+        LeaveApplicationService.LeaveApplication_CreateNewLeaveData = function () {
+            // AppServiceFactory.LeaveApplication_getUserProperties();
+            if (userProfileObj.userProfileProperties == undefined) {
+                AppServiceFactory.LoadUserProfile().then(function (response) {
+                    leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
+                    leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
+                    leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
+                    leaveApplicationObj.EmployeeID = undefined;
+                    leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
+                    leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
+                    leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+                    leaveApplicationObj.LeaveType = undefined;
+                    leaveApplicationObj.PayrollCode = undefined;
+                    leaveApplicationObj.StartDate = undefined;
+                    leaveApplicationObj.ReturnDate = undefined;
+                    leaveApplicationObj.SupportingFiles = undefined;
+                    leaveApplicationObj.ActualLeaveChecked = undefined;
+                    leaveApplicationObj.ActualLeave = undefined;
+                    leaveApplicationObj.Remarks = 'My remarks are remarkable';
+                    leaveApplicationObj.Status = 'Draft';
+                    leaveApplicationObj.RejectionReason = undefined;
+                });
+            }
+            leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
+            leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
+            leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
+            leaveApplicationObj.EmployeeID = undefined;
+            leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
+            leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
+            leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+            leaveApplicationObj.LeaveType = undefined;
+            leaveApplicationObj.PayrollCode = undefined;
+            leaveApplicationObj.StartDate = undefined;
+            leaveApplicationObj.ReturnDate = undefined;
+            leaveApplicationObj.SupportingFiles = undefined;
+            leaveApplicationObj.ActualLeaveChecked = undefined;
+            leaveApplicationObj.ActualLeave = undefined;
+            leaveApplicationObj.Remarks = 'My remarks are remarkable';
+            leaveApplicationObj.Status = 'Draft';
+            leaveApplicationObj.RejectionReason = undefined;
+
+
+            //return {
+
+            //    'EmployeeEmail': _spPageContextInfo.userLoginName,
+            //    'EmployeeSurname': 'nidhi',
+            //    'EmployeeFirstname': 'Mishra',
+            //    'EmployeeID': 'E001',
+            //    'Department': 'IT',
+            //    'Designation': 'Consultant',
+            //    'ReportsTo': 'arjun@vit.edu.au',
+            //    'LeaveType': '3',
+            //    'PayrollCode': 'P123',
+            //    'LeaveCategory': 'WithCertificate',
+            //    'StartDate': new Date(2017, 11, 10),
+            //    'ReturnDate': new Date(2017, 11, 15),
+            //    'SupportingFiles': {},
+            //    'TotalDays': '5',
+            //    'ActualLeaveChecked': true,
+            //    'ActualLeave': '4.5',
+            //    'Remarks': 'My remarks are remarkable',
+            //    'Status': 'Draft',
+            //    'RejectionReason': ''
+            //};
+            return leaveApplicationObj;
+        }
+        LeaveApplicationService.LoadUserProfile = function () {
+            var deferred = $q.defer();
+
+            var profileData = null;
+
+            try {
+                // Data not cached
+                SharePointOnlineService.SPSODAction(["sp.js", "SP.UserProfiles.js"],
+                    function () {
+                        // Get the current client context and PeopleManager instance.
+                        var clientContext = new SP.ClientContext.get_current();
+                        var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
+
+                        var personProperties = peopleManager.getMyProperties();
+                        // Load the PersonProperties object and send the request.
+                        clientContext.load(personProperties);
+                        clientContext.executeQueryAsync(
+                            Function.createDelegate(this, function () {
+                                try {
+                                    userProfileObj = {
+                                        userProfileProperties: personProperties.get_userProfileProperties(),
+                                        userUrl: personProperties.get_userUrl()
+                                    };
+
+                                    console.log("userUrl: " + userProfileObj.userUrl);
+                                    console.log(userProfileObj);
+
+                                }
+                                catch (err) {
+                                    deferred.resolve(null);
+                                }
+                                deferred.resolve(userProfileObj);
+                            }),
+                            Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
+                    });
+            }
+            catch (err) {
+                deferred.resolve(null);
+            }
+            return deferred.promise;
+        }
+        function CreateFakeLeaveData(status) {
+            return {
+                'EmployeeEmail': 'khang@vit.edu.au',
+                'EmployeeSurname': 'Khang',
+                'EmployeeFirstname': 'Cao',
+                'EmployeeID': '1234',
+                'Department': 'Moodle',
+                'Designation': 'Web Developer',
+                'ReportsTo': 'Aaron@vit.edu.au',
+                'LeaveType': 'Sick Leave',
+                'PayrollCode': 'SIC',
+                'LeaveCategory': 'WithCertificate',
+                'StartDate': '12-Nov-2017',
+                'ReturnDate': '15-Nov-2017',
+                'TotalDays': '3',
+                'ActualLeaveChecked': 'false',
+                'ActualLeave': '0',
+                'Status': status,
+                'RejectionReason': 'Please attach sick certificate'
+            };
+        }
+
+        LeaveApplicationService.LeaveApplication_Get_Approvers = function () {
+            return [{ id: "someId1", name: "Display name 1" },
+            { id: "someId2", name: "Display name 2" }];
+        }
+
+        LeaveApplicationService.LeaveApplication_SaveOrCreateData = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var listTitle = "Staff Leave Application";
+
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            var oListItem = list.addItem(itemCreateInfo);
+            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
+            oListItem.set_item('FirstName', data.EmployeeFirstname);
+            oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.update();
+            appcontext.load(oListItem);
+            appcontext.executeQueryAsync(
+                LeaveApplication_SaveOrCreateData_onQueryItemSucceeded,
+                LeaveApplication_SaveOrCreateData_onQueryItemFailed);
+        }
+
+        function LeaveApplication_SaveOrCreateData_onQueryItemSucceeded() {
+            alert('Item created: ' + oListItem.get_id());
+        }
+
+        function LeaveApplication_SaveOrCreateData_onQueryItemFailed(sender, args) {
+            alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+        }
+
+
+
+
+
+        function generateIndexesArray() {
+            var indexes = [];
+            for (var i = 0; i < CEOsiteService.currIndex; ++i) {
+                indexes[i] = i;
+            }
+            return shuffle(indexes);
+        }
+
+        // http://stackoverflow.com/questions/962802#962890
+        function shuffle(array) {
+            var tmp, current, top = array.length;
+
+            if (top) {
+                while (--top) {
+                    current = Math.floor(Math.random() * (top + 1));
+                    tmp = array[current];
+                    array[current] = array[top];
+                    array[top] = tmp;
+                }
+            }
+
+            return array;
+        }
+
+
+        
+
+        return LeaveApplicationService;
     }
 })();

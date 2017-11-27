@@ -20,8 +20,8 @@
             controller: Controller
         };
     });
-    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout'];
-    function Controller($scope, SharePointOnlineService, $timeout) {
+    Controller.$inject = ['$scope','SharePointOnlineService', 'LeaveApplicationService', '$timeout'];
+    function Controller($scope, SharePointOnlineService,LeaveApplicationService, $timeout) {
 
         var vm = this;
         $scope.selectedLeaveApplication = {};
@@ -31,6 +31,12 @@
 
         $scope.SearchText = "*sharepoint*";
         $scope.ShowSpinner = false;
+
+        init();
+
+        function init() {
+            LeaveApplicationService.LoadUserProfile();
+        }
 
         function ShowSpinner() { $scope.ShowSpinner = true; }
         function HideSpinner() { $scope.ShowSpinner = false; }
@@ -78,7 +84,7 @@
         }
 
         $scope.newLeaveApplication_Click = function() {
-            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
+            $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData();
             $('#modalLeaveApplication').modal('show');
         }
 
@@ -88,14 +94,14 @@
 
         $scope.SaveLeaveApplication = function (event) {
             console.log("Saving leave application");
-            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
             //files = $scope.selectedLeaveApplication.SupportingFiles;
             //$('#modalLeaveApplication').modal('hide');
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();
         $("#ppReportsTo").typeahead({
-            source: SharePointOnlineService.LeaveApplication_Get_Approvers(),
+            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
             autoSelect: true});
         $('#userTabs a').click(function (e) {
             e.preventDefault()
@@ -103,35 +109,8 @@
         });
        
 
-        $scope.GetUserProfile = function () {
-           
-        
-            var hostwebUrl = SharePointOnlineService.GetHostWebUrl();
-            //var UPN = "i:0#.f|membership|" + _spPageContextInfo.userLoginName;
-
-            SharePointOnlineService.LoadUserProfile().then(function (data) {
-                //success
-                if (data) {
-                    $scope.ProfileData = data.userProfileProperties;
-                   // alert($scope.ProfileData.FirstName);
-                }
-
-            }, function (data) {
-                //error
-                console.log(data);
-
-                });
-
-            SharePointOnlineService.LoadUserProfile_API().then(function (data) {
-                console.log(data);
-            });
-              //AppServiceFactory.LeaveApplication_getUserProperties();
-           // SP.SOD.executeOrDelayUntilScriptLoaded($scope.getUserProperties(), 'SP.UserProfiles.js');  
-            
-        }
-        $scope.GetUserProfile();//
-       /// call the service menhod/ alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
-       // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
+      
     }
 
 })();
+
