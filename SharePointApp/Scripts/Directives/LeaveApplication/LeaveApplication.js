@@ -113,13 +113,17 @@
                 //success
                 if (data) {
                     $scope.ProfileData = data.userProfileProperties;
-                    alert($scope.ProfileData.FirstName);
+                   // alert($scope.ProfileData.FirstName);
                 }
 
             }, function (data) {
                 //error
                 console.log(data);
 
+                });
+
+            SharePointOnlineService.LoadUserProfile_API().then(function (data) {
+                console.log(data);
             });
               //AppServiceFactory.LeaveApplication_getUserProperties();
            // SP.SOD.executeOrDelayUntilScriptLoaded($scope.getUserProperties(), 'SP.UserProfiles.js');  

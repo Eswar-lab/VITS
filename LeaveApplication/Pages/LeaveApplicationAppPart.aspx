@@ -44,6 +44,7 @@
     <script src="https://localhost:44326/scripts/controllers/SharePointOnlineControllers.js"></script>
     <script src="https://localhost:44326/scripts/services/SharePointOnlineServices.js"></script>
     <script src="https://localhost:44326/scripts/services/EnvironmentService.js"></script>
+    <script src="https://localhost:44326/scripts/services/LeaveAppService.js"></script>
     <script src="https://localhost:44326/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://localhost:44326/scripts/directives/FilesInput/FilesInput.js"></script>
     <script src="https://localhost:44326/scripts/directives/LeaveApplication/LeaveApplication.js"></script>
