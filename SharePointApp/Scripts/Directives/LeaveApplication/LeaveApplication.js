@@ -20,11 +20,13 @@
             controller: Controller
         };
     });
-    Controller.$inject = ['$scope','SharePointOnlineService', 'LeaveApplicationService', '$timeout'];
-    function Controller($scope, SharePointOnlineService,LeaveApplicationService, $timeout) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', 'LeaveApplicationService', '$timeout'];
+    function Controller($scope, SharePointOnlineService, LeaveApplicationService, $timeout) {
 
         var vm = this;
-        $scope.selectedLeaveApplication = {};
+        $scope.selectedLeaveApplication = {
+            'FirstName': undefined,
+        };
         $scope.LeaveApplicationData = {};
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
@@ -35,7 +37,11 @@
         init();
 
         function init() {
-            LeaveApplicationService.LoadUserProfile();
+            LeaveApplicationService.LoadUserProfile().then(function (response) {
+                console.log(response);
+                //Nidhi you bind data from here
+                $scope.selectedLeaveApplication.FirstName = response.userProfileProperties.FirstName;
+            });
         }
 
         function ShowSpinner() { $scope.ShowSpinner = true; }
@@ -75,15 +81,15 @@
 
         $scope.filterData = function ($event, filter) {
             $event.preventDefault();
-            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);        
+            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);
 
         }
         $scope.ActualLeaveToggle = function (event) {
             document.getElementById("inpActualLeave").readOnly = !event.target.checked;
-            document.getElementById("inpActualLeave").focus(); 
+            document.getElementById("inpActualLeave").focus();
         }
 
-        $scope.newLeaveApplication_Click = function() {
+        $scope.newLeaveApplication_Click = function () {
             $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData();
             $('#modalLeaveApplication').modal('show');
         }
@@ -95,22 +101,22 @@
         $scope.SaveLeaveApplication = function (event) {
             console.log("Saving leave application");
             LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
-            //files = $scope.selectedLeaveApplication.SupportingFiles;
-            //$('#modalLeaveApplication').modal('hide');
+
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();
         $("#ppReportsTo").typeahead({
             source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
-            autoSelect: true});
+            autoSelect: true
+        });
         $('#userTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
         });
-       
 
-      
+
+
     }
 
 })();
-
+//jquery and js

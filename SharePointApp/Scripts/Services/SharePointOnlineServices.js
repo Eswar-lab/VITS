@@ -9,7 +9,7 @@
 
     function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location) {
         var AppServiceFactory = {};
-       
+
 
         function getQueryStringParameter(paramToRetrieve) {
             var params =
@@ -192,36 +192,6 @@
             { id: "someId2", name: "Display name 2" }];
         }
 
-        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
-            //... Nidhi's code will go here > JSOM
-            var listTitle = "Staff Leave Application";
-
-            ///This function will save data in Staff Leave Application list
-            var hostUrl = AppServiceFactory.GetHostWebUrl();
-            var appUrl = AppServiceFactory.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
-            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-            var hostweb = hostcontext.get_web();
-            var list = hostweb.get_lists().getByTitle(listTitle);
-            var itemCreateInfo = new SP.ListItemCreationInformation();
-            var oListItem = list.addItem(itemCreateInfo);
-            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
-            oListItem.set_item('FirstName', data.EmployeeFirstname);
-            oListItem.set_item('EmployeeID', data.EmployeeID);
-            oListItem.update();
-            appcontext.load(oListItem);
-            appcontext.executeQueryAsync(
-                LeaveApplication_SaveOrCreateData_onQueryItemSucceeded,
-                LeaveApplication_SaveOrCreateData_onQueryItemFailed);
-        }
-
-        function LeaveApplication_SaveOrCreateData_onQueryItemSucceeded() {
-            alert('Item created: ' + oListItem.get_id());
-        }
-
-        function LeaveApplication_SaveOrCreateData_onQueryItemFailed(sender, args) {
-            alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
-        }
 
         function getQueryStringParameter(paramToRetrieve) {
             var params =
@@ -234,48 +204,7 @@
             }
         }
 
-        /* LoadUserProfile */
-        AppServiceFactory.LoadUserProfile = function () {
-            var deferred = $q.defer();
 
-            var profileData = null;
-
-            try {
-                // Data not cached
-                AppServiceFactory.SPSODAction(["sp.js", "SP.UserProfiles.js"],
-                    function () {
-                        // Get the current client context and PeopleManager instance.
-                        var clientContext = new SP.ClientContext.get_current();
-                        var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
-
-                        var personProperties = peopleManager.getMyProperties();
-                        // Load the PersonProperties object and send the request.
-                        clientContext.load(personProperties);
-                        clientContext.executeQueryAsync(
-                            Function.createDelegate(this, function () {
-                                try {
-                                    userProfileObj = {
-                                        userProfileProperties: personProperties.get_userProfileProperties(),
-                                        userUrl: personProperties.get_userUrl()
-                                    };
-
-                                    console.log("userUrl: " + userProfileObj.userUrl);
-                                    console.log( userProfileObj);
-                                   
-                                }
-                                catch (err) {
-                                    deferred.resolve(null);
-                                }
-                                deferred.resolve(userProfileObj);
-                            }),
-                            Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
-                    });
-            }
-            catch (err) {
-                deferred.resolve(null);
-            }
-            return deferred.promise;
-        }
 
         //Load UserProfile with API
 
@@ -287,72 +216,7 @@
             });
 
         }
-        AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
-            // AppServiceFactory.LeaveApplication_getUserProperties();
-            if (userProfileObj.userProfileProperties == undefined) {
-                AppServiceFactory.LoadUserProfile().then(function (response) {
-                    leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
-                    leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
-                    leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
-                    leaveApplicationObj.EmployeeID = undefined;
-                    leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
-                    leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-                    leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
-                    leaveApplicationObj.LeaveType = undefined;
-                    leaveApplicationObj.PayrollCode = undefined;
-                    leaveApplicationObj.StartDate = undefined;
-                    leaveApplicationObj.ReturnDate = undefined;
-                    leaveApplicationObj.SupportingFiles = undefined;
-                    leaveApplicationObj.ActualLeaveChecked = undefined;
-                    leaveApplicationObj.ActualLeave = undefined;
-                    leaveApplicationObj.Remarks = 'My remarks are remarkable';
-                    leaveApplicationObj.Status = 'Draft';
-                    leaveApplicationObj.RejectionReason = undefined;
-                });
-            }
-            leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
-            leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
-            leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
-            leaveApplicationObj.EmployeeID = undefined;
-            leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
-            leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-            leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
-            leaveApplicationObj.LeaveType = undefined;
-            leaveApplicationObj.PayrollCode = undefined;
-            leaveApplicationObj.StartDate = undefined;
-            leaveApplicationObj.ReturnDate = undefined;
-            leaveApplicationObj.SupportingFiles = undefined;
-            leaveApplicationObj.ActualLeaveChecked = undefined;
-            leaveApplicationObj.ActualLeave = undefined;
-            leaveApplicationObj.Remarks = 'My remarks are remarkable';
-            leaveApplicationObj.Status = 'Draft';
-            leaveApplicationObj.RejectionReason = undefined;
-
-
-            //return {
-                
-            //    'EmployeeEmail': _spPageContextInfo.userLoginName,
-            //    'EmployeeSurname': 'nidhi',
-            //    'EmployeeFirstname': 'Mishra',
-            //    'EmployeeID': 'E001',
-            //    'Department': 'IT',
-            //    'Designation': 'Consultant',
-            //    'ReportsTo': 'arjun@vit.edu.au',
-            //    'LeaveType': '3',
-            //    'PayrollCode': 'P123',
-            //    'LeaveCategory': 'WithCertificate',
-            //    'StartDate': new Date(2017, 11, 10),
-            //    'ReturnDate': new Date(2017, 11, 15),
-            //    'SupportingFiles': {},
-            //    'TotalDays': '5',
-            //    'ActualLeaveChecked': true,
-            //    'ActualLeave': '4.5',
-            //    'Remarks': 'My remarks are remarkable',
-            //    'Status': 'Draft',
-            //    'RejectionReason': ''
-            //};
-            return leaveApplicationObj;
-        }
+        
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
             obj = [];
@@ -385,6 +249,130 @@
         .factory('LeaveApplicationService', LeaveApplicationService);
 
     LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
+    AppServiceFactory.AutoFillStaffManager_API = function () {
+        var myData = [];
+        function CallUserProfile() {
+
+            var requestHeaders = {
+                "Accept": "application/json;odata=verbose"
+            };
+            //alert('hi1');
+            jQuery.ajax({
+                url: "https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff Leave manager')/users",
+                type: "GET",
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: function (data) {
+                    //alert('hi');
+                    var yourval = jQuery.parseJSON(JSON.stringify(data));
+                    var results = yourval.d.results;
+                    for (var i = 0; i < results.length; i++) {
+                        myData.push(results[i].Email);
+                    }
+                    $("#managerEmail").autocomplete({
+                        source: myData
+                    });
+                },
+                error: function (jqxr, errorCode, errorThrown) {
+                    alert(jqxr.responseText);
+                }
+            });
+        }
+
+        CallUserProfile();
+
+
+
+
+    }
+    var AppServiceFactory = {};
+
+
+    function getQueryStringParameter(paramToRetrieve) {
+        var params =
+            document.URL.split("?")[1].split("&");
+        for (var i = 0; i < params.length; i = i + 1) {
+            var singleParam = params[i].split("=");
+            if (singleParam[0] == paramToRetrieve)
+                return singleParam[1];
+        }
+        return "";
+    }
+
+    AppServiceFactory.GetDocumentSets = function (libraryUrl) {
+        // TODO: Add JSOM code to load all documentSet properties from given library
+    }
+    // Read a page's GET URL variables and return them as an associative array.
+    AppServiceFactory.GetURLParameters = function (paramName) {
+        var sURL = window.document.URL.toString();
+        if (sURL.indexOf("?") > 0) {
+            var arrParams = sURL.split("?");
+            var arrURLParams = arrParams[1].split("&");
+            var arrParamNames = new Array(arrURLParams.length);
+            var arrParamValues = new Array(arrURLParams.length);
+
+            var i = 0;
+            for (i = 0; i < arrURLParams.length; i++) {
+                var sParam = arrURLParams[i].split("=");
+                arrParamNames[i] = sParam[0];
+                if (sParam[1] != "")
+                    arrParamValues[i] = unescape(sParam[1]);
+                else
+                    arrParamValues[i] = "No Value";
+            }
+
+            for (i = 0; i < arrURLParams.length; i++) {
+                if (arrParamNames[i] == paramName) {
+                    //alert("Parameter:" + arrParamValues[i]);
+                    return arrParamValues[i];
+                }
+            }
+            // Parameter not found
+            return null;
+        }
+    }
+
+    AppServiceFactory.GetAppWebUrl = function () {
+        var appweburl = decodeURIComponent(AppServiceFactory.getQueryStringParameter("SPAppWebUrl"));
+        appweburl = appweburl.replace('#/', '');
+        return appweburl;
+    }
+    AppServiceFactory.GetHostWebUrl = function () {
+        return decodeURIComponent(getQueryStringParameter("SPHostUrl"));
+    }
+    AppServiceFactory.SPSODAction = function (sodScripts, onLoadAction) {
+        if (SP.SOD.loadMultiple) {
+            for (var x = 0; x < sodScripts.length; x++) {
+                //register any unregistered scripts
+                if (!_v_dictSod[sodScripts[x]]) {
+                    //  if (sodScripts[x] == "SP.RequestExecutor.js") {
+                    //     SP.SOD.registerSod(sodScripts[x], hostweburl + '/_layouts/15/' + sodScripts[x]);
+                    // } else {                        
+                    SP.SOD.registerSod(sodScripts[x], '/_layouts/15/' + sodScripts[x]);
+
+                    // }
+                }
+            }
+            SP.SOD.loadMultiple(sodScripts, onLoadAction);
+        } else
+            ExecuteOrDelayUntilScriptLoaded(onLoadAction, sodScripts[0]);
+    }
+
+
+    AppServiceFactory.getQueryStringParameter = function (paramToRetrieve) {
+        var params =
+            document.URL.split("?")[1].split("&");
+        for (var i = 0; i < params.length; i = i + 1) {
+            var singleParam = params[i].split("=");
+            if (singleParam[0] == paramToRetrieve)
+                return singleParam[1];
+        }
+    }
+
+    AppServiceFactory.getCacheValue = function (name) {
+        return $localStorage.name;
+    }
+
 
     function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
 
@@ -417,10 +405,10 @@
 
 
         LeaveApplicationService.cacheKey = null;
-      
 
 
-        
+
+
 
         LeaveApplicationService.LeaveApplication_CreateNewLeaveData = function () {
             // AppServiceFactory.LeaveApplication_getUserProperties();
@@ -429,63 +417,27 @@
                     leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
                     leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
                     leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
-                    leaveApplicationObj.EmployeeID = undefined;
+                    leaveApplicationObj.EmployeeID = userProfileObj.userProfileProperties.EmployeeId
                     leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
                     leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-                    leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
-                    leaveApplicationObj.LeaveType = undefined;
-                    leaveApplicationObj.PayrollCode = undefined;
-                    leaveApplicationObj.StartDate = undefined;
-                    leaveApplicationObj.ReturnDate = undefined;
-                    leaveApplicationObj.SupportingFiles = undefined;
-                    leaveApplicationObj.ActualLeaveChecked = undefined;
-                    leaveApplicationObj.ActualLeave = undefined;
-                    leaveApplicationObj.Remarks = 'My remarks are remarkable';
-                    leaveApplicationObj.Status = 'Draft';
+                   // leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+
                     leaveApplicationObj.RejectionReason = undefined;
+
                 });
             }
             leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
             leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
             leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
-            leaveApplicationObj.EmployeeID = undefined;
+            leaveApplicationObj.EmployeeID = userProfileObj.userProfileProperties.EmployeeId;
             leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
             leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-            leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
-            leaveApplicationObj.LeaveType = undefined;
-            leaveApplicationObj.PayrollCode = undefined;
-            leaveApplicationObj.StartDate = undefined;
-            leaveApplicationObj.ReturnDate = undefined;
-            leaveApplicationObj.SupportingFiles = undefined;
-            leaveApplicationObj.ActualLeaveChecked = undefined;
-            leaveApplicationObj.ActualLeave = undefined;
-            leaveApplicationObj.Remarks = 'My remarks are remarkable';
-            leaveApplicationObj.Status = 'Draft';
+            //leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+
             leaveApplicationObj.RejectionReason = undefined;
 
 
-            //return {
 
-            //    'EmployeeEmail': _spPageContextInfo.userLoginName,
-            //    'EmployeeSurname': 'nidhi',
-            //    'EmployeeFirstname': 'Mishra',
-            //    'EmployeeID': 'E001',
-            //    'Department': 'IT',
-            //    'Designation': 'Consultant',
-            //    'ReportsTo': 'arjun@vit.edu.au',
-            //    'LeaveType': '3',
-            //    'PayrollCode': 'P123',
-            //    'LeaveCategory': 'WithCertificate',
-            //    'StartDate': new Date(2017, 11, 10),
-            //    'ReturnDate': new Date(2017, 11, 15),
-            //    'SupportingFiles': {},
-            //    'TotalDays': '5',
-            //    'ActualLeaveChecked': true,
-            //    'ActualLeave': '4.5',
-            //    'Remarks': 'My remarks are remarkable',
-            //    'Status': 'Draft',
-            //    'RejectionReason': ''
-            //};
             return leaveApplicationObj;
         }
         LeaveApplicationService.LoadUserProfile = function () {
@@ -572,6 +524,17 @@
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.set_item('DepartmentName', data.Department);
+            oListItem.set_item('Designation', data.Designation);
+            oListItem.set_item('ReportTo', data.ReportsTo);
+            oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('PRCODE', data.PayrollCode);
+            oListItem.set_item('LeaveCategory', data.LeaveCategory);
+            oListItem.set_item('Firstdayofleave', data.StartDate);
+            oListItem.set_item('Lastdayofleave', data.ReturnDate);
+            oListItem.set_item('Totalnumberofdays', data.TotalDays);
+            oListItem.set_item('ActualLeave', data.ActualLeave);
+
             oListItem.update();
             appcontext.load(oListItem);
             appcontext.executeQueryAsync(
@@ -616,7 +579,7 @@
         }
 
 
-        
+
 
         return LeaveApplicationService;
     }
