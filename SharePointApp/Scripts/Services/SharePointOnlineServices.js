@@ -249,14 +249,40 @@
         .factory('LeaveApplicationService', LeaveApplicationService);
 
     LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
+
+    function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
+        var services = {};
+        var URL = SharePointOnlineService.GetAppWebUrl();
+        services.getStaff = getStaff;
+
+
+        function getStaff() {
+            $http.get(URL + "_api/web/sitegroups/getbyname('Staff Leave manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
+                //alert('hi');
+                var yourval = jQuery.parseJSON(JSON.stringify(data));
+                var results = yourval.d.results;
+                for (var i = 0; i < results.length; i++) {
+                    myData.push(results[i].Email);
+                }
+                $("#managerEmail").autocomplete({
+                    source: myData
+                });
+            });
+        }
+
+        return services;
+    }
+
     AppServiceFactory.AutoFillStaffManager_API = function () {
         var myData = [];
+        var URL = SharePointOnlineService.GetHostWebUrl();
         function CallUserProfile() {
 
             var requestHeaders = {
                 "Accept": "application/json;odata=verbose"
             };
             //alert('hi1');
+           
             jQuery.ajax({
                 url: "https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff Leave manager')/users",
                 type: "GET",
