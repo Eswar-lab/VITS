@@ -249,159 +249,11 @@
         .factory('LeaveApplicationService', LeaveApplicationService);
 
     LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
-
-    function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
-        var services = {};
-        var URL = SharePointOnlineService.GetAppWebUrl();
-        services.getStaff = getStaff;
-
-
-        function getStaff() {
-            $http.get(URL + "_api/web/sitegroups/getbyname('Staff Leave manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
-                //alert('hi');
-                var yourval = jQuery.parseJSON(JSON.stringify(data));
-                var results = yourval.d.results;
-                for (var i = 0; i < results.length; i++) {
-                    myData.push(results[i].Email);
-                }
-                $("#managerEmail").autocomplete({
-                    source: myData
-                });
-            });
-        }
-
-        return services;
-    }
-
-    AppServiceFactory.AutoFillStaffManager_API = function () {
-        var myData = [];
-        var URL = SharePointOnlineService.GetHostWebUrl();
-        function CallUserProfile() {
-
-            var requestHeaders = {
-                "Accept": "application/json;odata=verbose"
-            };
-            //alert('hi1');
-           
-            jQuery.ajax({
-                url: "https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff Leave manager')/users",
-                type: "GET",
-                contentType: "application/json;odata=verbose",
-                headers: requestHeaders,
-                success: function (data) {
-                    //alert('hi');
-                    var yourval = jQuery.parseJSON(JSON.stringify(data));
-                    var results = yourval.d.results;
-                    for (var i = 0; i < results.length; i++) {
-                        myData.push(results[i].Email);
-                    }
-                    $("#managerEmail").autocomplete({
-                        source: myData
-                    });
-                },
-                error: function (jqxr, errorCode, errorThrown) {
-                    alert(jqxr.responseText);
-                }
-            });
-        }
-
-        CallUserProfile();
-
-
-
-
-    }
-    var AppServiceFactory = {};
-
-
-    function getQueryStringParameter(paramToRetrieve) {
-        var params =
-            document.URL.split("?")[1].split("&");
-        for (var i = 0; i < params.length; i = i + 1) {
-            var singleParam = params[i].split("=");
-            if (singleParam[0] == paramToRetrieve)
-                return singleParam[1];
-        }
-        return "";
-    }
-
-    AppServiceFactory.GetDocumentSets = function (libraryUrl) {
-        // TODO: Add JSOM code to load all documentSet properties from given library
-    }
-    // Read a page's GET URL variables and return them as an associative array.
-    AppServiceFactory.GetURLParameters = function (paramName) {
-        var sURL = window.document.URL.toString();
-        if (sURL.indexOf("?") > 0) {
-            var arrParams = sURL.split("?");
-            var arrURLParams = arrParams[1].split("&");
-            var arrParamNames = new Array(arrURLParams.length);
-            var arrParamValues = new Array(arrURLParams.length);
-
-            var i = 0;
-            for (i = 0; i < arrURLParams.length; i++) {
-                var sParam = arrURLParams[i].split("=");
-                arrParamNames[i] = sParam[0];
-                if (sParam[1] != "")
-                    arrParamValues[i] = unescape(sParam[1]);
-                else
-                    arrParamValues[i] = "No Value";
-            }
-
-            for (i = 0; i < arrURLParams.length; i++) {
-                if (arrParamNames[i] == paramName) {
-                    //alert("Parameter:" + arrParamValues[i]);
-                    return arrParamValues[i];
-                }
-            }
-            // Parameter not found
-            return null;
-        }
-    }
-
-    AppServiceFactory.GetAppWebUrl = function () {
-        var appweburl = decodeURIComponent(AppServiceFactory.getQueryStringParameter("SPAppWebUrl"));
-        appweburl = appweburl.replace('#/', '');
-        return appweburl;
-    }
-    AppServiceFactory.GetHostWebUrl = function () {
-        return decodeURIComponent(getQueryStringParameter("SPHostUrl"));
-    }
-    AppServiceFactory.SPSODAction = function (sodScripts, onLoadAction) {
-        if (SP.SOD.loadMultiple) {
-            for (var x = 0; x < sodScripts.length; x++) {
-                //register any unregistered scripts
-                if (!_v_dictSod[sodScripts[x]]) {
-                    //  if (sodScripts[x] == "SP.RequestExecutor.js") {
-                    //     SP.SOD.registerSod(sodScripts[x], hostweburl + '/_layouts/15/' + sodScripts[x]);
-                    // } else {                        
-                    SP.SOD.registerSod(sodScripts[x], '/_layouts/15/' + sodScripts[x]);
-
-                    // }
-                }
-            }
-            SP.SOD.loadMultiple(sodScripts, onLoadAction);
-        } else
-            ExecuteOrDelayUntilScriptLoaded(onLoadAction, sodScripts[0]);
-    }
-
-
-    AppServiceFactory.getQueryStringParameter = function (paramToRetrieve) {
-        var params =
-            document.URL.split("?")[1].split("&");
-        for (var i = 0; i < params.length; i = i + 1) {
-            var singleParam = params[i].split("=");
-            if (singleParam[0] == paramToRetrieve)
-                return singleParam[1];
-        }
-    }
-
-    AppServiceFactory.getCacheValue = function (name) {
-        return $localStorage.name;
-    }
-
+ 
 
     function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
 
+        var SITE_URL = "https://vit1-sharepoint.com/sites/developer/";
 
         var LeaveApplicationService = {};
 
@@ -434,12 +286,31 @@
 
 
 
+        LeaveApplicationService.getStaff = getStaff;
+        LeaveApplicationService.LeaveApplication_CreateNewLeaveData = LeaveApplication_CreateNewLeaveData;
+        LeaveApplicationService.LoadUserProfile = LoadUserProfile;
+        LeaveApplicationService.LeaveApplication_Get_Approvers = LeaveApplication_Get_Approvers;
+        LeaveApplicationService.LeaveApplication_SaveOrCreateData = LeaveApplication_SaveOrCreateData;
 
 
-        LeaveApplicationService.LeaveApplication_CreateNewLeaveData = function () {
+        function getStaff() {
+            $http.get(SITE_URL + "_api/web/sitegroups/getbyname('Staff Leave Manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
+                //alert('hi');
+                var yourval = jQuery.parseJSON(JSON.stringify(data));
+                var results = yourval.d.results;
+                for (var i = 0; i < results.length; i++) {
+                    myData.push(results[i].Email);
+                }
+                $("#managerEmail").autocomplete({
+                    source: myData
+                });
+            });
+        }
+
+        function LeaveApplication_CreateNewLeaveData() {
             // AppServiceFactory.LeaveApplication_getUserProperties();
             if (userProfileObj.userProfileProperties == undefined) {
-                AppServiceFactory.LoadUserProfile().then(function (response) {
+                SharePointOnlineService.LoadUserProfile().then(function (response) {
                     leaveApplicationObj.EmployeeEmail = userProfileObj.userProfileProperties.WorkEmail;
                     leaveApplicationObj.EmployeeSurname = userProfileObj.userProfileProperties.LastName;
                     leaveApplicationObj.EmployeeFirstname = userProfileObj.userProfileProperties.FirstName;
@@ -466,7 +337,7 @@
 
             return leaveApplicationObj;
         }
-        LeaveApplicationService.LoadUserProfile = function () {
+        function LoadUserProfile() {
             var deferred = $q.defer();
 
             var profileData = null;
@@ -529,18 +400,18 @@
             };
         }
 
-        LeaveApplicationService.LeaveApplication_Get_Approvers = function () {
+        function LeaveApplication_Get_Approvers() {
             return [{ id: "someId1", name: "Display name 1" },
             { id: "someId2", name: "Display name 2" }];
         }
 
-        LeaveApplicationService.LeaveApplication_SaveOrCreateData = function (data) {
+        function LeaveApplication_SaveOrCreateData(data) {
             //... Nidhi's code will go here > JSOM
             var listTitle = "Staff Leave Application";
 
             ///This function will save data in Staff Leave Application list
-            var hostUrl = AppServiceFactory.GetHostWebUrl();
-            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
             var appcontext = new SP.ClientContext(appUrl);
             var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
             var hostweb = hostcontext.get_web();
@@ -609,4 +480,8 @@
 
         return LeaveApplicationService;
     }
+
+    
+
+
 })();

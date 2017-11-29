@@ -1,11 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--Published:920014D5-5E5A-442D-934A-437E4FB0A4DA-->
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--Created:cb85b80c-f585-40ff-8bfc-12ff4d0e34a9-->
-<App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest" Name="InlineSearchAddInCDN" ProductID="{2e87d6fe-bf97-459d-b66b-0e389d951bbf}" Version="1.0.0.3" SharePointMinVersion="16.0.0.0">
+<App xmlns="http://schemas.microsoft.com/sharepoint/2012/app/manifest"
+     Name="InlineSearchAddInCDN"
+     ProductID="{2e87d6fe-bf97-459d-b66b-0e389d951bbf}"
+     Version="1.0.0.3"
+     SharePointMinVersion="16.0.0.0"
+>
   <Properties>
     <Title>InlineSearchAddInCDN</Title>
     <StartPage>~appWebUrl/Pages/InlineSearchAppPart.aspx?{StandardTokens}</StartPage>
   </Properties>
+
   <AppPrincipal>
     <Internal />
   </AppPrincipal>

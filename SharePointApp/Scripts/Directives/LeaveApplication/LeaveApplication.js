@@ -42,6 +42,8 @@
                 //Nidhi you bind data from here
                 $scope.selectedLeaveApplication.FirstName = response.userProfileProperties.FirstName;
             });
+
+            LeaveApplicationService.getStaff();
         }
 
         function ShowSpinner() { $scope.ShowSpinner = true; }
