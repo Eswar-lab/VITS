@@ -492,6 +492,7 @@
         }
 
 
+        //test request API cross-d
         function test() {
           
             var executor = new SP.RequestExecutor("https://vit1.sharepoint.com/sites/developer/");
