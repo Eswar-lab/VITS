@@ -1,4 +1,15 @@
-﻿(function () {
+﻿$('<script/>', {
+
+
+
+    type: 'text/javascript',
+
+    src: '/_layouts/15/SP.RequestExecutor.js'
+
+}).appendTo('head'); 
+
+
+(function () {
     'use strict';
 
     angular
@@ -216,7 +227,7 @@
             });
 
         }
-        
+
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
             obj = [];
@@ -246,14 +257,15 @@
 
     angular
         .module('SharePointOnlineServices')
-        .factory('LeaveApplicationService', LeaveApplicationService);
+        .factory('LeaveApplicationService', LeaveApplicationService)
+        ;
 
     LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
- 
+
 
     function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
 
-        var SITE_URL = "https://vit1-sharepoint.com/sites/developer/";
+        var SITE_URL = "https://vit1.sharepoint.com/sites/developer/";
 
         var LeaveApplicationService = {};
 
@@ -291,20 +303,24 @@
         LeaveApplicationService.LoadUserProfile = LoadUserProfile;
         LeaveApplicationService.LeaveApplication_Get_Approvers = LeaveApplication_Get_Approvers;
         LeaveApplicationService.LeaveApplication_SaveOrCreateData = LeaveApplication_SaveOrCreateData;
+        LeaveApplicationService.test = test;
 
 
         function getStaff() {
-            $http.get(SITE_URL + "_api/web/sitegroups/getbyname('Staff Leave Manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
-                //alert('hi');
-                var yourval = jQuery.parseJSON(JSON.stringify(data));
-                var results = yourval.d.results;
-                for (var i = 0; i < results.length; i++) {
-                    myData.push(results[i].Email);
-                }
-                $("#managerEmail").autocomplete({
-                    source: myData
-                });
-            });
+            test();
+            //$http.get(SITE_URL + "_api/web/sitegroups/getbyname('Staff%20Leave%20manager')/users", { 'headers': { "Accept": "application/json;odata=verbose" }, withCredentials: true}).then(function (data) {
+            //    //alert('hi');
+            //    var yourval = jQuery.parseJSON(JSON.stringify(data));
+            //    var results = yourval.d.results;
+            //    for (var i = 0; i < results.length; i++) {
+            //        myData.push(results[i].Email);
+            //    }
+            //    $("#managerEmail").autocomplete({
+            //        source: myData
+            //    });
+            //}, function error(data) {
+            //    console.log(data);
+            //});
         }
 
         function LeaveApplication_CreateNewLeaveData() {
@@ -317,7 +333,7 @@
                     leaveApplicationObj.EmployeeID = userProfileObj.userProfileProperties.EmployeeId
                     leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
                     leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-                   // leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+                    // leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
 
                     leaveApplicationObj.RejectionReason = undefined;
 
@@ -476,12 +492,67 @@
         }
 
 
+        function test() {
+          
+            var executor = new SP.RequestExecutor("https://vit1.sharepoint.com/sites/developer/");
+            executor.executeAsync(
+                {
+                    url:"https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff%20Leave%20manager')/users",
+                    method: "GET",
+                    headers: { "Accept": "application/json; odata=verbose" },
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                }
+            );
+            retrieveAllUsersAllGroupsSpecificProperties();
 
+        }
+
+        //testing JSOM
+        var collGroup;
+        function retrieveAllUsersAllGroupsSpecificProperties() {
+
+            var clientContext = new SP.ClientContext.get_current();
+            collGroup = clientContext.get_web().get_siteGroups();
+            clientContext.load(collGroup, 'Include(Title,Id,Users.Include(Title,LoginName))');
+
+            clientContext.executeQueryAsync(Function.createDelegate(this, onQuerySucceeded), Function.createDelegate(this, onQueryFailed));
+        }
+
+        function onQuerySucceeded() {
+
+            var userInfo = '';
+
+            var groupEnumerator = collGroup.getEnumerator();
+            while (groupEnumerator.moveNext()) {
+                var oGroup = groupEnumerator.get_current();
+                var collUser = oGroup.get_users();
+                var userEnumerator = collUser.getEnumerator();
+                while (userEnumerator.moveNext()) {
+                    var oUser = userEnumerator.get_current();
+                    this.userInfo += '\nGroup ID: ' + oGroup.get_id() +
+                        '\nGroup Title: ' + oGroup.get_title() +
+                        '\nUser: ' + oUser.get_title() +
+                        '\nLogin Name: ' + oUser.get_loginName();
+                }
+            }
+
+            alert(userInfo);
+        }
+
+        function onQueryFailed(sender, args) {
+
+            alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+        }
 
         return LeaveApplicationService;
     }
 
-    
+
 
 
 })();
