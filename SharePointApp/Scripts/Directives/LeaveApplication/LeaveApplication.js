@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function () {
     'use strict';
 
     var app = angular.module('SharePointOnlineDirectives');
@@ -42,6 +43,9 @@
                 //Nidhi you bind data from here
                 $scope.selectedLeaveApplication.FirstName = response.userProfileProperties.FirstName;
             });
+
+           // LeaveApplicationService.getStaff();
+            //LeaveApplicationService.LeaveApplication_getStaff();
         }
 
         function ShowSpinner() { $scope.ShowSpinner = true; }
@@ -113,6 +117,7 @@
             e.preventDefault()
             $(this).tab('show');
         });
+        //LeaveApplicationService.test();
 
 
 

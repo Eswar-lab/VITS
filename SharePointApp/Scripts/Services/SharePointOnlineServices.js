@@ -1,4 +1,6 @@
-﻿(function () {
+﻿
+
+(function () {
     'use strict';
 
     angular
@@ -188,7 +190,7 @@
         }
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
-            return [{ id: "someId1", name: "Display name 1" },
+            return [{ id: "someId1", name: "Display not name 1" },
             { id: "someId2", name: "Display name 2" }];
         }
 
@@ -216,7 +218,7 @@
             });
 
         }
-        
+
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
             obj = [];
@@ -250,67 +252,68 @@
 
     LeaveApplicationService.$inject = ['$http', '$q', '$timeout', 'SharePointOnlineService'];
 
-    function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
-        var services = {};
-        var URL = SharePointOnlineService.GetAppWebUrl();
-        services.getStaff = getStaff;
+    //function LeaveApplicationService($http, $q, $timeout, SharePointOnlineService) {
+    //    var services = {};
+    //    var URL = SharePointOnlineService.GetAppWebUrl();
+    //    services.getStaff = getStaff;
+    //    // sevice
+       
+
+    //    LeaveApplicationService.getStaff = function () {
+    //        $http.get(URL + "_api/web/sitegroups/getbyname('Staff Leave Manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
+    //            //alert('hi');
+    //            var yourval = jQuery.parseJSON(JSON.stringify(data));
+    //            var results = yourval.d.results;
+    //            for (var i = 0; i < results.length; i++) {
+    //                myData.push(results[i].Email);
+    //            }
+    //            $("#managerEmail").autocomplete({
+    //                source: myData
+    //            });
+    //        });
+    //    }
+
+    //    return services;
+    //}
+  
+    //AppServiceFactory.AutoFillStaffManager_API = function () {
+    //    var myData = [];
+    //    var URL = SharePointOnlineService.GetHostWebUrl();
+    //    function CallUserProfile() {
+
+    //        var requestHeaders = {
+    //            "Accept": "application/json;odata=verbose"
+    //        };
+    //        //alert('hi1');
+
+    //        jQuery.ajax({
+    //            url: "https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff Leave manager')/users",
+    //            type: "GET",
+    //            contentType: "application/json;odata=verbose",
+    //            headers: requestHeaders,
+    //            success: function (data) {
+    //                //alert('hi');
+    //                var yourval = jQuery.parseJSON(JSON.stringify(data));
+    //                var results = yourval.d.results;
+    //                for (var i = 0; i < results.length; i++) {
+    //                    myData.push(results[i].Email);
+    //                }
+    //                $("#managerEmail").autocomplete({
+    //                    source: myData
+    //                });
+    //            },
+    //            error: function (jqxr, errorCode, errorThrown) {
+    //                alert(jqxr.responseText);
+    //            }
+    //        });
+    //    }
+
+        //CallUserProfile();
 
 
-        function getStaff() {
-            $http.get(URL + "_api/web/sitegroups/getbyname('Staff Leave manager')/users", { 'headers': { 'contentType': "application/json;odata=verbose" } }).then(function (data) {
-                //alert('hi');
-                var yourval = jQuery.parseJSON(JSON.stringify(data));
-                var results = yourval.d.results;
-                for (var i = 0; i < results.length; i++) {
-                    myData.push(results[i].Email);
-                }
-                $("#managerEmail").autocomplete({
-                    source: myData
-                });
-            });
-        }
+   
 
-        return services;
-    }
-
-    AppServiceFactory.AutoFillStaffManager_API = function () {
-        var myData = [];
-        var URL = SharePointOnlineService.GetHostWebUrl();
-        function CallUserProfile() {
-
-            var requestHeaders = {
-                "Accept": "application/json;odata=verbose"
-            };
-            //alert('hi1');
-           
-            jQuery.ajax({
-                url: "https://vit1.sharepoint.com/sites/developer/_api/web/sitegroups/getbyname('Staff Leave manager')/users",
-                type: "GET",
-                contentType: "application/json;odata=verbose",
-                headers: requestHeaders,
-                success: function (data) {
-                    //alert('hi');
-                    var yourval = jQuery.parseJSON(JSON.stringify(data));
-                    var results = yourval.d.results;
-                    for (var i = 0; i < results.length; i++) {
-                        myData.push(results[i].Email);
-                    }
-                    $("#managerEmail").autocomplete({
-                        source: myData
-                    });
-                },
-                error: function (jqxr, errorCode, errorThrown) {
-                    alert(jqxr.responseText);
-                }
-            });
-        }
-
-        CallUserProfile();
-
-
-
-
-    }
+    
     var AppServiceFactory = {};
 
 
@@ -446,7 +449,7 @@
                     leaveApplicationObj.EmployeeID = userProfileObj.userProfileProperties.EmployeeId
                     leaveApplicationObj.Department = userProfileObj.userProfileProperties["SPS-Department"];
                     leaveApplicationObj.Designation = userProfileObj.userProfileProperties.Title;
-                   // leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
+                    // leaveApplicationObj.ReportsTo = userProfileObj.userProfileProperties.Manager;
 
                     leaveApplicationObj.RejectionReason = undefined;
 
@@ -553,13 +556,13 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            oListItem.set_item('PayrollCode', data.LeaveType);
+           // oListItem.set_item('Payroll Code', data.LeaveType);
             oListItem.set_item('PRCODE', data.PayrollCode);
             oListItem.set_item('LeaveCategory', data.LeaveCategory);
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
-            oListItem.set_item('ActualLeave', data.ActualLeave);
+           // oListItem.set_item('ActualLeave', data.ActualLeave);
 
             oListItem.update();
             appcontext.load(oListItem);
