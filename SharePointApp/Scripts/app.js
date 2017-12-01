@@ -7,7 +7,8 @@
         'SharePointOnlineServices',
         'SharePointOnlineControllers',
         'SharePointOnlineDirectives',
-        
+        'formly',
+        'formlyBootstrap'
     ]);
 
     

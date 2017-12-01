@@ -25,8 +25,8 @@
         };
     });
 
-    Controller.$inject = ['$scope', 'SearchService', 'SharePointOnlineService', '$timeout'];
-    function Controller($scope, SearchService, SharePointOnlineService, $timeout) {
+    Controller.$inject = ['$scope', '$timeout'];
+    function Controller($scope, $timeout) {
 
 
         var vm = this;
@@ -35,53 +35,57 @@
         $scope.SearchText = "*sharepoint*";
         $scope.ShowSpinner = false;
 
-        function GetDocumentSets() {
-
-        }
-
-        function SaveDocumentSet(properties) {
-
-        }
-
-        function GetDocumentsAndPropertiesForDocument(docSetId) {
-
-        }
-
-        function SaveDocumentProperties(properties) {
-
-        }
-
-        function ShowSpinner() { $scope.ShowSpinner = true; }
-        function HideSpinner() { $scope.ShowSpinner = false; }
-
-        function _ShowValidationErrors(err) {
-            if (err) {
-                if (err.ExceptionAsString && err.ExceptionAsString != null) {
-                    $("#validationErrors").text(err.ExceptionAsString);
+        $scope.userFields = [
+            {
+                key: 'email',
+                type: 'input',
+                templateOptions: {
+                    type: 'email',
+                    label: 'Email address',
+                    placeholder: 'Enter email'
                 }
-                if (err.Message && err.Message != null) {
-                    $("#validationErrors").text(err.Message);
+            },
+            {
+                key: 'password',
+                type: 'input',
+                templateOptions: {
+                    type: 'password',
+                    label: 'Password',
+                    placeholder: 'Password'
+                }
+            },
+            {
+                key: 'file',
+                type: 'file',
+                templateOptions: {
+                    label: 'File input',
+                    description: 'Example block-level help text here',
+                    url: 'https://example.com/upload'
+                }
+            },
+            {
+                key: 'checked',
+                type: 'checkbox',
+                templateOptions: {
+                    label: 'Check me out'
                 }
             }
-        }
+        ];
 
-       
-        function ClearCache() {
-            $scope.SearchResults = [];
-            SharePointOnlineService.forceCacheDeletion();
-        }
+    function ShowSpinner() { $scope.ShowSpinner = true; }
+    function HideSpinner() { $scope.ShowSpinner = false; }
 
-        // Set the cache key
-        var wpId = SharePointOnlineService.GetURLParameters("wpId");
-        var cacheKey = 'VIT_ElectronicRecords_' + wpId
-        SearchService.cacheKey = cacheKey;
-
-        $scope.ClearCacheAndSearch = function (event) {
-            if (event != null) {
-                event.preventDefault();
+    function _ShowValidationErrors(err) {
+        if (err) {
+            if (err.ExceptionAsString && err.ExceptionAsString != null) {
+                $("#validationErrors").text(err.ExceptionAsString);
             }
-            ClearCache();
-            $scope.Search();
+            if (err.Message && err.Message != null) {
+                $("#validationErrors").text(err.Message);
+            }
         }
     }
+
+
+}
 })();
