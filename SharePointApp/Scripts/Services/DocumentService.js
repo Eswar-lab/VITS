@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('SharePointOnlineServices', ['ngRoute', 'ngStorage'])
+        .module('SharePointOnlineServices')
         .factory('DocumentService', DocumentService);
 
     DocumentService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService'];

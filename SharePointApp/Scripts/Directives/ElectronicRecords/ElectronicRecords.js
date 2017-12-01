@@ -25,8 +25,8 @@
         };
     });
 
-    Controller.$inject = ['$scope', '$timeout'];
-    function Controller($scope, $timeout) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout'];
+    function Controller($scope, SharePointOnlineService, $timeout) {
 
 
         var vm = this;
@@ -35,41 +35,62 @@
         $scope.SearchText = "*sharepoint*";
         $scope.ShowSpinner = false;
 
-        $scope.userFields = [
+        $scope.fields = {
+            "document_name": "35993 Eunju Ryu 35993 Orientation Checklist.pdf",
+            "student_id": "123",
+            "admissions_record_type": "Admissions and Admin",
+            "student_type": "International",
+            "education_sector": "VET",
+            "admissions_document_type": "Orientation Checklist"
+        };
+        $scope.formFields = [
             {
-                key: 'email',
+                key: 'document_name',
                 type: 'input',
                 templateOptions: {
-                    type: 'email',
-                    label: 'Email address',
-                    placeholder: 'Enter email'
+                    label: 'Document Name',
+                    disabled: true
                 }
             },
             {
-                key: 'password',
+                key: 'student_id',
                 type: 'input',
                 templateOptions: {
-                    type: 'password',
-                    label: 'Password',
-                    placeholder: 'Password'
+                    label: 'Student Id',
+                    disabled: true
                 }
             },
             {
-                key: 'file',
-                type: 'file',
+                key: 'student_type',
+                type: 'input',
                 templateOptions: {
-                    label: 'File input',
-                    description: 'Example block-level help text here',
-                    url: 'https://example.com/upload'
+                    label: 'Student Type',
+                    disabled: true
                 }
             },
             {
-                key: 'checked',
-                type: 'checkbox',
+                key: 'admissions_record_type',
+                type: 'input',
                 templateOptions: {
-                    label: 'Check me out'
+                    label: 'Admissions Record Type',
+                    disabled: true
                 }
-            }
+            },
+            {
+                key: 'education_sector',
+                type: 'input',
+                templateOptions: {
+                    label: 'Education Sector',
+                    disabled: true
+                }
+            },
+            {
+                key: 'admissions_document_type',
+                type: 'select',
+                templateOptions: {
+                    label: 'Admissions Document Type'
+                }
+            },
         ];
 
     function ShowSpinner() { $scope.ShowSpinner = true; }
