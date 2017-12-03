@@ -8,7 +8,8 @@
         'SharePointOnlineControllers',
         'SharePointOnlineDirectives',
         'formly',
-        'formlyBootstrap'
+        'formlyBootstrap',
+        'smart-table'
     ]);
 
     
