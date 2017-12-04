@@ -25,8 +25,8 @@
         };
     });
 
-    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout'];
-    function Controller($scope, SharePointOnlineService, $timeout) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'DocumentSetService'];
+    function Controller($scope, SharePointOnlineService, $timeout, DocumentSetService) {
 
 
         var vm = this;
@@ -38,12 +38,12 @@
         // Fields to retrieve from SharePoint
         $scope.documentSets = [
             { name: "Enuju Ruyu", student_id: "35993", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", student_current_status: "Studying" },
-            { name: "Ganga Mayer Moyer", student_id: "35078", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", student_current_status: "Applicant" },
-            { name: "Gurjeet Singh", student_id: "35765", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", student_current_status: "Offered" }
+            { id: "2157", name: "Ganga Mayer Moyer", student_id: "35078", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", student_current_status: "Applicant" },
+            { id: "2157", name: "Gurjeet Singh", student_id: "35765", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", student_current_status: "Offered" }
         ];
         $scope.documentSetFiles = [
-            { name: "35993 Eunju Ryu 35993 Orientation Checklist.pdf", student_id: "35993", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", course_code: "ICA320299", admissions_document_type: "Orientation Checklist", student_admission_workflow_status: "Scanned", admissions_document_type: "Application Form", url: "https://vit1.sharepoint.com/Electronic-Records/Student Admissions/Eunju Ryu/35993 Eunju Ryu 35993 Orientation Checklist.pdf" },
-            { name: "35993 - Eunju Ryu-35993 - payment contract.pdf", student_id: "35993", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", course_code: "ICA320299", admissions_document_type: "Orientation Checklist", student_admission_workflow_status: "Tagged", admissions_document_type: "Fee Payment", url: "https://vit1.sharepoint.com/Electronic-Records/Student%20Admissions/Eunju%20Ryu/35993%20-%20Eunju%20Ryu-35993%20-%20payment%20contract.pdf" }
+            { id: "1", name: "35993 Eunju Ryu 35993 Orientation Checklist.pdf", student_id: "35993", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", course_code: "ICA320299", admissions_document_type: "Orientation Checklist", student_admission_workflow_status: "Scanned", admissions_document_type: "Application Form", url: "https://vit1.sharepoint.com/Electronic-Records/Student Admissions/Eunju Ryu/35993 Eunju Ryu 35993 Orientation Checklist.pdf" },
+            { id: "2", name: "35993 - Eunju Ryu-35993 - payment contract.pdf", student_id: "35993", student_type: "International", admissions_record_type: "Admissions and Admin", education_sector: "VET", course_code: "ICA320299", admissions_document_type: "Orientation Checklist", student_admission_workflow_status: "Tagged", admissions_document_type: "Fee Payment", url: "https://vit1.sharepoint.com/Electronic-Records/Student%20Admissions/Eunju%20Ryu/35993%20-%20Eunju%20Ryu-35993%20-%20payment%20contract.pdf" }
         ];
 
         // Selected documentSet
@@ -78,9 +78,9 @@
         ];
 
         $scope.WorkflowStatuses = [
-            { Id: "Not Started", Name:"Not Started"},
-            {Id: "Scanned", Name:"Scanned"},
-            {Id: "Tagged", Name:"Tagged"}
+            { Id: "Not Started", Name: "Not Started" },
+            { Id: "Scanned", Name: "Scanned" },
+            { Id: "Tagged", Name: "Tagged" }
         ];
         $scope.AdmissionsDocumentTypes = [
             { Id: "Application Form", Name: "Application Form" },
@@ -246,7 +246,19 @@
 
         $scope.documentSet_rowClick = function (data) {
             $scope.documentSetFields = data;
-            $('#myTab a[href="#docSetView"]').tab('show')
+            DocumentSetService.GetItems("Student Admissions", "Eunju Ryu").then(
+                function (items) {
+                    var itemEnumerator = items.getEnumerator();
+                    while (itemEnumerator.moveNext()) {
+                        var item = itemEnumerator.get_current();
+                        console.log(item.get_item("VIT_Student_ID"));
+                    }
+                },
+                function (err, msg) {
+                    console.log(msg);
+                }
+            );
+            $('#myTab a[href="#docSetView"]').tab('show');
         }
 
         $scope.documentSetFile_rowClick = function (data) {

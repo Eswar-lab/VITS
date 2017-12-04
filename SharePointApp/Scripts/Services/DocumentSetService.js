@@ -19,10 +19,39 @@
             }
             return "";
         }
+        //https://stackoverflow.com/questions/29462134/programmatically-access-files-in-document-set-in-sharepoint-using-javascript
+        AppServiceFactory.GetItems = function (listtitle, folderUrl) {
+            var deferred = $q.defer();
+            try {
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
 
-        AppServiceFactory.GetDocumentSets = function (libraryUrl) {
-            // TODO: Add JSOM code to load all documentSet properties from given library
-        }
+
+            folderUrl = "/" + hostUrl.replace(/^(?:\/\/|[^\/]+)*\//, "") + "/" + listtitle + "/" + folderUrl;
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+
+            var hostweb = hostcontext.get_web();
+            var list = hostcontext.get_web().get_lists().getByTitle(listtitle);
+            var qry = SP.CamlQuery.createAllItemsQuery();
+            qry.set_folderServerRelativeUrl(folderUrl);
+
+            var items = list.getItems(qry);
+            appcontext.load(items, 'Include(Id, VIT_Student_ID, File)');
+
+            appcontext.executeQueryAsync(
+                function () {
+                    deferred.resolve(items);
+                },
+                function (sender, args) {
+                    deferred.reject(args, args.get_message());
+                });
+            }
+            catch (err) {
+                deferred.reject(err);
+            }
+            return deferred.promise;
+        }       
         // Read a page's GET URL variables and return them as an associative array.
         AppServiceFactory.GetURLParameters = function (paramName) {
             var sURL = window.document.URL.toString();
@@ -53,8 +82,7 @@
             }
         }
 
-
-
+        
         return AppServiceFactory;
     }
 })();
