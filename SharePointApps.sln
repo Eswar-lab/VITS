@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePointApp", "SharePointApp\SharePointApp.csproj", "{02F4279A-B114-4028-B12A-64D6DEC9FBB4}"
 EndProject
@@ -16,9 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicRecordsAddIn", "ElectronicRecordsAddIn\ElectronicRecordsAddIn.csproj", "{F58CAF0F-3B3B-41E2-A5B0-AC63C97722A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timesheet", "Timesheet\Timesheet.csproj", "{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CEOsiteAddIn", "CEOsiteAddIn\CEOsiteAddIn.csproj", "{6EC45380-CFA9-476F-9132-D37C38A63860}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timesheet", "Timesheet\Timesheet.csproj", "{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaveApplication", "LeaveApplication\LeaveApplication.csproj", "{D3569129-8D11-47E4-8473-CA49C42E634C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +44,24 @@ Global
 		{F58CAF0F-3B3B-41E2-A5B0-AC63C97722A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F58CAF0F-3B3B-41E2-A5B0-AC63C97722A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F58CAF0F-3B3B-41E2-A5B0-AC63C97722A3}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC45380-CFA9-476F-9132-D37C38A63860}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3569129-8D11-47E4-8473-CA49C42E634C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,8 +69,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8327E96F-0BDA-4DA2-A3E9-F8434A1FB5E9} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
 		{F58CAF0F-3B3B-41E2-A5B0-AC63C97722A3} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
-		{6EC45380-CFA9-476F-9132-D37C38A63860} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
 		{8E75E215-57C8-4F9E-BA97-7E72376A2A1B} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
+		{6EC45380-CFA9-476F-9132-D37C38A63860} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
+		{D3569129-8D11-47E4-8473-CA49C42E634C} = {3EBE659D-617B-4B5D-8869-984ADC60A461}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F3ABAB2C-E45D-4259-9013-6BD6E6D09F78}

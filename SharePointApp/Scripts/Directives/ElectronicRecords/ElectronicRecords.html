@@ -1,3 +1,148 @@
-﻿<section>
-    Hello World
-</section>
+﻿<div>
+    <style>
+        .st-sort-ascent:before {
+            content: '\25B2';
+        }
+
+        .st-sort-descent:before {
+            content: '\25BC';
+        }
+    </style>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#list">Document Set List</a></li>
+        <li><a data-toggle="tab" href="#docSetView">Document Set Details</a></li>
+        <li><a data-toggle="tab" href="#docView">File Properties</a></li>
+        <li><a data-toggle="tab" href="#qaView">QA Properties</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="list" class="tab-pane fade in active">
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Student Admissions Listing</div>
+                <div class="panel-body">
+                    <table class="table table-striped" st-table="documentSets">
+                        <thead>
+                            <tr class="sortable">
+                                <th st-sort="name" st-skip-natural="true">Name</th>
+                                <th st-sort="student_id" st-skip-natural="true">Student Id</th>
+                                <th st-sort="student_type" st-skip-natural="true">Student Type</th>
+                                <th st-sort="admissions_record_type" st-skip-natural="true">Admissions Record Type</th>
+                                <th st-sort="education_sector" st-skip-natural="true">Education Sector</th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input st-search="name" placeholder="search for name" class="input-sm form-control" type="search" />
+                                </th>
+                                <th>
+                                    <input st-search="student_id" placeholder="search for student id" class="input-sm form-control" type="search" />
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in documentSets" ng-click="documentSet_rowClick(row)">
+                                <td>{{row.name | uppercase}}</td>
+                                <td>{{row.student_id}}</td>
+                                <td>{{row.student_type}}</td>
+                                <td>{{row.admissions_record_type}}</td>
+                                <td>{{row.education_sector}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="docSetView" class="tab-pane fade">
+            <div class="panel panel-success">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Document Set Properties</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <form novalidate>
+                                <formly-form model="documentSetFields" fields="documentSetFormFields">
+                                    <button type="submit" class="btn btn-default" ng-click="">Submit</button>
+                                </formly-form>
+                            </form>
+                        </div>
+                        <div class="col-xs-6">
+                            <table class="table table-striped" st-table="documentSetFiles">
+                                <thead>
+                                    <tr class="sortable">
+                                        <th st-sort="name" st-skip-natural="true">Name</th>
+                                        <th st-sort="student_id" st-skip-natural="true">Student Id</th>
+                                        <th st-sort="student_type" st-skip-natural="true">Student Type</th>
+                                        <th st-sort="student_type" st-skip-natural="true">Workflow Status</th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <input st-search="name" placeholder="search for name" class="input-sm form-control" type="search" />
+                                        </th>
+                                        <th>
+                                            <input st-search="student_id" placeholder="search for student id" class="input-sm form-control" type="search" />
+                                        </th>
+                                        <th></th>
+                                        <th>
+                                            <input st-search="student_admission_workflow_status" placeholder="search for workflow status" class="input-sm form-control" type="search" />
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in documentSetFiles" ng-click="documentSetFile_rowClick(row)">
+                                        <td>{{row.name | uppercase}}</td>
+                                        <td>{{row.student_id}}</td>
+                                        <td>{{row.student_type}}</td>
+                                        <td>{{row.student_admission_workflow_status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="docView" class="tab-pane fade">
+            <div class="panel panel-info">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Document Properties</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <button class="btn btn-warning btn-arrow-left">Back</button>
+                        </div>
+                        <div class="col-xs-6">
+                            <span>X out of Y</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-warning btn-arrow-right">Next</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <form novalidate>
+                                <formly-form model="documentFields" fields="documentFormFields">
+                                    <button type="submit" class="btn btn-default" ng-click="">Submit</button>
+                                </formly-form>
+                            </form>
+                        </div>
+                        <div class="col-xs-6">
+                            <div id="documentViewer" src="#" frameborder="0" style="display: block;height:100%;width:100%"><object type="application/pdf" style="width:100%;height:100%" data="{{documentFields.url}}" internalinstanceid="20"></object></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="qaView" class="tab-pane fade">
+            <div class="panel panel-warning">
+                <!-- Default panel contents -->
+                <div class="panel-heading">QA Properties</div>
+                <div class="panel-body">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

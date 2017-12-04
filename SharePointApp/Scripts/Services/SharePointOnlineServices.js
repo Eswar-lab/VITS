@@ -8,8 +8,17 @@
     SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location'];
 
     function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location) {
-        var AppServiceFactory = {};                
-
+        var AppServiceFactory = {};
+        function getQueryStringParameter(paramToRetrieve) {
+            var params =
+                document.URL.split("?")[1].split("&");
+            for (var i = 0; i < params.length; i = i + 1) {
+                var singleParam = params[i].split("=");
+                if (singleParam[0] == paramToRetrieve)
+                    return singleParam[1];
+            }
+            return "";
+        }
 
         AppServiceFactory.GetDocumentSets = function (libraryUrl) {
             // TODO: Add JSOM code to load all documentSet properties from given library
@@ -44,11 +53,16 @@
             }
         }
 
-        AppServiceFactory.GetHostWebUrl = function () {           
+        AppServiceFactory.GetAppWebUrl = function () {
+            var appweburl = decodeURIComponent(AppServiceFactory.getQueryStringParameter("SPAppWebUrl"));
+            appweburl = appweburl.replace('#/', '');
+            return appweburl;
+        }
+        AppServiceFactory.GetHostWebUrl = function () {
             return decodeURIComponent(getQueryStringParameter("SPHostUrl"));
         }
 
-        AppServiceFactory.setHtmlStorage = function(name, value) {
+        AppServiceFactory.setHtmlStorage = function (name, value) {
             //var name = name + '_' + AppServiceFactory.GetURLParameters("wpId");
 
             var cacheInterval = AppServiceFactory.GetURLParameters("CacheInterval");
@@ -62,7 +76,7 @@
             var schedule = Math.round((date.setSeconds(date.getSeconds() + expires)) / 1000);
 
             $localStorage.name = value;
-            name = name +'_time';            
+            name = name + '_time';
             $localStorage.name = schedule;// set(name + '_time', schedule);
         }
 
@@ -70,9 +84,9 @@
 
             var date = new Date();
             var current = Math.round(+date / 1000);
-            
+
             var name_time = name + '_time';
-            
+
             // Get Schedule
             var stored_time = $localStorage.name_time;
             if (stored_time == undefined || stored_time == null) { var stored_time = 0; }
@@ -96,7 +110,7 @@
         * sodScripts - array of string keys for SharePoint libraries
         * onLoadAction - callback function once all scripts are loaded
        */
-        AppServiceFactory.SPSODAction = function(sodScripts, onLoadAction) {
+        AppServiceFactory.SPSODAction = function (sodScripts, onLoadAction) {
             if (SP.SOD.loadMultiple) {
                 for (var x = 0; x < sodScripts.length; x++) {
                     //register any unregistered scripts
@@ -113,9 +127,9 @@
             } else
                 ExecuteOrDelayUntilScriptLoaded(onLoadAction, sodScripts[0]);
         }
-        
 
-        AppServiceFactory.getQueryStringParameter = function(paramToRetrieve) {
+
+        AppServiceFactory.getQueryStringParameter = function (paramToRetrieve) {
             var params =
                 document.URL.split("?")[1].split("&");
             for (var i = 0; i < params.length; i = i + 1) {
@@ -125,8 +139,7 @@
             }
         }
 
-        AppServiceFactory.getCacheValue = function (name)
-        {
+        AppServiceFactory.getCacheValue = function (name) {
             return $localStorage.name;
         }
 
@@ -136,11 +149,11 @@
                 new {
                     'Employee': 'khang@vit.edu.au', 'Manager': 'Aaron',
                     'Department': 'Moodle', 'Period': 'Fortnightly', 'TimesheetType': 'General',
-                    'TaskCodes': [], 'StartDate': '13-Nov-2017', 'StartTimes': ['8:00 AM'], 
+                    'TaskCodes': [], 'StartDate': '13-Nov-2017', 'StartTimes': ['8:00 AM'],
                     'EndTimes': ['10:00 AM'], 'BreakTime': '30', 'Total': '6', 'Absent': false,
                     'AbsentReason': '', 'ApprovalStatus': 'Not Started'
                 },
-                  new {
+                new {
                     'Employee': 'khang@vit.edu.au', 'Manager': 'Aaron',
                     'Department': 'Moodle', 'Period': 'Fortnightly', 'TimesheetType': 'Academic',
                     'TaskCodes': ['LEC', 'RLEC'], 'StartDate': '14-Nov-2017', 'StartTimes': ['8:00 AM', '1:00 PM'],
@@ -150,34 +163,112 @@
             ];
         }
 
+        function CreateFakeLeaveData(status) {
+            return {
+                'EmployeeEmail': 'khang@vit.edu.au',
+                'EmployeeSurname': 'Khang',
+                'EmployeeFirstname': 'Cao',
+                'EmployeeID': '1234',
+                'Department': 'Moodle',
+                'Designation': 'Web Developer',
+                'ReportsTo': 'Aaron@vit.edu.au',
+                'LeaveType': 'Sick Leave',
+                'PayrollCode': 'SIC',
+                'LeaveCategory': 'WithCertificate',
+                'StartDate': '12-Nov-2017',
+                'ReturnDate': '15-Nov-2017',
+                'TotalDays': '3',
+                'ActualLeaveChecked': 'false',
+                'ActualLeave': '0',
+                'Status': status,
+                'RejectionReason': 'Please attach sick certificate'
+            };
+        }
+
+        AppServiceFactory.LeaveApplication_Get_Approvers = function () {
+            return [{ id: "someId1", name: "Display name 1" },
+            { id: "someId2", name: "Display name 2" }];
+        }
+
+        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var listTitle = "Staff Leave Application";
+
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            var oListItem = list.addItem(itemCreateInfo);
+            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
+            oListItem.set_item('FirstName', data.EmployeeFirstname);
+            oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.update();
+            appcontext.load(oListItem);
+            appcontext.executeQueryAsync(
+                LeaveApplication_SaveOrCreateData_onQueryItemSucceeded,
+                LeaveApplication_SaveOrCreateData_onQueryItemFailed);
+        }
+
+        function LeaveApplication_SaveOrCreateData_onQueryItemSucceeded() {
+            alert('Item created: ' + oListItem.get_id());
+        }
+
+        function LeaveApplication_SaveOrCreateData_onQueryItemFailed(sender, args) {
+            alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+        }
+
+        function getQueryStringParameter(paramToRetrieve) {
+            var params =
+                document.URL.split("?")[1].split("&");
+            var strParams = "";
+            for (var i = 0; i < params.length; i = i + 1) {
+                var singleParam = params[i].split("=");
+                if (singleParam[0] == paramToRetrieve)
+                    return singleParam[1];
+            }
+        }
+
+        AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
+            return {
+                'EmployeeEmail': 'shailen@vit.edu.au',
+                'EmployeeSurname': 'Sukul',
+                'EmployeeFirstname': 'Shailen',
+                'EmployeeID': '3456',
+                'Department': 'IT',
+                'Designation': 'Consultant',
+                'ReportsTo': 'arjun@vit.edu.au',
+                'LeaveType': '3',
+                'PayrollCode': 'P123',
+                'LeaveCategory': 'WithCertificate',
+                'StartDate': new Date(2017, 11, 10),
+                'ReturnDate': new Date(2017, 11, 15),
+                'SupportingFiles': {},
+                'TotalDays': '5',
+                'ActualLeaveChecked': true,
+                'ActualLeave': '4.5',
+                'Remarks': 'My remarks are remarkable',
+                'Status': 'Draft',
+                'RejectionReason': ''
+            };
+        }
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
-             obj = [
-                    {
-                        'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                        'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
-                    },
-                    {
-                        'Employee': 'khang@vit.edu.au', 'StartDate': '1-Dec-2017',
-                        'EndDate': '15-Dec-2017', 'Status': 'Rejected', 'ReportTo': 'Aaron@vit.edu.au'
-                    }
-            ];
-             if (filter == 'Rejected') {
-                 obj = [
-                     {
-                         'Employee': 'khang@vit.edu.au', 'StartDate': '12-Nov-2017',
-                         'EndDate': '15-Nov-2017', 'Status': 'Pending', 'ReportTo': 'Aaron@vit.edu.au'
-                     }];
-             }
+            obj = [];
+            obj.push(CreateFakeLeaveData(filter));
+
             return obj;
-           
+
         }
         // Local Storage Helper Functions
         // From http://brynner.net/html5-localstorage-with-expiration/
         function removeHtmlStorage(name) {
             var name_time = name + '_time';
 
-            delete $localStorage.name;            
+            delete $localStorage.name;
             delete $localStorage.name_time;
             //localStorageService.remove(name);
             //localStorageService.remove(name + '_time');
