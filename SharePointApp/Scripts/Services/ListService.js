@@ -20,8 +20,58 @@
             return "";
         }
 
-        AppServiceFactory.GetDocumentSets = function (libraryUrl) {
-            // TODO: Add JSOM code to load all documentSet properties from given library
+        AppServiceFactory.GetListByTitle = function (libraryUrl) {
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var scriptbase = hostUrl + "/_layouts/15/";
+            $.getScript(scriptbase + "SP.RequestExecutor.js", function () {
+                var executor = new SP.RequestExecutor(appUrl);
+                executor.executeAsync(
+                    { 
+                        url:
+                        appUrl +
+                        "/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items?@target='" + hostUrl + "'",
+                        method: "GET",
+                        headers: { "Accept": "application/json; odata=verbose" },
+                        function(data) {
+                            var jsonObject = JSON.parse(data.body);
+                            var announcementsHTML = "";
+
+                            var results = jsonObject.d.results;
+
+                        },
+                        function(data, errorCode, errorMessage) {
+                            console.log(errorMessage);
+                        }
+                    }
+                );
+            });
+        }
+
+        function execCrossDomainRequest() {
+
+            var executor = new SP.RequestExecutor(that.appUrl);
+
+            executor.executeAsync(
+                {
+                    url:
+                    appUrl +
+                    "/_api/web/lists/getbytitle('Staff Leave Application')/items",
+                    method: "GET",
+                    headers: { "Accept": "application/json; odata=verbose" },
+                    function(data) {
+                        var jsonObject = JSON.parse(data.body);
+                        var announcementsHTML = "";
+
+                        var results = jsonObject.d.results;
+
+                    },
+                    function(data, errorCode, errorMessage)
+                    {
+                        console.log(errorMessage);
+                    }
+                }
+            );
         }
         // Read a page's GET URL variables and return them as an associative array.
         AppServiceFactory.GetURLParameters = function (paramName) {
