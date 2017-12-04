@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/_layouts/sp.core.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.runtime.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.js"></script>
+    <script type="text/javascript" src="/_layouts/15/SP.RequestExecutor.js"></script>    
 
    <!-- AngularJS-->
      <script src="//cdnjs.cloudflare.com/ajax/libs/api-check/7.5.5/api-check.min.js"></script>
@@ -24,6 +25,7 @@
        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-formly/8.4.1/formly.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-formly-templates-bootstrap/6.5.1/angular-formly-templates-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.9/smart-table.min.js"></script>
     
     <!-- BootStrap 3 -->    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> 
@@ -49,6 +51,7 @@
     <script src="https://localhost:44326/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://localhost:44326/scripts/directives/FilesInput/FilesInput.js"></script>
     <script src="https://localhost:44326/scripts/directives/LeaveApplication/LeaveApplication.js"></script>
+    <script src="https://localhost:44326/scripts/services/ListService.js"></script>
 
 </head>
 <body>

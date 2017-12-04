@@ -20,8 +20,8 @@
             controller: Controller
         };
     });
-    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout'];
-    function Controller($scope, SharePointOnlineService, $timeout) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'ListService'];
+    function Controller($scope, SharePointOnlineService, $timeout, ListService) {
 
         var vm = this;
         $scope.selectedLeaveApplication = {};
@@ -77,7 +77,9 @@
             document.getElementById("inpActualLeave").focus(); 
         }
 
-        $scope.newLeaveApplication_Click = function() {
+        $scope.newLeaveApplication_Click = function () {
+            ListService.GetListByTitle("");
+
             $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
             $('#modalLeaveApplication').modal('show');
         }
