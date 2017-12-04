@@ -33,14 +33,14 @@
                         "/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items?@target='" + hostUrl + "'",
                         method: "GET",
                         headers: { "Accept": "application/json; odata=verbose" },
-                        function(data) {
+                        success: function(data) {
                             var jsonObject = JSON.parse(data.body);
                             var announcementsHTML = "";
 
                             var results = jsonObject.d.results;
 
                         },
-                        function(data, errorCode, errorMessage) {
+                        error: function(data, errorCode, errorMessage) {
                             console.log(errorMessage);
                         }
                     }
