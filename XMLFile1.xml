@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="https://vit1.sharepoint.com/sites/developer/_api/" xmlns="http://www.w3.org/2005/Atom" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+  <id>09641345-1a85-4071-b729-7fc4537bb96a</id>
+  <title />
+  <updated>2017-11-28T11:33:17Z</updated>
+  <entry>
+    <id>https://vit1.sharepoint.com/sites/developer/_api/Web/GetUserById(14)</id>
+    <category term="SP.User" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" href="Web/GetUserById(14)" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Alerts" type="application/atom+xml;type=feed" title="Alerts" href="Web/GetUserById(14)/Alerts" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Groups" type="application/atom+xml;type=feed" title="Groups" href="Web/GetUserById(14)/Groups" />
+    <title />
+    <updated>2017-11-28T11:33:17Z</updated>
+    <author>
+      <name />
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int32">14</d:Id>
+        <d:IsHiddenInUI m:type="Edm.Boolean">false</d:IsHiddenInUI>
+        <d:LoginName>i:0#.f|membership|achukka@e-commsys.com.au</d:LoginName>
+        <d:Title>Anand Chukka</d:Title>
+        <d:PrincipalType m:type="Edm.Int32">1</d:PrincipalType>
+        <d:Email>achukka@e-commsys.com.au</d:Email>
+        <d:IsEmailAuthenticationGuestUser m:type="Edm.Boolean">false</d:IsEmailAuthenticationGuestUser>
+        <d:IsShareByEmailGuestUser m:type="Edm.Boolean">false</d:IsShareByEmailGuestUser>
+        <d:IsSiteAdmin m:type="Edm.Boolean">false</d:IsSiteAdmin>
+        <d:UserId m:type="SP.UserIdInfo">
+          <d:NameId>10033fff9d247085</d:NameId>
+          <d:NameIdIssuer>urn:federation:microsoftonline</d:NameIdIssuer>
+        </d:UserId>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://vit1.sharepoint.com/sites/developer/_api/Web/GetUserById(18)</id>
+    <category term="SP.User" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" href="Web/GetUserById(18)" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Alerts" type="application/atom+xml;type=feed" title="Alerts" href="Web/GetUserById(18)/Alerts" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Groups" type="application/atom+xml;type=feed" title="Groups" href="Web/GetUserById(18)/Groups" />
+    <title />
+    <updated>2017-11-28T11:33:17Z</updated>
+    <author>
+      <name />
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int32">18</d:Id>
+        <d:IsHiddenInUI m:type="Edm.Boolean">false</d:IsHiddenInUI>
+        <d:LoginName>i:0#.f|membership|nidhi.m@e-commsys.com.au</d:LoginName>
+        <d:Title>Nidhi Mishra</d:Title>
+        <d:PrincipalType m:type="Edm.Int32">1</d:PrincipalType>
+        <d:Email>nidhi.m@e-commsys.com.au</d:Email>
+        <d:IsEmailAuthenticationGuestUser m:type="Edm.Boolean">false</d:IsEmailAuthenticationGuestUser>
+        <d:IsShareByEmailGuestUser m:type="Edm.Boolean">false</d:IsShareByEmailGuestUser>
+        <d:IsSiteAdmin m:type="Edm.Boolean">true</d:IsSiteAdmin>
+        <d:UserId m:type="SP.UserIdInfo">
+          <d:NameId>1003bffda499bb06</d:NameId>
+          <d:NameIdIssuer>urn:federation:microsoftonline</d:NameIdIssuer>
+        </d:UserId>
+      </m:properties>
+    </content>
+  </entry>
+  <entry>
+    <id>https://vit1.sharepoint.com/sites/developer/_api/Web/GetUserById(36)</id>
+    <category term="SP.User" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <link rel="edit" href="Web/GetUserById(36)" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Alerts" type="application/atom+xml;type=feed" title="Alerts" href="Web/GetUserById(36)/Alerts" />
+    <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Groups" type="application/atom+xml;type=feed" title="Groups" href="Web/GetUserById(36)/Groups" />
+    <title />
+    <updated>2017-11-28T11:33:17Z</updated>
+    <author>
+      <name />
+    </author>
+    <content type="application/xml">
+      <m:properties>
+        <d:Id m:type="Edm.Int32">36</d:Id>
+        <d:IsHiddenInUI m:type="Edm.Boolean">false</d:IsHiddenInUI>
+        <d:LoginName>i:0#.f|membership|shailen@vit.edu.au</d:LoginName>
+        <d:Title>shailen</d:Title>
+        <d:PrincipalType m:type="Edm.Int32">1</d:PrincipalType>
+        <d:Email>shailen@vit.edu.au</d:Email>
+        <d:IsEmailAuthenticationGuestUser m:type="Edm.Boolean">false</d:IsEmailAuthenticationGuestUser>
+        <d:IsShareByEmailGuestUser m:type="Edm.Boolean">false</d:IsShareByEmailGuestUser>
+        <d:IsSiteAdmin m:type="Edm.Boolean">false</d:IsSiteAdmin>
+        <d:UserId m:type="SP.UserIdInfo">
+          <d:NameId>10037ffea5deca32</d:NameId>
+          <d:NameIdIssuer>urn:federation:microsoftonline</d:NameIdIssuer>
+        </d:UserId>
+      </m:properties>
+    </content>
+  </entry>
+</feed>
