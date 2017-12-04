@@ -246,18 +246,19 @@
 
         $scope.documentSet_rowClick = function (data) {
             $scope.documentSetFields = data;
-            DocumentSetService.GetItemsInFolder("Student Admissions", "Eunju Ryu").then(
-                function (items) {
-                    var itemEnumerator = items.getEnumerator();
-                    while (itemEnumerator.moveNext()) {
-                        var item = itemEnumerator.get_current();
-                        console.log(item.get_item("VIT_Student_ID"));
-                    }
-                },
-                function (err, msg) {
-                    console.log(msg);
-                }
-            );
+            DocumentSetService.GetTopLevelFolders("Student Admissions");
+            //DocumentSetService.GetItemsInFolder("Student Admissions", "Eunju Ryu").then(
+            //    function (items) {
+            //        var itemEnumerator = items.getEnumerator();
+            //        while (itemEnumerator.moveNext()) {
+            //            var item = itemEnumerator.get_current();
+            //            console.log(item.get_item("VIT_Student_ID"));
+            //        }
+            //    },
+            //    function (err, msg) {
+            //        console.log(msg);
+            //    }
+            //);
             $('#myTab a[href="#docSetView"]').tab('show');
         }
 
