@@ -246,7 +246,7 @@
 
         $scope.documentSet_rowClick = function (data) {
             $scope.documentSetFields = data;
-            DocumentSetService.GetItems("Student Admissions", "Eunju Ryu").then(
+            DocumentSetService.GetItemsInFolder("Student Admissions", "Eunju Ryu").then(
                 function (items) {
                     var itemEnumerator = items.getEnumerator();
                     while (itemEnumerator.moveNext()) {

@@ -20,7 +20,7 @@
             return "";
         }
         //https://stackoverflow.com/questions/29462134/programmatically-access-files-in-document-set-in-sharepoint-using-javascript
-        AppServiceFactory.GetItems = function (listtitle, folderUrl) {
+        AppServiceFactory.GetItemsInFolder = function (listtitle, folderUrl) {
             var deferred = $q.defer();
             try {
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
