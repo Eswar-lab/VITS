@@ -18,9 +18,12 @@
     <script type="text/javascript" src="/_layouts/15/sp.userprofiles.js"></script>
 
    <!-- AngularJS-->
+     <script src="//cdnjs.cloudflare.com/ajax/libs/api-check/7.5.5/api-check.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>   
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-resource.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
+       <script src="//cdnjs.cloudflare.com/ajax/libs/angular-formly/8.4.1/formly.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-formly-templates-bootstrap/6.5.1/angular-formly-templates-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.min.js"></script>
     
     <!-- BootStrap 3 -->    

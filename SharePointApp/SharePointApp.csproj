@@ -96,8 +96,10 @@
     <Content Include="Scripts\Services\CEOsiteService.js" />
     <Content Include="Scripts\Directives\Timesheet\Timesheet.html" />
     <Content Include="Scripts\Directives\Timesheet\Timesheet.js" />
+    <Content Include="Scripts\Services\DocumentService.js" />
+    <Content Include="Scripts\Services\DocumentSetService.js" />
     <Content Include="Scripts\Services\EnvironmentService.js" />
-    <Content Include="Scripts\Services\LeaveAppService.js" />
+    <Content Include="Scripts\Services\ListService.js" />
     <Content Include="Scripts\Services\SearchService.js" />
     <Content Include="Scripts\Services\SharePointOnlineServices.js" />
     <Content Include="Views\index.html" />

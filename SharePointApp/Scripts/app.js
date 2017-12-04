@@ -11,7 +11,9 @@
         'SharePointOnlineServices',
         'SharePointOnlineControllers',
         'SharePointOnlineDirectives',
-        
+        'formly',
+        'formlyBootstrap',
+        'smart-table'
     ]);
 
     
