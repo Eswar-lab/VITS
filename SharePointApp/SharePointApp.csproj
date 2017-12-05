@@ -94,8 +94,8 @@
     <Content Include="Scripts\Directives\SharePointOnlineDirectives.js" />
     <Content Include="Scripts\External\bootstrap3-typeahead.min.js" />
     <Content Include="Scripts\Services\CEOsiteService.js" />
-    <Content Include="Scripts\Directives\Timesheet\Timesheet.html" />
-    <Content Include="Scripts\Directives\Timesheet\Timesheet.js" />
+    <Content Include="Scripts\External\Timesheet\Timesheet.html" />
+    <Content Include="Scripts\External\Timesheet\Timesheet.js" />
     <Content Include="Scripts\Services\DocumentService.js" />
     <Content Include="Scripts\Services\DocumentSetService.js" />
     <Content Include="Scripts\Services\EnvironmentService.js" />

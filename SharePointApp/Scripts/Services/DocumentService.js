@@ -20,9 +20,7 @@
             return "";
         }
 
-        AppServiceFactory.GetDocumentSets = function (libraryUrl) {
-            // TODO: Add JSOM code to load all documentSet properties from given library
-        }
+       
         // Read a page's GET URL variables and return them as an associative array.
         AppServiceFactory.GetURLParameters = function (paramName) {
             var sURL = window.document.URL.toString();
