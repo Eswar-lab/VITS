@@ -25,10 +25,13 @@
 
         var vm = this;
         $scope.selectedLeaveApplication = {};
+        $scope.selectedLeaveApplication.selectedManager = undefined;
+
         $scope.LeaveApplicationData = {};
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
 
+        $scope.managers = [];
         $scope.SearchText = "*sharepoint*";
         $scope.ShowSpinner = false;
 
@@ -45,6 +48,28 @@
                 }
             }
         }
+
+        //constructor
+        init();
+        function init(){
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
+
+            ListService.GetListByTitle(manageUrl).then(function (data) {
+                console.log(data);
+                $scope.managers = data;
+            }, function (err) {
+                console.log(err);
+
+            });
+        }
+        //auto complete
+        //https://material.angularjs.org/latest/demo/autocomplete
+
+
+
+        //end
 
         function ClearCache() {
             $scope.SearchResults = [];
@@ -78,8 +103,16 @@
         }
 
         $scope.newLeaveApplication_Click = function () {
-            ListService.GetListByTitle("");
+            //ListService.GetListByTitle("");
+            if ($scope.managers.length == 0) {
+                ListService.GetListByTitle(manageUrl).then(function (data) {
+                    console.log(data);
+                    $scope.managers = data;
+                }, function (err) {
+                    console.log(err);
 
+                });
+            }
             $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
             $('#modalLeaveApplication').modal('show');
         }
@@ -88,11 +121,12 @@
             document.getElementById("inpFile").value = "";
         }
 
-        $scope.SaveLeaveApplication = function (event) {
+        $scope.SaveLeaveApplication = function () {
             console.log("Saving leave application");
-            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            console.log($scope.selectedLeaveApplication.ReportsTo);
+            //SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
             //files = $scope.selectedLeaveApplication.SupportingFiles;
-            //$('#modalLeaveApplication').modal('hide');
+            $('#modalLeaveApplication').modal('hide');
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
         $scope.GetLeaveApplications();
