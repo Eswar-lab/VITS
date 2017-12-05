@@ -50,8 +50,25 @@
                         <div class="col-xs-6 form-group">
                             <label for="ppReportsTo">Reports To</label>
                             <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
-                            <input type="text" data-provide="typeahead" class="form-control" id="ppReportsTo"
+                            <select data-provide="typeahead" class="form-control" id="ppReportsTo"
                                    ng-model="selectedLeaveApplication.ReportsTo" placeholder="Start typing a name...">
+                                    <option ng-repeat="manager in managers " value="{{manager}}">{{manager.Title}}</option>
+                                </select>
+
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div>
+                            <md-autocomplete md-selected-item="selectedItem"
+                                             md-search-text-change="ctrl.searchTextChange(searchText)"
+                                             md-search-text="searchText"
+                                             md-selected-item-change="selectedItemChange(item)"
+                                             md-items="item in querySearch(searchText)"
+                                             md-item-text="item.Title"
+                                             md-min-length="0"
+                                             placeholder="What is your manager?">
+                                <md-item-template>
                         </div>
                     </div>
                     <div class="row">

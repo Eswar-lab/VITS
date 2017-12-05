@@ -21,31 +21,43 @@
         }
 
         AppServiceFactory.GetListByTitle = function (libraryUrl) {
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var scriptbase = hostUrl + "/_layouts/15/";
-            $.getScript(scriptbase + "SP.RequestExecutor.js", function () {
-                var executor = new SP.RequestExecutor(appUrl);
-                executor.executeAsync(
-                    { 
-                        url:
-                        appUrl +
-                        "/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items?@target='" + hostUrl + "'",
-                        method: "GET",
-                        headers: { "Accept": "application/json; odata=verbose" },
-                        success: function(data) {
-                            var jsonObject = JSON.parse(data.body);
-                            var announcementsHTML = "";
 
-                            var results = jsonObject.d.results;
+            var deferred = $q.defer();
+            try {
+                var hostUrl = SharePointOnlineService.GetHostWebUrl();
+                var appUrl = SharePointOnlineService.GetAppWebUrl();
+                var scriptbase = hostUrl + "/_layouts/15/";
+                $.getScript(scriptbase + "SP.RequestExecutor.js", function () {
+                    var executor = new SP.RequestExecutor(appUrl);
+                    executor.executeAsync(
+                        {
+                            //url: appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff%20Leave%20Manager')/users?@target=%27" + hostUrl + "%27",
+                            url: libraryUrl,
+                            //url:
 
-                        },
-                        error: function(data, errorCode, errorMessage) {
-                            console.log(errorMessage);
+                            //appUrl +
+                            //"/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items?@target='" + hostUrl + "'",
+                            method: "GET",
+                            headers: { "Accept": "application/json; odata=verbose" },
+                            success: function (data) {
+                                var jsonObject = JSON.parse(data.body);
+                                var announcementsHTML = "";
+
+                                var results = jsonObject.d.results;
+                                deferred.resolve(results);
+                            },
+                            error: function (data, errorCode, errorMessage) {
+                                console.log(errorMessage);
+                                deferred.resolve(data);
+                            }
                         }
-                    }
-                );
-            });
+                    );
+                });
+            } catch (err) {
+                deferred.reject(err);
+
+            }
+            return deferred.promise;
         }
 
         function execCrossDomainRequest() {

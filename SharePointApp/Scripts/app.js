@@ -1,5 +1,23 @@
-﻿(function () {
+﻿
+
+
+
+(function () {
     'use strict';
+    
+    //var d = new Date();
+    //var n = d.getTime();
+    //$('<link />', {
+    //    rel: 'stylesheet',
+    //    type: 'text/css',
+    //    href: 'https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css' + n
+    //}).prependTo('head');
+
+    //$('<script />', {
+
+    //    type: 'text/javascript',
+    //    src: 'https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js' + n
+    //}).prependTo('head');
 
     var app = angular.module('SharePointOnlineApp', [
         // Angular modules 
@@ -12,7 +30,8 @@
         'smart-table'
     ]);
 
-    
+   
+
     app.config(config);
 
     config.$inject = ['$routeProvider', '$locationProvider', '$localStorageProvider','$sceProvider'];
@@ -34,3 +53,5 @@
 
     }
 })();
+
+
