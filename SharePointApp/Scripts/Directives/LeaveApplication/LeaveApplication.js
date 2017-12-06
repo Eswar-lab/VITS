@@ -141,17 +141,10 @@
         }
 
         $scope.newLeaveApplication_Click = function () {
-            //ListService.GetListByTitle("");
-            if ($scope.managers.length == 0) {
-                ListService.GetListByTitle(manageUrl).then(function (data) {
-                    console.log(data);
-                    $scope.managers = data;
-                }, function (err) {
-                    console.log(err);
-
-                });
-            }
-            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
+          
+            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData().then(function (data) {
+                $scope.selectedLeaveApplication = data;
+            });
             $('#modalLeaveApplication').modal('show');
         }
 

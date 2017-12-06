@@ -276,29 +276,42 @@
 
 
         AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
-           // AppServiceFactory.LeaveApplication_getUserProperties();
-            return {
+            var deferred = $q.defer();
+            AppServiceFactory.LoadUserProfile().then(function (data) {
+                console.log(data);
                 
-                'EmployeeEmail': _spPageContextInfo.userLoginName,
-                'EmployeeSurname': 'nidhi',
-                'EmployeeFirstname': 'Mishra',
-                'EmployeeID': 'E001',
-                'Department': 'IT',
-                'Designation': 'Consultant',
-                'ReportsTo': 'arjun@vit.edu.au',
-                'LeaveType': '3',
-                'PayrollCode': 'P123',
-                'LeaveCategory': 'WithCertificate',
-                'StartDate': new Date(2017, 11, 10),
-                'ReturnDate': new Date(2017, 11, 15),
-                'SupportingFiles': {},
-                'TotalDays': '5',
-                'ActualLeaveChecked': true,
-                'ActualLeave': '4.5',
-                'Remarks': 'My remarks are remarkable',
-                'Status': 'Draft',
-                'RejectionReason': ''
-            };
+                var userPro = data.userProfileProperties;
+                
+                var userObj =  {
+
+                    'EmployeeEmail': userPro.UserName,
+                    'EmployeeSurname': userPro.LastName,
+                    'EmployeeFirstname': userPro.FirstName,
+                    'EmployeeID': undefined,
+                    'Department': userPro.Department
+,
+                    'Designation': userPro.Title,
+                    'ReportsTo': undefined,
+                    'LeaveType': undefined,
+                    'PayrollCode': undefined,
+                    'LeaveCategory': undefined,
+                    'StartDate': undefined,
+                    'ReturnDate': undefined,
+                    'SupportingFiles': {},
+                    'TotalDays': undefined,
+                    'ActualLeaveChecked': false,
+                    'ActualLeave': undefined,
+                    'Remarks': 'My remarks are remarkable',
+                    'Status': 'Draft',
+                    'RejectionReason': undefined
+                };
+                 deferred.resolve(userObj);
+            }, function (err) {
+                console.log(err);
+                deferred.resolve(null);
+            });
+            return deferred.promise;
+           
         }
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
