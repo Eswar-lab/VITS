@@ -232,12 +232,57 @@
             }
         }
 
+        /* LoadUserProfile */
+        AppServiceFactory.LoadUserProfile = function () {
+            var deferred = $q.defer();
+
+            var profileData = null;
+
+            try {
+                // Data not cached
+                AppServiceFactory.SPSODAction(["sp.js", "SP.UserProfiles.js"],
+                    function () {
+                        // Get the current client context and PeopleManager instance.
+                        var clientContext = new SP.ClientContext.get_current();
+                        var peopleManager = new SP.UserProfiles.PeopleManager(clientContext);
+
+                        var personProperties = peopleManager.getMyProperties();
+                        // Load the PersonProperties object and send the request.
+                        clientContext.load(personProperties);
+                        clientContext.executeQueryAsync(
+                            Function.createDelegate(this, function () {
+                                try {
+                                    profileData = {
+                                        userProfileProperties: personProperties.get_userProfileProperties(),
+                                        userUrl: personProperties.get_userUrl()
+                                    };
+
+                                    console.log("userUrl: " + profileData.userUrl);
+                                   
+                                }
+                                catch (err) {
+                                    deferred.resolve(null);
+                                }
+                                deferred.resolve(profileData);
+                            }),
+                            Function.createDelegate(this, function (err, message) { deferred.reject(err, message); }));
+                    });
+            }
+            catch (err) {
+                deferred.resolve(null);
+            }
+            return deferred.promise;
+        }
+
+
         AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
+           // AppServiceFactory.LeaveApplication_getUserProperties();
             return {
-                'EmployeeEmail': 'shailen@vit.edu.au',
-                'EmployeeSurname': 'Sukul',
-                'EmployeeFirstname': 'Shailen',
-                'EmployeeID': '3456',
+                
+                'EmployeeEmail': _spPageContextInfo.userLoginName,
+                'EmployeeSurname': 'nidhi',
+                'EmployeeFirstname': 'Mishra',
+                'EmployeeID': 'E001',
                 'Department': 'IT',
                 'Designation': 'Consultant',
                 'ReportsTo': 'arjun@vit.edu.au',
