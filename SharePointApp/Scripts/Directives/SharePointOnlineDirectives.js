@@ -1,6 +1,6 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('SharePointOnlineDirectives', ['SharePointOnlineServices']);
+    var app = angular.module('SharePointOnlineDirectives', ['SharePointOnlineServices','ngMaterial']);
 
 })();

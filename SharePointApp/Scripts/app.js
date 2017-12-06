@@ -1,9 +1,10 @@
 ﻿
 
+
+
 (function () {
     'use strict';
-
-
+   
 
     var app = angular.module('SharePointOnlineApp', [
         // Angular modules 
@@ -13,10 +14,11 @@
         'SharePointOnlineDirectives',
         'formly',
         'formlyBootstrap',
-        'smart-table'
+        'smart-table','ngMaterial'
     ]);
 
-    
+   
+
     app.config(config);
 
     config.$inject = ['$routeProvider', '$locationProvider', '$localStorageProvider','$sceProvider'];
@@ -38,3 +40,5 @@
 
     }
 })();
+
+

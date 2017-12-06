@@ -58,19 +58,7 @@
                         </div>
                        
                     </div>
-                    <div class="row">
-                        <div>
-                            <md-autocomplete md-selected-item="selectedItem"
-                                             md-search-text-change="ctrl.searchTextChange(searchText)"
-                                             md-search-text="searchText"
-                                             md-selected-item-change="selectedItemChange(item)"
-                                             md-items="item in querySearch(searchText)"
-                                             md-item-text="item.Title"
-                                             md-min-length="0"
-                                             placeholder="What is your manager?">
-                                <md-item-template>
-                        </div>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpLeaveType">Leave Type</label>
@@ -236,4 +224,12 @@
         </table>
     </div>
     <div id="validationErrors"></div>
+
+    <div class="row">
+        <div>
+            <md-autocomplete md-selected-item="selectedLeaveApplication.ReportsTo" md-search-text="searchText" md-items="item in getMatches(searchText) " md-item-text="item.Title">
+                <span md-highlight-text="searchText" ng-repeat="item in managers">{{item.Title}}</span>
+            </md-autocomplete>
+        </div>
+    </div>
 </section>

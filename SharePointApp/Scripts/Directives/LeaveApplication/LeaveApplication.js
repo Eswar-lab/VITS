@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('SharePointOnlineDirectives');
+    var app = angular.module('SharePointOnlineDirectives', ['ngMaterial'] );
     app.directive('spoLeaveapplication', function ($compile) {
         var scripts = document.getElementsByTagName("script")
         var currentScriptPath = scripts[scripts.length - 1].src;
@@ -20,10 +20,11 @@
             controller: Controller
         };
     });
-    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'ListService'];
-    function Controller($scope, SharePointOnlineService, $timeout, ListService) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'ListService', '$q'];
+    function Controller($scope, SharePointOnlineService, $timeout, ListService, $q) {
 
         var vm = this;
+        var searchData = [];
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
 
@@ -66,8 +67,45 @@
         }
         //auto complete
         //https://material.angularjs.org/latest/demo/autocomplete
+        $scope.getMatches = function (searchText) {
+            var deferred = $q.defer();
+            if ($scope.managers.length == 0) {
+                var hostUrl = SharePointOnlineService.GetHostWebUrl();
+                var appUrl = SharePointOnlineService.GetAppWebUrl();
+                var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
+
+                ListService.GetListByTitle(manageUrl).then(function (data) {
+                    console.log(data);
+                    searchData = [];
+                    data.forEach(function (item) {
+                        if (item.Email.includes(searchText)) {
+                            searchData.push(item);
+                        }
+                    });
+                    $scope.managers = data;
+                    deferred.resolve(searchData);
+
+                }, function (err) {
+                    console.log(err);
+                    return [];
+
+                });
+            } else {
+                searchData = [];
+                $scope.managers.forEach(function (item) {
+                    if (item.Email.includes(searchText)) {
+                        searchData.push(item);
+                    }
+                });
+                deferred.resolve(searchData);
+                
+            }
+            return deferred.promise;
+        };
 
 
+      
+        
 
         //end
 
@@ -103,17 +141,10 @@
         }
 
         $scope.newLeaveApplication_Click = function () {
-            //ListService.GetListByTitle("");
-            if ($scope.managers.length == 0) {
-                ListService.GetListByTitle(manageUrl).then(function (data) {
-                    console.log(data);
-                    $scope.managers = data;
-                }, function (err) {
-                    console.log(err);
-
-                });
-            }
-            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData();
+          
+            $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData().then(function (data) {
+                $scope.selectedLeaveApplication = data;
+            });
             $('#modalLeaveApplication').modal('show');
         }
 
