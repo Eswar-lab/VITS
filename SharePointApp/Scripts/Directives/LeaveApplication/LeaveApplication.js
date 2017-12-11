@@ -1,4 +1,5 @@
-﻿(function () {
+﻿
+(function () {
     'use strict';
 
     var app = angular.module('SharePointOnlineDirectives', ['ngMaterial'] );
@@ -27,6 +28,10 @@
         var searchData = [];
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
+        $scope.selectedLeaveApplication.LeaveType = undefined;
+
+        $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
+        $scope.payroll_code = [];
 
         $scope.LeaveApplicationData = {};
         $scope.title = 'Base Controller';
@@ -49,6 +54,15 @@
                 }
             }
         }
+        //Leave Type and PayCode
+        $scope.$watch('selectedLeaveApplication.LeaveType', function () {
+            $scope.leave_type.forEach(function (item) {
+                if (item.leave_type_code == $scope.selectedLeaveApplication.LeaveType) {
+                    $scope.payroll_code = item.paycodes;
+                    return;
+                }
+            });
+        });
 
         //constructor
         init();
@@ -141,7 +155,8 @@
         }
 
         $scope.newLeaveApplication_Click = function () {
-          
+            //ListService.GetListByTitle("");
+
             $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData().then(function (data) {
                 $scope.selectedLeaveApplication = data;
             });
