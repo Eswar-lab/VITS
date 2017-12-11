@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('SharePointOnlineDirectives', ['ngMaterial'] );
+    var app = angular.module('SharePointOnlineDirectives', ['ngMaterial']);
     app.directive('spoLeaveapplication', function ($compile) {
         var scripts = document.getElementsByTagName("script")
         var currentScriptPath = scripts[scripts.length - 1].src;
@@ -25,10 +25,12 @@
 
         var vm = this;
         var searchData = [];
+        $scope.applications = [];
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
 
-        $scope.LeaveApplicationData = {};
+        $scope.LeaveApplicationData = [];
+        $scope.FilterLeaveApplications = [];
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
 
@@ -52,7 +54,7 @@
 
         //constructor
         init();
-        function init(){
+        function init() {
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
             var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
@@ -64,6 +66,22 @@
                 console.log(err);
 
             });
+
+            //var applicationUrl = appUrl + "/_api/SP.AppContextSite(@target) /web/lists / getbytitle('Staff Leave Application') / items ?@target='" + hostUrl + "%27";
+
+            //ListService.GetListByTitle(applicationUrl).then(function (data) {
+            //    console.log(data);
+            //    //$scope.LeaveApplicationData = data;
+            //}, function (err) {
+            //    console.log(err);
+            //    });
+
+            //load application data
+            SharePointOnlineService.LeaveApplication_LoadUserData("Draft").then(function (data) {
+                console.log(data);
+                $scope.LeaveApplicationData = data;
+            })
+
         }
         //auto complete
         //https://material.angularjs.org/latest/demo/autocomplete
@@ -98,14 +116,14 @@
                     }
                 });
                 deferred.resolve(searchData);
-                
+
             }
             return deferred.promise;
         };
 
 
-      
-        
+
+
 
         //end
 
@@ -118,10 +136,21 @@
         var wpId = SharePointOnlineService.GetURLParameters("wpId");
         var cacheKey = 'VIT_LeaveApplication_' + wpId
 
-        $scope.GetLeaveApplications = function () {
-            // the start date will be passed in the querystring, ex? startDate = ''
-            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, 'Pending');
-        }
+
+        //function GetLeaveApplications () {
+        //    // the start date will be passed in the querystring, ex? startDate = ''
+        //      //url: appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff%20Leave%20Manager')/users?@target=%27" + hostUrl + "%27",
+        //    var hostUrl = SharePointOnlineService.GetHostWebUrl();
+        //    var appUrl = SharePointOnlineService.GetAppWebUrl();
+        //   // " + hostUrl + "'",
+
+        //    var applicationUrl = appUrl + "/_api/SP.AppContextSite(@target) /web/lists / getbytitle('Staff Leave Application') / items ?@target='" + hostUrl + "%27";
+
+        //    $scope.LeaveApplicationData = ListService.GetListByTitle(applicationUrl).then(function () {
+        //        console.log(data);
+
+        //    });
+        //}
 
         $scope.ClearCacheAndSearch = function (event) {
             if (event != null) {
@@ -132,16 +161,25 @@
 
         $scope.filterData = function ($event, filter) {
             $event.preventDefault();
-            $scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);        
+            //$scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);
+
+
+            $scope.FilterLeaveApplications = [];
+            $scope.LeaveApplicationData.forEach(function (item) {
+                if (item.Status == filter) {
+                    $scope.FilterLeaveApplications.push(item);
+                }
+                
+            });
 
         }
         $scope.ActualLeaveToggle = function (event) {
             document.getElementById("inpActualLeave").readOnly = !event.target.checked;
-            document.getElementById("inpActualLeave").focus(); 
+            document.getElementById("inpActualLeave").focus();
         }
 
         $scope.newLeaveApplication_Click = function () {
-          
+
             $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData().then(function (data) {
                 $scope.selectedLeaveApplication = data;
             });
@@ -153,23 +191,33 @@
         }
 
         $scope.SaveLeaveApplication = function () {
+            $scope.selectedLeaveApplication.Status="Draft";
             console.log("Saving leave application");
             console.log($scope.selectedLeaveApplication.ReportsTo);
-            //SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
-            //files = $scope.selectedLeaveApplication.SupportingFiles;
+            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            files = $scope.selectedLeaveApplication.SupportingFiles;
+            $('#modalLeaveApplication').modal('hide');
+        }
+        $scope.SubmitLeaveApplication = function () {
+            $scope.selectedLeaveApplication.Status = "Pending";
+            console.log("Saving leave application");
+            console.log($scope.selectedLeaveApplication.ReportsTo);
+            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            files = $scope.selectedLeaveApplication.SupportingFiles;
             $('#modalLeaveApplication').modal('hide');
         }
         $scope.View = SharePointOnlineService.GetURLParameters("View");
-        $scope.GetLeaveApplications();
+        //$scope.GetLeaveApplications();
         $("#ppReportsTo").typeahead({
             source: SharePointOnlineService.LeaveApplication_Get_Approvers(),
-            autoSelect: true});
+            //autoSelect: trueFFF
+        });
         $('#userTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
         });
 
-       // alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
-       // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
+        // alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
+        // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
     }
 })();

@@ -163,34 +163,34 @@
             ];
         }
 
-        function CreateFakeLeaveData(status) {
-            return {
-                'EmployeeEmail': 'khang@vit.edu.au',
-                'EmployeeSurname': 'Khang',
-                'EmployeeFirstname': 'Cao',
-                'EmployeeID': '1234',
-                'Department': 'Moodle',
-                'Designation': 'Web Developer',
-                'ReportsTo': 'Aaron@vit.edu.au',
-                'LeaveType': 'Sick Leave',
-                'PayrollCode': 'SIC',
-                'LeaveCategory': 'WithCertificate',
-                'StartDate': '12-Nov-2017',
-                'ReturnDate': '15-Nov-2017',
-                'TotalDays': '3',
-                'ActualLeaveChecked': 'false',
-                'ActualLeave': '0',
-                'Status': status,
-                'RejectionReason': 'Please attach sick certificate'
-            };
-        }
+        //function CreateFakeLeaveData(status) {
+        //    return {
+        //        'EmployeeEmail': 'khang@vit.edu.au',
+        //        'EmployeeSurname': 'Khang',
+        //        'EmployeeFirstname': 'Cao',
+        //        'EmployeeID': '1234',
+        //        'Department': 'Moodle',
+        //        'Designation': 'Web Developer',
+        //        'ReportsTo.email': 'Aaron@vit.edu.au',
+        //        'LeaveType': 'Sick Leave',
+        //        'PayrollCode': 'SIC',
+        //        'LeaveCategory': 'WithCertificate',
+        //        'StartDate': '12-Nov-2017',
+        //        'ReturnDate': '15-Nov-2017',
+        //        'TotalDays': '3',
+        //        'ActualLeaveChecked': 'false',
+        //        'ActualLeave': '0',
+        //        'Status': status,
+        //        'RejectionReason': 'Please attach sick certificate'
+        //    };
+        //}
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
             return [{ id: "someId1", name: "Display name 1" },
             { id: "someId2", name: "Display name 2" }];
         }
 
-        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
+          AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
             //... Nidhi's code will go here > JSOM
             var listTitle = "Staff Leave Application";
 
@@ -206,6 +206,17 @@
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.set_item('DepartmentName', data.Department);
+            oListItem.set_item('Designation', data.Designation);
+            oListItem.set_item('ReportTo', data.ReportsTo.email);
+           // oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('PRCODE', data.PayrollCode);
+            oListItem.set_item('LeaveCategory', data.LeaveCategory);
+            oListItem.set_item('Firstdayofleave', data.StartDate);
+            oListItem.set_item('Lastdayofleave', data.ReturnDate);
+            oListItem.set_item('Totalnumberofdays', data.TotalDays);
+            oListItem.set_item('Status', data.Status);
+          //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
             appcontext.executeQueryAsync(
@@ -213,13 +224,108 @@
                 LeaveApplication_SaveOrCreateData_onQueryItemFailed);
         }
 
-        function LeaveApplication_SaveOrCreateData_onQueryItemSucceeded() {
-            alert('Item created: ' + oListItem.get_id());
+          function LeaveApplication_SaveOrCreateData_onQueryItemSucceeded(sender, args) {
+            alert('Item created: ');
         }
 
         function LeaveApplication_SaveOrCreateData_onQueryItemFailed(sender, args) {
             alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
         }
+
+
+        AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
+            
+            var deffer = $q.defer();
+            var listTitle = "Staff Leave Application";
+
+            ///This function will filter data in Staff Leave Application list with status column
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var oList = hostweb.get_lists().getByTitle(listTitle);
+            var camlQuery = new SP.CamlQuery();
+
+            var camlQ = '<View><Query><Where><Eq><FieldRef Name="Status" /><Value Type="Choice">' + Status + '</Value></Eq></Where></Query></View>';
+            camlQuery.set_viewXml(camlQ);
+            var collListItem = oList.getItems(camlQuery);
+            appcontext.load(collListItem);
+            appcontext.executeQueryAsync(function () {
+                try {
+                    var data = [];
+
+                    var listItemInfo = '';
+                    var listItemEnumerator = collListItem.getEnumerator();
+                    while (listItemEnumerator.moveNext()) {
+                        var oListItem = listItemEnumerator.get_current();
+                        listItemInfo = oListItem.get_id();
+                        var FirstName = oListItem.get_item('FirstName');
+                       // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
+                       // var LastName = oListItem.get_item('LastName'); //Column Names
+                        var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
+                        
+                        //data[0].get_fieldValues().Status
+                        var obj = {
+                            'EmployeeEmail': FirstName,
+                            'EmployeeSurname': oListItem.get_fieldValues().LastName,
+                            'EmployeeFirstname': oListItem.get_fieldValues().FirstName,
+                            'EmployeeID': undefined,
+                            'Department': oListItem.get_fieldValues().Title,
+                            'Designation': oListItem.get_fieldValues().Status,
+                            'ReportsTo': undefined,
+                            'LeaveType': undefined,
+                            'PayrollCode': undefined,
+                            'LeaveCategory': undefined,
+                            'StartDate': undefined,
+                            'ReturnDate': undefined,
+                            'TotalDays': undefined,
+                            'ActualLeaveChecked': 'false',
+                            'ActualLeave': '0',
+                            // 'Status': oListItem.get_fieldValues().Status,
+                            'RejectionReason': undefined
+                        };
+                        data.push(obj);
+                    }
+                    console.log(collListItem);
+                    console.log(data);
+                    deffer.resolve(data);
+                } catch (err) {
+                    deffer.reject(err);
+                }
+                },
+               function (sender, args) {
+                    alert('Request failed. ' + args.get_message() +
+                        '\n' + args.get_stackTrace());
+                    deffer.reject(sender);
+                }
+            );
+            return deffer.promise;
+        
+        }
+
+        function LeaveApplication_LoadUserData_onQueryItemSucceeded() {
+
+            var listItemInfo = '';
+            var listItemEnumerator = collListItem.getEnumerator();
+            while (listItemEnumerator.moveNext()) {
+                var oListItem = listItemEnumerator.get_current();
+                listItemInfo = oListItem.get_id();
+                var FirstName = oListItem.get_item('FirstName');
+               // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
+              //  var LastName = oListItem.get_item('LastName'); //Column Names
+               // var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
+                //In above code get the column values and create html table by filling above column values
+            }
+        }
+
+        function LeaveApplication_LoadUserData_onQueryItemFailed(sender, args) {
+            alert('Request failed. ' + args.get_message() +
+                '\n' + args.get_stackTrace());
+        }
+
+
 
         function getQueryStringParameter(paramToRetrieve) {
             var params =
@@ -287,9 +393,9 @@
                     'EmployeeEmail': userPro.UserName,
                     'EmployeeSurname': userPro.LastName,
                     'EmployeeFirstname': userPro.FirstName,
-                    'EmployeeID': undefined,
-                    'Department': userPro.Department
-,
+                    'EmployeeID': userPro.EmployeeId,
+                    'Department': userPro.Department,
+
                     'Designation': userPro.Title,
                     'ReportsTo': undefined,
                     'LeaveType': undefined,
@@ -316,7 +422,7 @@
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
             obj = [];
-            obj.push(CreateFakeLeaveData(filter));
+            //obj.push(CreateFakeLeaveData(filter));
 
             return obj;
 

@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpDepartment">Department</label>
-                            <input type="text" class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
+                            <input type="text" readonly class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
                         </div>
                     </div>
                     <div class="row">
@@ -82,8 +82,11 @@
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
-                            <input type="text" class="form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
-                        </div>
+                            <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
+                                <option selected value="1">With Certificate</option>
+                                <option value="2">WithOut Certificate</option>
+                            </select>
+</div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 form-group">
@@ -176,7 +179,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="data in LeaveApplicationData">
+                <tr ng-repeat="data in FilterLeaveApplications">
                     <td>{{data.EmployeeEmail}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
@@ -213,7 +216,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tr ng-repeat="data in LeaveApplicationData">
+            <tr ng-repeat="data in FilterLeaveApplications">
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
