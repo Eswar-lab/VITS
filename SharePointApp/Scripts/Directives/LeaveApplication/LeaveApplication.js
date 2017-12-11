@@ -204,6 +204,7 @@
             document.getElementById("inpFile").value = "";
         }
 
+        
         $scope.SaveLeaveApplication = function () {
             $scope.selectedLeaveApplication.Status="Draft";
             console.log("Saving leave application");

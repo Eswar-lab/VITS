@@ -268,7 +268,7 @@
                         
                         //data[0].get_fieldValues().Status
                         var obj = {
-                            'EmployeeEmail': FirstName,
+                            'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
                             'EmployeeSurname': oListItem.get_fieldValues().LastName,
                             'EmployeeFirstname': oListItem.get_fieldValues().FirstName,
                             'EmployeeID': undefined,
