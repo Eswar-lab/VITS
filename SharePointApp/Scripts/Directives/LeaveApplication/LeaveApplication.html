@@ -139,6 +139,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
@@ -177,7 +178,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="data in FilterLeaveApplications">
+                <tr ng-repeat="data in LeaveApplicationData">
                     <td>{{data.EmployeeEmail}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>

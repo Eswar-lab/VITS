@@ -57,9 +57,9 @@ const LEAVE_TYPE_PAYROLL_CODE = [
         leave_type_code: 'LOP',
         leave_type_text: 'Loss Of Pay',
         paycodes: [
-            'P1',
-            'P2',
-            'P3'
+            'P4',
+            'P5',
+            'P6'
         ]
 
     },
