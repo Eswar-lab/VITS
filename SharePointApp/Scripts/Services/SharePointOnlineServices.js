@@ -291,6 +291,7 @@
                         //alert(remark);
                        
                         //data[0].get_fieldValues().Status
+                        var remarkStr = $(oListItem.get_fieldValues().Remarks).text();;
                         var obj = {
                             'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
                            
@@ -305,8 +306,8 @@
                             'TotalDays': undefined,
                             'ActualLeaveChecked': 'false',
                             'ActualLeave': '0',
-                            // 'Status': oListItem.get_fieldValues().Status,
-                            'RejectionReason': undefined
+                            'Status': oListItem.get_fieldValues().Status,
+                            'RejectionReason': remarkStr
                         };
                         data.push(obj);
                     }
