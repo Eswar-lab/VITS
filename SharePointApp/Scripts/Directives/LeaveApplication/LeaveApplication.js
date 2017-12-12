@@ -94,8 +94,11 @@
             SharePointOnlineService.LeaveApplication_LoadUserData("Draft").then(function (data) {
                 console.log(data);
                 $scope.LeaveApplicationData = data;
-            })
-
+            });
+            //SharePointOnlineService.LeaveApplication_LoadUserData("Pending").then(function (data) {
+            //    console.log(data);
+            //    $scope.LeaveApplicationData = data;
+            //});
         }
         //auto complete
         //https://material.angularjs.org/latest/demo/autocomplete
@@ -217,7 +220,7 @@
             $scope.selectedLeaveApplication.Status = "Pending";
             console.log("Saving leave application");
             console.log($scope.selectedLeaveApplication.ReportsTo);
-            SharePointOnlineService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication);
+            SharePointOnlineService.LeaveApplication_SubmitLeaveApplication($scope.selectedLeaveApplication);
             files = $scope.selectedLeaveApplication.SupportingFiles;
             $('#modalLeaveApplication').modal('hide');
         }
