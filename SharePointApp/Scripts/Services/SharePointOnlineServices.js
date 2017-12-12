@@ -163,27 +163,7 @@
             ];
         }
 
-        //function CreateFakeLeaveData(status) {
-        //    return {
-        //        'EmployeeEmail': 'khang@vit.edu.au',
-        //        'EmployeeSurname': 'Khang',
-        //        'EmployeeFirstname': 'Cao',
-        //        'EmployeeID': '1234',
-        //        'Department': 'Moodle',
-        //        'Designation': 'Web Developer',
-        //        'ReportsTo.email': 'Aaron@vit.edu.au',
-        //        'LeaveType': 'Sick Leave',
-        //        'PayrollCode': 'SIC',
-        //        'LeaveCategory': 'WithCertificate',
-        //        'StartDate': '12-Nov-2017',
-        //        'ReturnDate': '15-Nov-2017',
-        //        'TotalDays': '3',
-        //        'ActualLeaveChecked': 'false',
-        //        'ActualLeave': '0',
-        //        'Status': status,
-        //        'RejectionReason': 'Please attach sick certificate'
-        //    };
-        //}
+        
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
             return [{ id: "someId1", name: "Display name 1" },
@@ -248,7 +228,7 @@
             var oList = hostweb.get_lists().getByTitle(listTitle);
             var camlQuery = new SP.CamlQuery();
 
-            var camlQ = '<View><Query><Where><Eq><FieldRef Name="Status" /><Value Type="Choice">' + Status + '</Value></Eq></Where></Query></View>';
+            var camlQ = '<View><Query><Where></Where></Query></View>';
             camlQuery.set_viewXml(camlQ);
             var collListItem = oList.getItems(camlQuery);
             appcontext.load(collListItem);
@@ -273,7 +253,7 @@
                             'EmployeeFirstname': oListItem.get_fieldValues().FirstName,
                             'EmployeeID': undefined,
                             'Department': oListItem.get_fieldValues().Title,
-                            'Designation': oListItem.get_fieldValues().Status,
+                            'Designation': undefined,
                             'ReportsTo': undefined,
                             'LeaveType': undefined,
                             'PayrollCode': undefined,
@@ -283,7 +263,7 @@
                             'TotalDays': undefined,
                             'ActualLeaveChecked': 'false',
                             'ActualLeave': '0',
-                            // 'Status': oListItem.get_fieldValues().Status,
+                            'Status': oListItem.get_fieldValues().Status,
                             'RejectionReason': undefined
                         };
                         data.push(obj);

@@ -30,12 +30,14 @@
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
         $scope.selectedLeaveApplication.LeaveType = undefined;
+        $scope.selectedLeaveApplication.pallroll_code = undefined;
+        $scope.selectedLeaveApplication.enable_leave_category = false;
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
 
         $scope.LeaveApplicationData = [];
-        $scope.FilterLeaveApplications = [];
+        $scope.FilterLeaveApplicationData = [];
         $scope.title = 'Base Controller';
         $scope.username = _spPageContextInfo.userDisplayName;
 
@@ -58,12 +60,9 @@
         }
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
-            $scope.leave_type.forEach(function (item) {
-                if (item.leave_type_code == $scope.selectedLeaveApplication.LeaveType) {
-                    $scope.payroll_code = item.paycodes;
-                    return;
-                }
-            });
+            var obj = JSON.parse($scope.selectedLeaveApplication.LeaveType);
+            $scope.selectedLeaveApplication.pallroll_code = obj.leave_type_code;
+            $scope.selectedLeaveApplication.enable_leave_category = obj.enable_leave_category;
         });
 
         //constructor
@@ -81,19 +80,20 @@
 
             });
 
-            //var applicationUrl = appUrl + "/_api/SP.AppContextSite(@target) /web/lists / getbytitle('Staff Leave Application') / items ?@target='" + hostUrl + "%27";
-
-            //ListService.GetListByTitle(applicationUrl).then(function (data) {
-            //    console.log(data);
-            //    //$scope.LeaveApplicationData = data;
-            //}, function (err) {
-            //    console.log(err);
-            //    });
+       
 
             //load application data
-            SharePointOnlineService.LeaveApplication_LoadUserData("Draft").then(function (data) {
+            SharePointOnlineService.LeaveApplication_LoadUserData().then(function (data) {
                 console.log(data);
                 $scope.LeaveApplicationData = data;
+                $scope.FilterLeaveApplicationData = [];
+                //draft status by default
+                $scope.LeaveApplicationData.forEach(function (item) {
+                    if (item.Status == 'Draft') {
+                        $scope.FilterLeaveApplicationData.push(item);
+                    }
+                });
+
             })
 
         }
@@ -151,20 +151,7 @@
         var cacheKey = 'VIT_LeaveApplication_' + wpId
 
 
-        //function GetLeaveApplications () {
-        //    // the start date will be passed in the querystring, ex? startDate = ''
-        //      //url: appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff%20Leave%20Manager')/users?@target=%27" + hostUrl + "%27",
-        //    var hostUrl = SharePointOnlineService.GetHostWebUrl();
-        //    var appUrl = SharePointOnlineService.GetAppWebUrl();
-        //   // " + hostUrl + "'",
-
-        //    var applicationUrl = appUrl + "/_api/SP.AppContextSite(@target) /web/lists / getbytitle('Staff Leave Application') / items ?@target='" + hostUrl + "%27";
-
-        //    $scope.LeaveApplicationData = ListService.GetListByTitle(applicationUrl).then(function () {
-        //        console.log(data);
-
-        //    });
-        //}
+      
 
         $scope.ClearCacheAndSearch = function (event) {
             if (event != null) {
@@ -178,12 +165,12 @@
             //$scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);
 
 
-            $scope.FilterLeaveApplications = [];
+            $scope.FilterLeaveApplicationData = [];
+            //draft status by default
             $scope.LeaveApplicationData.forEach(function (item) {
                 if (item.Status == filter) {
-                    $scope.FilterLeaveApplications.push(item);
+                    $scope.FilterLeaveApplicationData.push(item);
                 }
-                
             });
 
         }
@@ -232,7 +219,6 @@
             $(this).tab('show');
         });
 
-        // alert("Host URL: " + SharePointOnlineService.GetHostWebUrl());
-        // alert("App URL: " + SharePointOnlineService.GetAppWebUrl());
+    
     }
 })();
