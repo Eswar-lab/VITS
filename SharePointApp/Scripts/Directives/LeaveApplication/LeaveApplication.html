@@ -180,7 +180,7 @@
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
                     <td>{{data.ReportsTo}}</td>
-                    <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
+                    <td>{{data.RejectionReason}}></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'">Delete</button></td>
                 </tr>
