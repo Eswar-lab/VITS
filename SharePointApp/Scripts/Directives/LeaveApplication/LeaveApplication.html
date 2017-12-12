@@ -65,7 +65,7 @@
                             <label for="inpLeaveType">Leave Type</label>
                             <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
                                
-                                <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
+                                <option ng-repeat="item in leave_type"  value="{{item}}">{{item.leave_type_text}}</option>
 
                             </select>
                         </div>
@@ -73,17 +73,13 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpPayrollCode">Payroll Code</label>
-                            <!--<input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode">-->
-                            <select class="custom-select form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode">
-                                <option ng-repeat="item in payroll_code" value="{{item}}">{{item}}</option>
-                            </select>
-
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.pallroll_code" disabled>
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
-                            <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
-                                <option selected value="1">With Certificate</option>
-                                <option value="2">WithOut Certificate</option>
+                            <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory" >
+                                <option selected value="1" ng-if="selectedLeaveApplication.enable_leave_category">With Certificate</option>
+                                <option value="2" ng-if="selectedLeaveApplication.enable_leave_category">WithOut Certificate</option>
                             </select>
 </div>
                     </div>
@@ -160,8 +156,8 @@
         </div>
         <br />
         <ul id="userTabs" class="nav nav-tabs nav-justified">
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Draft')">Draft</a></li>
-            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Draft')">Draft</a></li>
+            <li role="presentation" ><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
@@ -179,7 +175,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="data in LeaveApplicationData">
+                <tr ng-repeat="data in FilterLeaveApplicationData">
                     <td>{{data.EmployeeEmail}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
@@ -227,12 +223,4 @@
         </table>
     </div>
     <div id="validationErrors"></div>
-
-    <div class="row">
-        <div>
-            <md-autocomplete md-selected-item="selectedLeaveApplication.ReportsTo" md-search-text="searchText" md-items="item in getMatches(searchText) " md-item-text="item.Title">
-                <span md-highlight-text="searchText" ng-repeat="item in managers">{{item.Title}}</span>
-            </md-autocomplete>
-        </div>
-    </div>
 </section>
