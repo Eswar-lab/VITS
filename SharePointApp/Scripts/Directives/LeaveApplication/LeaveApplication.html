@@ -145,7 +145,7 @@
     </div>
 
     <!-- User View -->
-    <div class="panel panel-primary" ng-show="View == 'UserView'">
+    <div class="panel panel-primary" ng-show="stage.view == 'UserView'">
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications for {{username}}</div>
         <div class="panel-body">
@@ -189,14 +189,14 @@
     </div>
 
     <!-- Manager View -->
-    <div class="panel panel-default" ng-show="View == 'ManagerView'">
+    <div class="panel panel-default" ng-show="stage.view == 'ManagerView'">
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
         <ul class="nav nav-pills">
-            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
@@ -212,13 +212,13 @@
                     <th></th>
                 </tr>
             </thead>
-            <tr ng-repeat="data in FilterLeaveApplications">
+            <tr ng-repeat="data in FilterLeaveApplicationData">
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
                 <td>{{data.ReportsTo}}</td>
-                <td><button type="button" class="btn btn-sm btn-primary">Approve</button></td>
-                <td><button type="button" class="btn btn-sm btn-danger">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'">Approve</button></td>
+                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'">Reject</button></td>
             </tr>
         </table>
     </div>

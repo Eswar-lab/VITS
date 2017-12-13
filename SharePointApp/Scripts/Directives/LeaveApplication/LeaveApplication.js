@@ -26,6 +26,11 @@
 
         var vm = this;
         var searchData = [];
+        $scope.stage = {
+            view: '',
+            tab: ''
+        };
+
         $scope.applications = [];
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
@@ -44,6 +49,8 @@
         $scope.managers = [];
         $scope.SearchText = "*sharepoint*";
         $scope.ShowSpinner = false;
+
+        $scope.stage.view = SharePointOnlineService.GetURLParameters("View");
 
         function ShowSpinner() { $scope.ShowSpinner = true; }
         function HideSpinner() { $scope.ShowSpinner = false; }
@@ -89,9 +96,21 @@
                 $scope.FilterLeaveApplicationData = [];
                 //draft status by default
                 $scope.LeaveApplicationData.forEach(function (item) {
-                    if (item.Status == 'Draft') {
-                        $scope.FilterLeaveApplicationData.push(item);
+                    
+                    if ($scope.stage.view = 'UserView') {
+                        if (item.Status == 'Draft') {
+                            $scope.FilterLeaveApplicationData.push(item);
+                        }
+                        $scope.stage.tab = 'Draft';
+
                     }
+                    if ($scope.stage.view = 'ManagerView') {
+                        if (item.Status == 'Pending') {
+                            $scope.FilterLeaveApplicationData.push(item);
+                        }
+                        $scope.stage.tab = 'Pending';
+                    }
+
                 });
 
             })
@@ -162,11 +181,9 @@
 
         $scope.filterData = function ($event, filter) {
             $event.preventDefault();
-            //$scope.LeaveApplicationData = SharePointOnlineService.LeaveApplication_Get_UserData($scope.username, filter);
-
-
+            $scope.stage.tab = filter;
             $scope.FilterLeaveApplicationData = [];
-            //draft status by default
+         
             $scope.LeaveApplicationData.forEach(function (item) {
                 if (item.Status == filter) {
                     $scope.FilterLeaveApplicationData.push(item);
@@ -215,16 +232,18 @@
             files = $scope.selectedLeaveApplication.SupportingFiles;
             $('#modalLeaveApplication').modal('hide');
         }
-        $scope.View = SharePointOnlineService.GetURLParameters("View");
-        //$scope.GetLeaveApplications();
+     
+     
         $("#ppReportsTo").typeahead({
             source: SharePointOnlineService.LeaveApplication_Get_Approvers(),
             //autoSelect: trueFFF
         });
+
         $('#userTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
         });
+
 
     
     }
