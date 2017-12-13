@@ -179,6 +179,13 @@
             document.getElementById("inpActualLeave").focus();
         }
 
+        $scope.editLeaveApplication_Click = function (data) {
+
+            $scope.selectedLeaveApplication = data;
+
+            $('#modalLeaveApplication').modal('show');
+        }
+
         $scope.newLeaveApplication_Click = function () {
           
             $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_CreateNewLeaveData().then(function (data) {
