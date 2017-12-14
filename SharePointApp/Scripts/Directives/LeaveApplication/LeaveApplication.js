@@ -97,14 +97,14 @@
                 //draft status by default
                 $scope.LeaveApplicationData.forEach(function (item) {
                     
-                    if ($scope.stage.view = 'UserView') {
+                    if ($scope.stage.view == 'UserView') {
                         if (item.Status == 'Draft') {
                             $scope.FilterLeaveApplicationData.push(item);
                         }
                         $scope.stage.tab = 'Draft';
 
                     }
-                    if ($scope.stage.view = 'ManagerView') {
+                    if ($scope.stage.view == 'ManagerView') {
                         if (item.Status == 'Pending') {
                             $scope.FilterLeaveApplicationData.push(item);
                         }
