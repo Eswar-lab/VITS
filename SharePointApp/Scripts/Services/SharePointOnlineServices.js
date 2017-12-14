@@ -247,6 +247,7 @@
                         var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
                         
                         //data[0].get_fieldValues().Status
+                        var remarkStr = $(oListItem.get_fieldValues().Remarks).text();;
                         var obj = {
                             'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
                             'EmployeeSurname': oListItem.get_fieldValues().LastName,
@@ -264,7 +265,7 @@
                             'ActualLeaveChecked': 'false',
                             'ActualLeave': '0',
                             'Status': oListItem.get_fieldValues().Status,
-                            'RejectionReason': undefined
+                            'RejectionReason': remarkStr
                         };
                         data.push(obj);
                     }
