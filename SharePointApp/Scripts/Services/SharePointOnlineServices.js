@@ -183,15 +183,16 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
+            var leaveType = $(data.LeaveType).text();
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
-            oListItem.set_item('ReportTo', data.ReportsTo.email);
-           // oListItem.set_item('PayrollCode', data.LeaveType);
-            oListItem.set_item('PRCODE', data.PayrollCode);
-            oListItem.set_item('LeaveCategory', data.LeaveCategory);
+           // oListItem.set_item('ReportTo', data.ReportsTo);
+            oListItem.set_item('PRCODE', data.leaveType);
+            oListItem.set_item('PayrollCode', data.pallroll_code);
+          
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
@@ -234,9 +235,9 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            // oListItem.set_item('PayrollCode', data.LeaveType);
-            oListItem.set_item('PRCODE', data.PayrollCode);
-            oListItem.set_item('LeaveCategory', data.LeaveCategory);
+            //oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('LeaveType', data.LeaveCategory);
+           // oListItem.set_item('PRCODE', data.LeaveCategory);
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
@@ -257,6 +258,62 @@
         function LeaveApplication_SubmitLeaveApplication_onQueryItemFailed(sender, args) {
             alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
         }
+
+
+
+       
+
+        AppServiceFactory.LeaveApplication_DeleteLeaveApplication = function () { 
+            var listTitle = "Staff Leave Application";
+
+            ///This function will delete data in Staff Leave Application list
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+
+           var  olistitem = list.getItemById(2)
+           olistitem.deleteObject();
+
+            clientContext.executeQueryAsync(
+                Function.createDelegate(this, this.onQuerySucceeded),
+                Function.createDelegate(this, this.onQueryFailed)
+            );
+        }
+
+        function onQuerySucceeded() {
+            var result = listTitle + ' deleted.';
+            alert(result);
+        }
+
+        function onQueryFailed(sender, args) {
+            alert('Request failed. ' + args.get_message() +
+                '\n' + args.get_stackTrace());
+        }
+
+
+        function LeaveApplication_LoadUserData_onQueryItemSucceeded() {
+
+            var listItemInfo = '';
+            var listItemEnumerator = collListItem.getEnumerator();
+            while (listItemEnumerator.moveNext()) {
+                var oListItem = listItemEnumerator.get_current();
+                listItemInfo = oListItem.get_id();
+                var FirstName = oListItem.get_item('FirstName');
+                // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
+                //  var LastName = oListItem.get_item('LastName'); //Column Names
+                // var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
+                //In above code get the column values and create html table by filling above column values
+            }
+        }
+
+        function LeaveApplication_LoadUserData_onQueryItemFailed(sender, args) {
+            alert('Request failed. ' + args.get_message() +
+                '\n' + args.get_stackTrace());
+        }
+
 
 
         AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
@@ -289,27 +346,48 @@
                         listItemInfo = oListItem.get_id();
                         //var remark = oListItem.get_fieldValues().Remarks;
                         //alert(remark);
-                       
+
                         //data[0].get_fieldValues().Status
-                        var remarkStr = $(oListItem.get_fieldValues().Remarks).text();;
-                        var obj = {
-                            'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
-                           
-                            'Department': oListItem.get_fieldValues().Title,
-                            'Designation': oListItem.get_fieldValues().Status,
-                            'ReportsTo': undefined,
-                            'LeaveType': undefined,
-                            'PayrollCode': undefined,
-                            'LeaveCategory': undefined,
-                            'StartDate': oListItem.get_fieldValues().Firstdayofleave,
-                            'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
-                            'TotalDays': undefined,
-                            'ActualLeaveChecked': 'false',
-                            'ActualLeave': '0',
-                            'Status': oListItem.get_fieldValues().Status,
-                            'RejectionReason': remarkStr
+                        var remarkStr = undefined;
+                        var PRcodeObj = {
+                          leave_type_text : undefined,
+                          leave_type_code : undefined
+                        } 
+                    
+                        
+                     
+                        try {
+                            remarkStr   = $(oListItem.get_fieldValues().Remarks).text();
+                            PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRCODE);
+                        } catch (ex) {
+                            console.log(ex);
+                        }
+                            var obj = {
+                                'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
+                                'EmployeeID': oListItem.get_fieldValues().EmployeeID,
+                                'EmployeeSurname': oListItem.get_fieldValues().EmployeeSurname,
+                                'EmployeeFirstname': oListItem.get_fieldValues().FirstName,
+                                'Department': oListItem.get_fieldValues().DepartmentName,
+                                'Designation': oListItem.get_fieldValues().Designation,
+                                'ReportsTo': oListItem.get_fieldValues().ReportTo,
+                                'LeaveType': undefined,
+                                'PayrollCode': undefined,
+                                // 'LeaveCategory': oListItem.get_fieldValues().PayrollCode,
+                                'StartDate': oListItem.get_fieldValues().Firstdayofleave,
+                                'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
+                                'TotalDays': undefined,
+                                'ActualLeaveChecked': 'false',
+                                'ActualLeave': '0',
+                                'Status': oListItem.get_fieldValues().Status,
+                                'RejectionReason': remarkStr,
+                                'PRcode': PRcodeObj
                         };
-                        data.push(obj);
+                            if (PRcodeObj != null) {
+                                obj.LeaveType = PRcodeObj.leave_type_text;
+                                obj.PayrollCode = PRcodeObj.leave_type_code;
+                            }
+                            data.push(obj);
+                       
                     }
                     console.log(collListItem);
                     console.log(data);
