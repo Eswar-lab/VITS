@@ -196,6 +196,11 @@
             document.getElementById("inpActualLeave").focus();
         }
 
+        $scope.deleteLeaveApplication_Click = function (data) {
+            SharePointOnlineService.LeaveApplication_DeleteLeaveData(data);
+           
+        }
+
         $scope.editLeaveApplication_Click = function (data) {
 
             $scope.selectedLeaveApplication = data;

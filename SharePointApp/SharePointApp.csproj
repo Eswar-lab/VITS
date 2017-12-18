@@ -100,6 +100,7 @@
     <Content Include="Scripts\Services\DocumentSetService.js" />
     <Content Include="Scripts\Services\EnvironmentService.js" />
     <Content Include="Scripts\Services\ListService.js" />
+    <Content Include="Scripts\Services\modalTemplate.html" />
     <Content Include="Scripts\Services\SearchService.js" />
     <Content Include="Scripts\Services\SharePointOnlineServices.js" />
     <Content Include="Views\index.html" />
