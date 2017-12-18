@@ -460,7 +460,7 @@
 
             modalService.showModal({}, modalOptions).then(function (result) {
                 //Nidhi implement delete on click action here
-                alert("Nidhi implement delete on click action here" + result);
+                alert("Nidhi implement delete on click action here - result: " + result);
             });
         }
 
