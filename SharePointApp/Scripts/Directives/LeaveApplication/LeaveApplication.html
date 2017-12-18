@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
+                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()"data-dismiss="modal">Save</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpPayrollCode">Payroll Code</label>
-                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.pallroll_code" disabled>
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
