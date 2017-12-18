@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
+                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()"data-dismiss="modal">Save</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             <label for="ppReportsTo">Reports To</label>
                             <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
                             <select data-provide="typeahead" class="form-control" id="ppReportsTo"
-                                   ng-model="selectedLeaveApplication.ReportsTo" placeholder="Start typing a name...">
+                                   ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
                                     <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
                                 </select>
 
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpPayrollCode">Payroll Code</label>
-                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.pallroll_code" disabled>
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
@@ -179,7 +179,7 @@
                     <td>{{data.EmployeeEmail}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
-                    <td>{{data.ReportsTo}}</td>
+                    <td>{{data.ReportTo}}</td>
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
@@ -216,7 +216,7 @@
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
-                <td>{{data.ReportsTo}}</td>
+                <td>{{data.ReportTo}}</td>
                 <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'">Approve</button></td>
                 <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'">Reject</button></td>
             </tr>

@@ -183,19 +183,22 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
+            var leaveType = $(data.LeaveType).text();
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
-            oListItem.set_item('ReportTo', data.ReportsTo.email);
-           // oListItem.set_item('PayrollCode', data.LeaveType);
-            oListItem.set_item('PRCODE', data.PayrollCode);
-            oListItem.set_item('LeaveCategory', data.LeaveCategory);
+            oListItem.set_item('ReportTo', data.ReportTo);
+            oListItem.set_item('LeaveType', data.leaveType);
+            oListItem.set_item('PRCODE', data.leaveType);
+            //  oListItem.set_item('PayrollCode', data.pallroll_code);
+          
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
             oListItem.set_item('Status', data.Status);
+            oListItem.set_item('Remarks', data.Remarks);
           //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -211,6 +214,51 @@
         function LeaveApplication_SaveOrCreateData_onQueryItemFailed(sender, args) {
             alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
         }
+
+
+
+        AppServiceFactory.LeaveApplication_SubmitLeaveApplication = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var listTitle = "Staff Leave Application";
+
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = AppServiceFactory.GetHostWebUrl();
+            var appUrl = AppServiceFactory.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            var oListItem = list.addItem(itemCreateInfo);
+            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
+            oListItem.set_item('FirstName', data.EmployeeFirstname);
+            oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.set_item('DepartmentName', data.Department);
+            oListItem.set_item('Designation', data.Designation);
+            oListItem.set_item('ReportTo', data.ReportTo);
+            //oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('LeaveType', data.LeaveType.leave_type_text);
+           // oListItem.set_item('PRCODE', data.LeaveCategory);
+            oListItem.set_item('Firstdayofleave', data.StartDate);
+            oListItem.set_item('Lastdayofleave', data.ReturnDate);
+            oListItem.set_item('Totalnumberofdays', data.TotalDays);
+            oListItem.set_item('Status', data.Status);
+            oListItem.set_item('Remarks', data.Remarks);
+            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+            oListItem.update();
+            appcontext.load(oListItem);
+            appcontext.executeQueryAsync(
+                function(sender, args) {
+                    alert('Item  Submitted');
+                },
+                function (sender, args) {
+                    alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+            });
+        }
+
+      
+
+        
 
 
         AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
@@ -241,11 +289,9 @@
                     while (listItemEnumerator.moveNext()) {
                         var oListItem = listItemEnumerator.get_current();
                         listItemInfo = oListItem.get_id();
-                        var FirstName = oListItem.get_item('FirstName');
-                       // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
-                       // var LastName = oListItem.get_item('LastName'); //Column Names
-                        var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
-                        
+                        //var remark = oListItem.get_fieldValues().Remarks;
+                        //alert(remark);
+
                         //data[0].get_fieldValues().Status
                         var remarkStr = $(oListItem.get_fieldValues().Remarks).text();;
                         var obj = {
@@ -267,7 +313,12 @@
                             'Status': oListItem.get_fieldValues().Status,
                             'RejectionReason': remarkStr
                         };
-                        data.push(obj);
+                            if (PRcodeObj != null) {
+                                obj.LeaveType = PRcodeObj.leave_type_text;
+                                obj.PayrollCode = PRcodeObj.leave_type_code;
+                            }
+                            data.push(obj);
+                       
                     }
                     console.log(collListItem);
                     console.log(data);
@@ -376,11 +427,10 @@
                     'EmployeeFirstname': userPro.FirstName,
                     'EmployeeID': userPro.EmployeeId,
                     'Department': userPro.Department,
-
                     'Designation': userPro.Title,
                     'ReportTo': undefined,
                     'LeaveType': undefined,
-                    'PayrollCode': undefined,
+                   // 'PayrollCode': undefined,
                     'LeaveCategory': undefined,
                     'StartDate': undefined,
                     'ReturnDate': undefined,
