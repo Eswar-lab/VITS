@@ -173,7 +173,7 @@
           AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
             //... Nidhi's code will go here > JSOM
             var listTitle = "Staff Leave Application";
-
+            
             ///This function will save data in Staff Leave Application list
             var hostUrl = AppServiceFactory.GetHostWebUrl();
             var appUrl = AppServiceFactory.GetAppWebUrl();
@@ -183,16 +183,17 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
-            var leaveType = $(data.LeaveType).text();
+           // var leaveType = $(data.LeaveType).text();
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
            // oListItem.set_item('ReportTo', data.ReportsTo);
-            oListItem.set_item('PRCODE', data.leaveType);
-            oListItem.set_item('PayrollCode', data.pallroll_code);
-          
+            oListItem.set_item('PRCODE', data.LeaveType);
+            oListItem.set_item('LeaveType', data.pallroll_code);
+            //oListItem.set_item('PayrollCode', data.pallroll_code);
+
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
@@ -235,15 +236,15 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            //oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('PayrollCode', data.LeaveType);
             oListItem.set_item('LeaveType', data.LeaveCategory);
-           // oListItem.set_item('PRCODE', data.LeaveCategory);
+            oListItem.set_item('PRCODE', data.LeaveCategory);
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
             oListItem.set_item('Status', data.Status);
             oListItem.set_item('Remarks', data.Remarks);
-            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+              oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
             appcontext.executeQueryAsync(
@@ -370,8 +371,8 @@
                                 'Department': oListItem.get_fieldValues().DepartmentName,
                                 'Designation': oListItem.get_fieldValues().Designation,
                                 'ReportsTo': oListItem.get_fieldValues().ReportTo,
-                                'LeaveType': undefined,
-                                'PayrollCode': undefined,
+                                'LeaveType': oListItem.get_fieldValues().pallroll_code,
+                                //'LeaveType': undefined,
                                 // 'LeaveCategory': oListItem.get_fieldValues().PayrollCode,
                                 'StartDate': oListItem.get_fieldValues().Firstdayofleave,
                                 'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
@@ -384,7 +385,7 @@
                         };
                             if (PRcodeObj != null) {
                                 obj.LeaveType = PRcodeObj.leave_type_text;
-                                obj.PayrollCode = PRcodeObj.leave_type_code;
+                              //  obj.PayrollCode = PRcodeObj.leave_type_code;
                             }
                             data.push(obj);
                        
