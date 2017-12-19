@@ -91,7 +91,7 @@
 
             //load application data
             SharePointOnlineService.LeaveApplication_LoadUserData().then(function (data) {
-                console.log(data);
+                //console.log(data);
                 $scope.LeaveApplicationData = data;
                 $scope.FilterLeaveApplicationData = [];
                 //draft status by default

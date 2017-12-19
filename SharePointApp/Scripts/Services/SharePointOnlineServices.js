@@ -262,7 +262,7 @@
         }
 
 
-        AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
+        AppServiceFactory.LeaveApplication_LoadUserData = function () {
             
             var deffer = $q.defer();
             var listTitle = "Staff Leave Application";
