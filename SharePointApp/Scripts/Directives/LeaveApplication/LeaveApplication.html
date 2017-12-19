@@ -53,7 +53,7 @@
                             <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
                             <select data-provide="typeahead" class="form-control" id="ppReportsTo"
                                    ng-model="selectedLeaveApplication.ReportsTo" placeholder="Start typing a name...">
-                                    <option ng-repeat="manager in managers " value="{{manager}}">{{manager.Title}}</option>
+                                    <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
                                 </select>
 
                         </div>
@@ -136,8 +136,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

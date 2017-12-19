@@ -5,9 +5,9 @@
         .module('SharePointOnlineServices', ['ngRoute', 'ngStorage'])
         .factory('SharePointOnlineService', SharePointOnlineService);
 
-    SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location'];
+    SharePointOnlineService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'modalService'];
 
-    function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location) {
+    function SharePointOnlineService($http, $rootScope, $timeout, $q, $localStorage, $location, modalService) {
         var AppServiceFactory = {};
         function getQueryStringParameter(paramToRetrieve) {
             var params =
@@ -261,62 +261,6 @@
         }
 
 
-
-       
-
-        AppServiceFactory.LeaveApplication_DeleteLeaveApplication = function () { 
-            var listTitle = "Staff Leave Application";
-
-            ///This function will delete data in Staff Leave Application list
-            var hostUrl = AppServiceFactory.GetHostWebUrl();
-            var appUrl = AppServiceFactory.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
-            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-            var hostweb = hostcontext.get_web();
-            var list = hostweb.get_lists().getByTitle(listTitle);
-
-           var  olistitem = list.getItemById(2)
-           olistitem.deleteObject();
-
-            clientContext.executeQueryAsync(
-                Function.createDelegate(this, this.onQuerySucceeded),
-                Function.createDelegate(this, this.onQueryFailed)
-            );
-        }
-
-        function onQuerySucceeded() {
-            var result = listTitle + ' deleted.';
-            alert(result);
-        }
-
-        function onQueryFailed(sender, args) {
-            alert('Request failed. ' + args.get_message() +
-                '\n' + args.get_stackTrace());
-        }
-
-
-        function LeaveApplication_LoadUserData_onQueryItemSucceeded() {
-
-            var listItemInfo = '';
-            var listItemEnumerator = collListItem.getEnumerator();
-            while (listItemEnumerator.moveNext()) {
-                var oListItem = listItemEnumerator.get_current();
-                listItemInfo = oListItem.get_id();
-                var FirstName = oListItem.get_item('FirstName');
-                // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
-                //  var LastName = oListItem.get_item('LastName'); //Column Names
-                // var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
-                //In above code get the column values and create html table by filling above column values
-            }
-        }
-
-        function LeaveApplication_LoadUserData_onQueryItemFailed(sender, args) {
-            alert('Request failed. ' + args.get_message() +
-                '\n' + args.get_stackTrace());
-        }
-
-
-
         AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
             
             var deffer = $q.defer();
@@ -371,8 +315,8 @@
                                 'Department': oListItem.get_fieldValues().DepartmentName,
                                 'Designation': oListItem.get_fieldValues().Designation,
                                 'ReportsTo': oListItem.get_fieldValues().ReportTo,
-                                'LeaveType': oListItem.get_fieldValues().pallroll_code,
-                                //'LeaveType': undefined,
+                                'LeaveType': undefined,
+                                'PayrollCode': undefined,
                                 // 'LeaveCategory': oListItem.get_fieldValues().PayrollCode,
                                 'StartDate': oListItem.get_fieldValues().Firstdayofleave,
                                 'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
@@ -499,7 +443,7 @@
                     'Department': userPro.Department,
 
                     'Designation': userPro.Title,
-                    'ReportsTo': undefined,
+                    'ReportTo': undefined,
                     'LeaveType': undefined,
                     'PayrollCode': undefined,
                     'LeaveCategory': undefined,
@@ -521,6 +465,21 @@
             return deferred.promise;
            
         }
+        AppServiceFactory.LeaveApplication_DeleteLeaveData = function (data) {
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Delete selected Leave Application form',
+                headerText: 'Delete ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to delete this application?'
+            };
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                //Nidhi implement delete on click action here
+                alert("Nidhi implement delete on click action here - result: " + result);
+            });
+        }
+
+
         AppServiceFactory.LeaveApplication_Get_UserData = function (useremail, filter) {
             var obj = new Object();
             obj = [];
@@ -542,4 +501,59 @@
 
         return AppServiceFactory;
     }
+})();
+
+(function () {
+    angular.module('SharePointOnlineServices').service('modalService', ['$modal',
+        function ($modal) {
+
+            var modalDefaults = {
+                backdrop: true,
+                keyboard: true,
+                modalFade: true,
+                templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
+            };
+
+            var modalOptions = {
+                closeButtonText: 'Close',
+                actionButtonText: 'OK',
+                headerText: 'Proceed?',
+                bodyText: 'Perform this action?'
+            };
+
+            this.showModal = function (customModalDefaults, customModalOptions) {
+                if (!customModalDefaults) customModalDefaults = {};
+                customModalDefaults.backdrop = 'static';
+                return this.show(customModalDefaults, customModalOptions);
+            };
+
+            this.show = function (customModalDefaults, customModalOptions) {
+                //Create temp objects to work with since we're in a singleton service
+                var tempModalDefaults = {};
+                var tempModalOptions = {};
+
+                //Map angular-ui modal custom defaults to modal defaults defined in service
+                angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
+
+                //Map modal.html $scope custom properties to defaults defined in service
+                angular.extend(tempModalOptions, modalOptions, customModalOptions);
+
+                if (!tempModalDefaults.controller) {
+                    tempModalDefaults.controller = function ($scope, $modalInstance) {
+                        $scope.modalOptions = tempModalOptions;
+                        $scope.modalOptions.ok = function (result) {
+                            result = 'ok';
+                            $modalInstance.close(result);
+                        };
+                        $scope.modalOptions.close = function (result) {
+                            $modalInstance.dismiss('cancel');
+                        };
+                    }
+                }
+
+                return $modal.open(tempModalDefaults).result;
+            };
+
+        }]);
+
 })();
