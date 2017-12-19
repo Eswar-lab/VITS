@@ -189,7 +189,7 @@
             oListItem.set_item('EmployeeID', data.EmployeeID);
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
-           // oListItem.set_item('ReportTo', data.ReportsTo);
+            oListItem.set_item('ReportTo', data.ReportsTo);
             oListItem.set_item('PRCODE', data.LeaveType);
             oListItem.set_item('LeaveType', data.pallroll_code);
             //oListItem.set_item('PayrollCode', data.pallroll_code);
@@ -236,15 +236,16 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            oListItem.set_item('PayrollCode', data.LeaveType);
-            oListItem.set_item('LeaveType', data.LeaveCategory);
-            oListItem.set_item('PRCODE', data.LeaveCategory);
+            oListItem.set_item('PRCODE', data.LeaveType);
+            oListItem.set_item('LeaveType', data.pallroll_code);
+            //oListItem.set_item('PayrollCode', data.pallroll_code);
+
             oListItem.set_item('Firstdayofleave', data.StartDate);
             oListItem.set_item('Lastdayofleave', data.ReturnDate);
             oListItem.set_item('Totalnumberofdays', data.TotalDays);
             oListItem.set_item('Status', data.Status);
             oListItem.set_item('Remarks', data.Remarks);
-              oListItem.set_item('ActualLeave', data.ActualLeave);
+            //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
             appcontext.executeQueryAsync(
@@ -315,8 +316,8 @@
                                 'Department': oListItem.get_fieldValues().DepartmentName,
                                 'Designation': oListItem.get_fieldValues().Designation,
                                 'ReportsTo': oListItem.get_fieldValues().ReportTo,
-                                'LeaveType': undefined,
-                                'PayrollCode': undefined,
+                                'LeaveType': oListItem.get_fieldValues().PRCODE,
+                                'pallroll_code': oListItem.get_fieldValues().LeaveType,
                                 // 'LeaveCategory': oListItem.get_fieldValues().PayrollCode,
                                 'StartDate': oListItem.get_fieldValues().Firstdayofleave,
                                 'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
@@ -475,6 +476,17 @@
 
             modalService.showModal({}, modalOptions).then(function (result) {
                 //Nidhi implement delete on click action here
+                var listTitle = "Staff Leave Application";
+
+                ///This function will save data in Staff Leave Application list
+                var hostUrl = AppServiceFactory.GetHostWebUrl();
+                var appUrl = AppServiceFactory.GetAppWebUrl();
+                var appcontext = new SP.ClientContext(appUrl);
+                var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+                var hostweb = hostcontext.get_web();
+                var list = hostweb.get_lists().getByTitle(listTitle);
+                var olistitem = list.getItemById(171);
+                olistitem.deleteObject();
                 alert("Nidhi implement delete on click action here - result: " + result);
             });
         }
