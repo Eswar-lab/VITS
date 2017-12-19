@@ -190,7 +190,7 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            oListItem.set_item('PRCODE', data.LeaveType);
+            oListItem.set_item('PRCODE', JSON.parse(data.LeaveType).leave_type_text);
             oListItem.set_item('LeaveType', data.pallroll_code);
             //oListItem.set_item('PayrollCode', data.pallroll_code);
 
