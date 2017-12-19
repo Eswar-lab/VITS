@@ -293,7 +293,8 @@
                         //alert(remark);
 
                         //data[0].get_fieldValues().Status
-                        var remarkStr = $(oListItem.get_fieldValues().Remarks).text();;
+                        var remarkStr = $(oListItem.get_fieldValues().Remarks).text();
+                        var PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRcode);
                         var obj = {
                             'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
                             'EmployeeSurname': oListItem.get_fieldValues().LastName,
@@ -313,6 +314,7 @@
                             'Status': oListItem.get_fieldValues().Status,
                             'RejectionReason': remarkStr
                         };
+
                             if (PRcodeObj != null) {
                                 obj.LeaveType = PRcodeObj.leave_type_text;
                                 obj.PayrollCode = PRcodeObj.leave_type_code;
@@ -337,27 +339,7 @@
         
         }
 
-        function LeaveApplication_LoadUserData_onQueryItemSucceeded() {
-
-            var listItemInfo = '';
-            var listItemEnumerator = collListItem.getEnumerator();
-            while (listItemEnumerator.moveNext()) {
-                var oListItem = listItemEnumerator.get_current();
-                listItemInfo = oListItem.get_id();
-                var FirstName = oListItem.get_item('FirstName');
-               // var MiddleName = oListItem.get_item('MiddleName'); //Column Names
-              //  var LastName = oListItem.get_item('LastName'); //Column Names
-               // var EmployeeID = oListItem.get_item('EmployeeID'); //Column Names
-                //In above code get the column values and create html table by filling above column values
-            }
-        }
-
-        function LeaveApplication_LoadUserData_onQueryItemFailed(sender, args) {
-            alert('Request failed. ' + args.get_message() +
-                '\n' + args.get_stackTrace());
-        }
-
-
+        
 
         function getQueryStringParameter(paramToRetrieve) {
             var params =

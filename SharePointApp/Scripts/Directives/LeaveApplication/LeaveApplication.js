@@ -67,9 +67,13 @@
         }
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
-            var obj = JSON.parse($scope.selectedLeaveApplication.LeaveType);
-            $scope.selectedLeaveApplication.pallroll_code = obj.leave_type_code;
-            $scope.selectedLeaveApplication.enable_leave_category = obj.enable_leave_category;
+            try {
+                var obj = JSON.parse($scope.selectedLeaveApplication.LeaveType);
+                $scope.selectedLeaveApplication.pallroll_code = obj.leave_type_code;
+                $scope.selectedLeaveApplication.enable_leave_category = obj.enable_leave_category;
+            } catch (ex) {
+                console.log(ex);
+            }
         });
 
         //constructor
