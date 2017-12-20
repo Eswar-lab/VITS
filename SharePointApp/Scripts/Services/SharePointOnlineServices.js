@@ -228,9 +228,9 @@
         .module('SharePointOnlineServices')
         .factory('LeaveApplicationService', LeaveApplicationService);
 
-    LeaveApplicationService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService'];
+    LeaveApplicationService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService', 'modalService'];
 
-    function LeaveApplicationService($http, $rootScope, $timeout, $q, $localStorage, $location, SharePointOnlineService) {
+    function LeaveApplicationService($http, $rootScope, $timeout, $q, $localStorage, $location, SharePointOnlineService, modalService) {
 
         var AppServiceFactory = {};
         var LeaveApplicationObj = {
