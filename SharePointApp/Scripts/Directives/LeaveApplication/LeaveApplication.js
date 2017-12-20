@@ -29,10 +29,12 @@
         // Set the cache key
         var wpId = SharePointOnlineService.GetURLParameters("wpId");
         var cacheKey = 'VIT_LeaveApplication_' + wpId
+        var userProfile = undefined;
         $scope.stage = {
             view: '',
             tab: ''
         };
+
 
         $scope.applications = [];
         $scope.selectedLeaveApplication = {};
@@ -55,7 +57,7 @@
 
         $scope.stage.view = SharePointOnlineService.GetURLParameters("View");
 
-    
+
         function _ShowValidationErrors(err) {
             if (err) {
                 if (err.ExceptionAsString && err.ExceptionAsString != null) {
@@ -76,7 +78,7 @@
                         return;
                     }
                 });
-                
+
             } catch (ex) {
                 console.log(ex);
             }
@@ -89,6 +91,7 @@
             var appUrl = SharePointOnlineService.GetAppWebUrl();
             var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
 
+
             ListService.GetListByTitle(manageUrl).then(function (data) {
                 console.log(data);
                 $scope.managers = data;
@@ -97,16 +100,141 @@
 
             });
 
-       
+            //load current user infor
+            SharePointOnlineService.LoadUserProfile().then(function (data) {
+                userProfile = data.userProfileProperties;
 
-            //load application data
-            LeaveApplicationService.LeaveApplication_LoadUserData().then(function (data) {
-                console.log(data);
+                //load application data
+                var inputEmail = null;
+                if ($scope.stage.view == 'UserView') {
+                    inputEmail = userProfile.WorkEmail;
+                }
+                loadLeaveApplication(inputEmail);
+
+            });
+
+
+
+        }
+
+        function ClearCache() {
+            $scope.SearchResults = [];
+            SharePointOnlineService.forceCacheDeletion();
+        }
+
+        $scope.ClearCacheAndSearch = function (event) {
+            if (event != null) {
+                event.preventDefault();
+            }
+            ClearCache();
+        }
+
+        $scope.filterData = function ($event, filter) {
+            $event.preventDefault();
+            $scope.stage.tab = filter;
+            $scope.FilterLeaveApplicationData = [];
+
+            $scope.LeaveApplicationData.forEach(function (item) {
+                if (item.Status == filter) {
+                    $scope.FilterLeaveApplicationData.push(item);
+                }
+            });
+
+        }
+        $scope.ActualLeaveToggle = function (event) {
+            document.getElementById("inpActualLeave").readOnly = !event.target.checked;
+            document.getElementById("inpActualLeave").focus();
+        }
+
+        $scope.deleteLeaveApplication_Click = function (data) {
+            LeaveApplicationService.LeaveApplication_DeleteLeaveData(data);
+
+        }
+
+        $scope.editLeaveApplication_Click = function (data) {
+            $scope.selectedLeaveApplication = data;
+            $scope.leave_type.forEach(function (item) {
+                if (data.LeaveType == item.leave_type_code) {
+                    $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
+                    $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
+                    return;
+                }
+            });
+
+
+            $('#modalLeaveApplication').modal('show');
+        }
+
+        $scope.newLeaveApplication_Click = function () {
+
+
+            $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData(userProfile).then(function (data) {
+                $scope.selectedLeaveApplication = data;
+                $('#modalLeaveApplication').modal('show');
+            });
+
+        }
+
+        $scope.ClearFile = function () {
+            document.getElementById("inpFile").value = "";
+        }
+
+        $scope.SaveLeaveApplication = function () {
+            $scope.selectedLeaveApplication.Status = "Draft";
+            console.log("Saving leave application");
+            console.log($scope.selectedLeaveApplication.ReportsTo);
+            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
+                alert("successfully create a new item!");
+                //load application data
+                var inputEmail = null;
+                if ($scope.stage.view == 'UserView') {
+                    inputEmail = userProfile.WorkEmail;
+                }
+                loadLeaveApplication(inputEmail);
+            }, function (err) {
+                alert("Not successfully create a new item!");
+            });
+            //files = $scope.selectedLeaveApplication.SupportingFiles;
+            $('#modalLeaveApplication').modal('hide');
+        }
+        $scope.SubmitLeaveApplication = function () {
+            $scope.selectedLeaveApplication.Status = "Pending";
+            console.log("Saving leave application");
+            console.log($scope.selectedLeaveApplication.ReportsTo);
+            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
+                alert("successfully create a new item!");
+                //load application data
+                var inputEmail = null;
+                if ($scope.stage.view == 'UserView') {
+                    inputEmail = userProfile.WorkEmail;
+                }
+                loadLeaveApplication();
+            }, function (err) {
+                alert("Not successfully create a new item!");
+            });
+            files = $scope.selectedLeaveApplication.SupportingFiles;
+            $('#modalLeaveApplication').modal('hide');
+        }
+
+
+        $("#ppReportsTo").typeahead({
+            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
+            //autoSelect: trueFFF
+        });
+
+        $('#userTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
+
+
+        function loadLeaveApplication(inputEmail) {
+            LeaveApplicationService.LeaveApplication_LoadUserData(inputEmail).then(function (data) {
                 $scope.LeaveApplicationData = data;
                 $scope.FilterLeaveApplicationData = [];
                 //draft status by default
                 $scope.LeaveApplicationData.forEach(function (item) {
-                    
+
                     if ($scope.stage.view == 'UserView') {
                         if (item.Status == 'Draft') {
                             $scope.FilterLeaveApplicationData.push(item);
@@ -124,109 +252,6 @@
                 });
 
             })
-
         }
-      
-        function ClearCache() {
-            $scope.SearchResults = [];
-            SharePointOnlineService.forceCacheDeletion();
-        }
-
-        $scope.ClearCacheAndSearch = function (event) {
-            if (event != null) {
-                event.preventDefault();
-            }
-            ClearCache();
-        }
-
-        $scope.filterData = function ($event, filter) {
-            $event.preventDefault();
-            $scope.stage.tab = filter;
-            $scope.FilterLeaveApplicationData = [];
-         
-            $scope.LeaveApplicationData.forEach(function (item) {
-                if (item.Status == filter) {
-                    $scope.FilterLeaveApplicationData.push(item);
-                }
-            });
-
-        }
-        $scope.ActualLeaveToggle = function (event) {
-            document.getElementById("inpActualLeave").readOnly = !event.target.checked;
-            document.getElementById("inpActualLeave").focus();
-        }
-
-        $scope.deleteLeaveApplication_Click = function (data) {
-            LeaveApplicationService.LeaveApplication_DeleteLeaveData(data);
-           
-        }
-
-        $scope.editLeaveApplication_Click = function (data) {
-            $scope.selectedLeaveApplication = data;
-            $scope.leave_type.forEach(function (item) {
-                if (data.LeaveType == item.leave_type_code) {
-                    $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
-                    $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
-                    return;
-                }
-            });
-
-           
-           
-           
-
-            $('#modalLeaveApplication').modal('show');
-        }
-
-        $scope.newLeaveApplication_Click = function () {
-          
-            $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData().then(function (data) {
-                $scope.selectedLeaveApplication = data;
-            });
-            $('#modalLeaveApplication').modal('show');
-        }
-
-        $scope.ClearFile = function () {
-            document.getElementById("inpFile").value = "";
-        }
-        
-        $scope.SaveLeaveApplication = function () {
-            $scope.selectedLeaveApplication.Status="Draft";
-            console.log("Saving leave application");
-            console.log($scope.selectedLeaveApplication.ReportsTo);
-            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                alert("successfully create a new item!");
-            }, function (err) {
-                alert("Not successfully create a new item!");
-            });
-            //files = $scope.selectedLeaveApplication.SupportingFiles;
-            $('#modalLeaveApplication').modal('hide');
-        }
-        $scope.SubmitLeaveApplication = function () {
-            $scope.selectedLeaveApplication.Status = "Pending";
-            console.log("Saving leave application");
-            console.log($scope.selectedLeaveApplication.ReportsTo);
-            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                alert("successfully create a new item!");
-            }, function (err) {
-                alert("Not successfully create a new item!");
-            });
-            files = $scope.selectedLeaveApplication.SupportingFiles;
-            $('#modalLeaveApplication').modal('hide');
-        }
-     
-     
-        $("#ppReportsTo").typeahead({
-            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
-            //autoSelect: trueFFF
-        });
-
-        $('#userTabs a').click(function (e) {
-            e.preventDefault()
-            $(this).tab('show');
-        });
-
-
-    
     }
 })();

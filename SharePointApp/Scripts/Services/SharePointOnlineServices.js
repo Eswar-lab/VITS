@@ -89,7 +89,7 @@
 
             // Get Schedule
             var stored_time = $localStorage.name_time;
-            if (stored_time === undefined || stored_time === null) {  stored_time = 0; }
+            if (stored_time === undefined || stored_time === null) { stored_time = 0; }
 
             // Expired
             if (stored_time < current) {
@@ -203,9 +203,9 @@
             }
             return deferred.promise;
         };
-        
 
-       
+
+
         // Local Storage Helper Functions
         // From http://brynner.net/html5-localstorage-with-expiration/
         function removeHtmlStorage(name) {
@@ -224,260 +224,242 @@
 
 (function () {
 
-        angular
-            .module('SharePointOnlineServices')
-            .factory('LeaveApplicationService', LeaveApplicationService);
+    angular
+        .module('SharePointOnlineServices')
+        .factory('LeaveApplicationService', LeaveApplicationService);
 
-        LeaveApplicationService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService'];
+    LeaveApplicationService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService'];
 
-        function LeaveApplicationService($http, $rootScope, $timeout, $q, $localStorage, $location, SharePointOnlineService) {
+    function LeaveApplicationService($http, $rootScope, $timeout, $q, $localStorage, $location, SharePointOnlineService) {
 
-            var AppServiceFactory = {};
+        var AppServiceFactory = {};
+        var LeaveApplicationObj = {
+            'ID': undefined,
+            'EmployeeEmail': undefined,
+            'EmployeeSurname': undefined,
+            'EmployeeFirstname': undefined,
+            'EmployeeID': undefined,
+            'Department': undefined,
+            'Designation': undefined,
+            'ReportTo': undefined,
+            'LeaveType': undefined,
+            'PayrollCode': undefined,
+            'LeaveCategory': undefined,
+            'StartDate': undefined,
+            'ReturnDate': undefined,
+            'TotalDays': undefined,
+            'ActualLeaveChecked': 'false',
+            'ActualLeave': '0',
+            'Status': undefined,
+            'RejectionReason': undefined,
+            'Remarks': undefined,
 
-            AppServiceFactory.LeaveApplication_Get_Approvers = function () {
-                return [{ id: "someId1", name: "Display name 1" },
-                { id: "someId2", name: "Display name 2" }];
-            };
-
-            AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
-                //... Nidhi's code will go here > JSOM
-                var deferred = $q.defer();
-                var listTitle = "Staff Leave Application";
-
-                ///This function will save data in Staff Leave Application list
-                var hostUrl = SharePointOnlineService.GetHostWebUrl();
-                var appUrl = SharePointOnlineService.GetAppWebUrl();
-                var appcontext = new SP.ClientContext(appUrl);
-                var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-                var hostweb = hostcontext.get_web();
-                var list = hostweb.get_lists().getByTitle(listTitle);
-                var itemCreateInfo = new SP.ListItemCreationInformation();
-                var oListItem = list.addItem(itemCreateInfo);
-                var leaveTypeObj = JSON.parse(data.LeaveType.text());
-
-                oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
-                oListItem.set_item('FirstName', data.EmployeeFirstname);
-                oListItem.set_item('EmployeeID', data.EmployeeID);
-                oListItem.set_item('DepartmentName', data.Department);
-                oListItem.set_item('Designation', data.Designation);
-                oListItem.set_item('ReportTo', data.ReportTo);
-                oListItem.set_item('LeaveType', leaveTypeObj.leave_type_code);
-                oListItem.set_item('PRCODE', data.leaveType.leave_type_text);
-                //  oListItem.set_item('PayrollCode', data.pallroll_code);
-
-                oListItem.set_item('Firstdayofleave', data.StartDate);
-                oListItem.set_item('Lastdayofleave', data.ReturnDate);
-                oListItem.set_item('Totalnumberofdays', data.TotalDays);
-                oListItem.set_item('Status', data.Status);
-                oListItem.set_item('Remarks', data.Remarks);
-                //  oListItem.set_item('ActualLeave', data.ActualLeave);
-                oListItem.update();
-                appcontext.load(oListItem);
-                appcontext.executeQueryAsync(
-                    function (sender, args) {
-                     
-                        deferred.resolve(args);
-                    },
-                    function (sender, args) {
-                       
-                        deferred.reject(args);
-                    });
-                return deferred.promise;
-            };
+        };
 
 
+        AppServiceFactory.LeaveApplication_Get_Approvers = function () {
+            return [{ id: "someId1", name: "Display name 1" },
+            { id: "someId2", name: "Display name 2" }];
+        };
 
+        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var deferred = $q.defer();
+            var listTitle = "Staff Leave Application";
 
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            var oListItem = list.addItem(itemCreateInfo);
+            //var leaveTypeObj = JSON.parse(data.LeaveType.text());
+            oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
+            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
+            oListItem.set_item('FirstName', data.EmployeeFirstname);
+            oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.set_item('DepartmentName', data.Department);
+            oListItem.set_item('Designation', data.Designation);
+            oListItem.set_item('ReportTo', data.ReportTo);
+            oListItem.set_item('LeaveType', data.LeaveType);
+            oListItem.set_item('PRCODE', data.pallroll_code);
+            //  oListItem.set_item('PayrollCode', data.pallroll_code);
 
+            oListItem.set_item('Firstdayofleave', data.StartDate);
+            oListItem.set_item('Lastdayofleave', data.ReturnDate);
+            oListItem.set_item('Totalnumberofdays', data.TotalDays);
+            oListItem.set_item('Status', data.Status);
+            oListItem.set_item('Remarks', data.Remarks);
+            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+            oListItem.update();
+            appcontext.load(oListItem);
+            appcontext.executeQueryAsync(
+                function (sender, args) {
 
-
-            AppServiceFactory.LeaveApplication_SubmitLeaveApplication = function (data) {
-                //... Nidhi's code will go here > JSOM
-                var deferred = $q.defer();
-                var listTitle = "Staff Leave Application";
-                ///This function will save data in Staff Leave Application list
-
-                var hostUrl = SharePointOnlineService.GetHostWebUrl();
-                var appUrl = SharePointOnlineService.GetAppWebUrl();
-                var appcontext = new SP.ClientContext(appUrl);
-                var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-                var hostweb = hostcontext.get_web();
-                var list = hostweb.get_lists().getByTitle(listTitle);
-                var itemCreateInfo = new SP.ListItemCreationInformation();
-                var oListItem = list.addItem(itemCreateInfo);
-                var leaveTypeObj = JSON.parse(data.LeaveType.text());
-
-                oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
-                oListItem.set_item('FirstName', data.EmployeeFirstname);
-                oListItem.set_item('EmployeeID', data.EmployeeID);
-                oListItem.set_item('DepartmentName', data.Department);
-                oListItem.set_item('Designation', data.Designation);
-                oListItem.set_item('ReportTo', data.ReportTo);
-                //oListItem.set_item('PayrollCode', data.LeaveType);
-                oListItem.set_item('LeaveType', leaveTypeObj.leave_type_code);
-                oListItem.set_item('PRCODE', leaveTypeObj.leave_type_text);
-                oListItem.set_item('Firstdayofleave', data.StartDate);
-                oListItem.set_item('Lastdayofleave', data.ReturnDate);
-                oListItem.set_item('Totalnumberofdays', data.TotalDays);
-                oListItem.set_item('Status', data.Status);
-                oListItem.set_item('Remarks', data.Remarks);
-                //  oListItem.set_item('ActualLeave', data.ActualLeave);
-                oListItem.update();
-                appcontext.load(oListItem);
-                appcontext.executeQueryAsync(
-                    function (sender, args) {
-                    //  alert('Item  Submitted');
-                        deferred.resolve(args);
-                    },
-                    function (sender, args) {
-                    //    alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
-                        deferred.reject(args);
-                    });
-                return deferred.promise;
-            };
-
-
-
-
-
-
-            AppServiceFactory.LeaveApplication_LoadUserData = function (Status) {
-
-                var deffer = $q.defer();
-                var listTitle = "Staff Leave Application";
-
-                ///This function will filter data in Staff Leave Application list with status column
-                var hostUrl = SharePointOnlineService.GetHostWebUrl();
-                var appUrl = SharePointOnlineService.GetAppWebUrl();
-                var appcontext = new SP.ClientContext(appUrl);
-                var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-                var hostweb = hostcontext.get_web();
-                var list = hostweb.get_lists().getByTitle(listTitle);
-                var oList = hostweb.get_lists().getByTitle(listTitle);
-                var camlQuery = new SP.CamlQuery();
-
-                var camlQ = '<View><Query><Where></Where></Query></View>';
-                camlQuery.set_viewXml(camlQ);
-                var collListItem = oList.getItems(camlQuery);
-                appcontext.load(collListItem);
-                appcontext.executeQueryAsync(function () {
-
-                    var data = [];
-
-                    var listItemInfo = '';
-                    var listItemEnumerator = collListItem.getEnumerator();
-                    while (listItemEnumerator.moveNext()) {
-                        var oListItem = listItemEnumerator.get_current();
-                        var remarkStr = undefined;
-                        var PRcodeObj = undefined;
-
-                        listItemInfo = oListItem.get_id();
-                        try {
-                            remarkStr = $(oListItem.get_fieldValues().Remarks).text();
-                            //PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRcode);
-                        } catch (ex) {
-                            console.log(ex);
-                        }
-                        var obj = {
-                            'ID': oListItem.get_fieldValues().ID ,
-                            'EmployeeEmail': oListItem.get_fieldValues().Author['$6_2'],
-                            'EmployeeSurname': oListItem.get_fieldValues().LastName,
-                            'EmployeeFirstname': oListItem.get_fieldValues().FirstName,
-                            'EmployeeID': undefined,
-                            'Department': oListItem.get_fieldValues().Title,
-                            'Designation': oListItem.get_fieldValues().Designation,
-                            'ReportTo': oListItem.get_fieldValues().ReportTo,
-                            'LeaveType': oListItem.get_fieldValues().LeaveType,
-                            'PayrollCode': oListItem.get_fieldValues().PRCODE,
-                            'LeaveCategory': undefined,
-                            'StartDate': oListItem.get_fieldValues().Firstdayofleave,
-                            'ReturnDate': oListItem.get_fieldValues().Lastdayofleave,
-                            'TotalDays': undefined,
-                            'ActualLeaveChecked': 'false',
-                            'ActualLeave': '0',
-                            'Status': oListItem.get_fieldValues().Status,
-                            'RejectionReason': remarkStr
-                        };
-
-                        if (PRcodeObj !== null && PRcodeObj !== undefined) {
-                            obj.LeaveType = PRcodeObj.leave_type_text;
-                            obj.PayrollCode = PRcodeObj.leave_type_code;
-                        }
-                        data.push(obj);
-
-                    }
-
-                    deffer.resolve(data);
-
-
-
+                    deferred.resolve(args);
                 },
-                    function (sender, args) {
-                        alert('Request failed. ' + args.get_message() +
-                            '\n' + args.get_stackTrace());
-                        deffer.reject(sender);
+                function (sender, args) {
+
+                    deferred.reject(args);
+                });
+            return deferred.promise;
+        };
+
+        AppServiceFactory.LeaveApplication_SubmitLeaveApplication = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var deferred = $q.defer();
+            var listTitle = "Staff Leave Application";
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var itemCreateInfo = new SP.ListItemCreationInformation();
+            var oListItem = list.addItem(itemCreateInfo);
+            var leaveTypeObj = JSON.parse(data.LeaveType.text());
+
+            oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
+            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
+            oListItem.set_item('FirstName', data.EmployeeFirstname);
+            oListItem.set_item('EmployeeID', data.EmployeeID);
+            oListItem.set_item('DepartmentName', data.Department);
+            oListItem.set_item('Designation', data.Designation);
+            oListItem.set_item('ReportTo', data.ReportTo);
+            //oListItem.set_item('PayrollCode', data.LeaveType);
+            oListItem.set_item('LeaveType', leaveTypeObj.leave_type_code);
+            oListItem.set_item('PRCODE', leaveTypeObj.leave_type_text);
+            oListItem.set_item('Firstdayofleave', data.StartDate);
+            oListItem.set_item('Lastdayofleave', data.ReturnDate);
+            oListItem.set_item('Totalnumberofdays', data.TotalDays);
+            oListItem.set_item('Status', data.Status);
+            oListItem.set_item('Remarks', data.Remarks);
+            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+            oListItem.update();
+            appcontext.load(oListItem);
+            appcontext.executeQueryAsync(
+                function (sender, args) {
+                    //  alert('Item  Submitted');
+                    deferred.resolve(args);
+                },
+                function (sender, args) {
+                    //    alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+                    deferred.reject(args);
+                });
+            return deferred.promise;
+        };
+
+        AppServiceFactory.LeaveApplication_LoadUserData = function (email) {
+
+            var deffer = $q.defer();
+            var listTitle = "Staff Leave Application";
+
+            ///This function will filter data in Staff Leave Application list with status column
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+            var oList = hostweb.get_lists().getByTitle(listTitle);
+            var camlQuery = new SP.CamlQuery();
+
+            var camlQ = undefined;
+            if (email !== null && email !== undefined)
+                camlQ = '<View><Query><Where><Eq><FieldRef Name="EmployeeEmail" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>';
+            else
+                camlQ = '<View><Query><Where></Where></Query></View>'
+            camlQuery.set_viewXml(camlQ);
+            var collListItem = oList.getItems(camlQuery);
+            appcontext.load(collListItem);
+            appcontext.executeQueryAsync(function () {
+
+                var data = [];
+
+                var listItemInfo = '';
+                var listItemEnumerator = collListItem.getEnumerator();
+                while (listItemEnumerator.moveNext()) {
+                    var oListItem = listItemEnumerator.get_current();
+                    var remarkStr = undefined;
+                    var PRcodeObj = undefined;
+
+                    listItemInfo = oListItem.get_id();
+                    try {
+                        remarkStr = $(oListItem.get_fieldValues().Remarks).text();
+                        //PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRcode);
+                    } catch (ex) {
+                        console.log(ex);
                     }
-                );
-                return deffer.promise;
 
+                    var obj = JSON.parse(JSON.stringify(LeaveApplicationObj));
+                    obj.ID = oListItem.get_fieldValues().ID;
+                    obj.EmployeeEmail = oListItem.get_fieldValues().Author['$6_2'];
+                    obj.EmployeeSurname = oListItem.get_fieldValues().LastName;
+                    obj.EmployeeID = oListItem.get_fieldValues().FirstName;
+                    obj.Department = oListItem.get_fieldValues().Title;
+                    obj.Designation = oListItem.get_fieldValues().Designation;
+                    obj.ReportTo = oListItem.get_fieldValues().ReportTo;
+                    obj.LeaveType = oListItem.get_fieldValues().LeaveType;
+                    obj.PayrollCode = oListItem.get_fieldValues().PRCODE;
+                    obj.StartDate = oListItem.get_fieldValues().Firstdayofleave;
+                    obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
+                    obj.Status = oListItem.get_fieldValues().Status;
+                    obj.RejectionReason = remarkStr;
+                    data.push(obj);
+                }
+                deffer.resolve(data);
+            },
+                function (sender, args) {
+                    alert('Request failed. ' + args.get_message() +
+                        '\n' + args.get_stackTrace());
+                    deffer.reject(sender);
+                }
+            );
+            return deffer.promise;
+
+        };
+
+
+        AppServiceFactory.LeaveApplication_CreateNewLeaveData = function (userPro) {
+            var deferred = $q.defer();
+            var obj = JSON.parse(JSON.stringify(LeaveApplicationObj));
+            obj.EmployeeEmail = userPro.UserName;
+            obj.EmployeeSurname = userPro.LastName;
+            obj.EmployeeFirstname = userPro.FirstName;
+            obj.EmployeeID = userPro.EmployeeId;
+            obj.Department = userPro.Department;
+            obj.Designation = userPro.Title;
+            obj.Remarks = 'My remarks are remarkable';
+            if (userPro === null || userPro === undefined)
+                deferred.reject(obj);
+            else
+                deferred.resolve(obj);
+
+            return deferred.promise;
+
+        };
+        AppServiceFactory.LeaveApplication_DeleteLeaveData = function (data) {
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Delete selected Leave Application form',
+                headerText: 'Delete ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to delete this application?'
             };
 
-
-            AppServiceFactory.LeaveApplication_CreateNewLeaveData = function () {
-                var deferred = $q.defer();
-                SharePointOnlineService.LoadUserProfile().then(function (data) {
-                    console.log(data);
-
-                    var userPro = data.userProfileProperties;
-
-                    var userObj = {
-
-                        'EmployeeEmail': userPro.UserName,
-                        'EmployeeSurname': userPro.LastName,
-                        'EmployeeFirstname': userPro.FirstName,
-                        'EmployeeID': userPro.EmployeeId,
-                        'Department': userPro.Department,
-                        'Designation': userPro.Title,
-                        'ReportTo': undefined,
-                        'LeaveType': undefined,
-                        // 'PayrollCode': undefined,
-                        'LeaveCategory': undefined,
-                        'StartDate': undefined,
-                        'ReturnDate': undefined,
-                        'SupportingFiles': {},
-                        'TotalDays': undefined,
-                        'ActualLeaveChecked': false,
-                        'ActualLeave': undefined,
-                        'Remarks': 'My remarks are remarkable',
-                        'Status': 'Draft',
-                        'RejectionReason': undefined
-                    };
-                    deferred.resolve(userObj);
-                }, function (err) {
-                    console.log(err);
-                    deferred.resolve(null);
-                });
-                return deferred.promise;
-
-            };
-            AppServiceFactory.LeaveApplication_DeleteLeaveData = function (data) {
-                var modalOptions = {
-                    closeButtonText: 'Cancel',
-                    actionButtonText: 'Delete selected Leave Application form',
-                    headerText: 'Delete ' + " the selected application " + '?',
-                    bodyText: 'Are you sure you want to delete this application?'
-                };
-
-                modalService.showModal({}, modalOptions).then(function (result) {
-                    //Nidhi implement delete on click action here
-                    alert("Nidhi implement delete on click action here - result: " + result);
-                });
-            };
+            modalService.showModal({}, modalOptions).then(function (result) {
+                //Nidhi implement delete on click action here
+                alert("Nidhi implement delete on click action here - result: " + result);
+            });
+        };
 
 
-            return AppServiceFactory;
+        return AppServiceFactory;
 
-        }
+    }
 })();
 (function () {
     angular.module('SharePointOnlineServices').service('modalService', ['$modal',

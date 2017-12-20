@@ -31,12 +31,7 @@
                     var executor = new SP.RequestExecutor(appUrl);
                     executor.executeAsync(
                         {
-                            //url: appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff%20Leave%20Manager')/users?@target=%27" + hostUrl + "%27",
                             url: libraryUrl,
-                            //url:
-
-                            //appUrl +
-                            //"/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items?@target='" + hostUrl + "'",
                             method: "GET",
                             headers: { "Accept": "application/json; odata=verbose" },
                             success: function (data) {
