@@ -65,7 +65,7 @@
                             <label for="inpLeaveType">Leave Type</label>
                             <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
                                
-                                <option ng-repeat="item in leave_type"  value="{{item}}">{{item.leave_type_text}}</option>
+                                <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
 
                             </select>
                         </div>
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpPayrollCode">Payroll Code</label>
-                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.pallroll_code" disabled>
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
@@ -86,14 +86,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpFile">Supporting file</label>
-                            <!--
-                            <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
-
-                            <label class="custom-file form-control">
-                                <input type="file" class="custom-file-input" id="inpFile">
-                                <span class="custom-file-control" ng-model="selectedLeaveApplication.SupportingFile"></span>
-                            </label>
-                                -->
+                           
                             <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.SupportingFiles">
 
                             <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
