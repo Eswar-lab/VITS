@@ -52,7 +52,7 @@
                             <label for="ppReportsTo">Reports To</label>
                             <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
                             <select data-provide="typeahead" class="form-control" id="ppReportsTo"
-                                   ng-model="selectedLeaveApplication.ReportsTo" placeholder="Start typing a name...">
+                                   ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
                                     <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
                                 </select>
 
@@ -65,7 +65,7 @@
                             <label for="inpLeaveType">Leave Type</label>
                             <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
                                
-                                <option ng-repeat="item in leave_type"  value="{{item}}">{{item.leave_type_text}}</option>
+                                <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
 
                             </select>
                         </div>
@@ -86,14 +86,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpFile">Supporting file</label>
-                            <!--
-                            <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
-
-                            <label class="custom-file form-control">
-                                <input type="file" class="custom-file-input" id="inpFile">
-                                <span class="custom-file-control" ng-model="selectedLeaveApplication.SupportingFile"></span>
-                            </label>
-                                -->
+                           
                             <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.SupportingFiles">
 
                             <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
@@ -179,7 +172,7 @@
                     <td>{{data.EmployeeEmail}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
-                    <td>{{data.ReportsTo}}</td>
+                    <td>{{data.ReportTo}}</td>
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
@@ -216,7 +209,7 @@
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
-                <td>{{data.ReportsTo}}</td>
+                <td>{{data.ReportTo}}</td>
                 <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'">Approve</button></td>
                 <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'">Reject</button></td>
             </tr>
