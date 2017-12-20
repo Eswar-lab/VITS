@@ -186,9 +186,7 @@
                                         userProfileProperties: personProperties.get_userProfileProperties(),
                                         userUrl: personProperties.get_userUrl()
                                     };
-
                                     console.log("userUrl: " + profileData.userUrl);
-
                                 }
                                 catch (err) {
                                     deferred.resolve(null);
