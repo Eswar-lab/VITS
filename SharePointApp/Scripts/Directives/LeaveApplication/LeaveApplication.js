@@ -90,7 +90,8 @@
        
 
             //load application data
-            SharePointOnlineService.LeaveApplication_LoadUserData().then(function (data) {
+            SharePointOnlineService.LeaveApplication_LoadUserData($scope.stage.tab )
+                .then(function (data) {
                 console.log(data);
                 $scope.LeaveApplicationData = data;
                 $scope.FilterLeaveApplicationData = [];

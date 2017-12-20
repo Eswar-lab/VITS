@@ -184,6 +184,7 @@
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
            // var leaveType = $(data.LeaveType).text();
+            oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
             oListItem.set_item('FirstName', data.EmployeeFirstname);
             oListItem.set_item('EmployeeID', data.EmployeeID);
@@ -236,7 +237,7 @@
             oListItem.set_item('DepartmentName', data.Department);
             oListItem.set_item('Designation', data.Designation);
             oListItem.set_item('ReportTo', data.ReportsTo);
-            oListItem.set_item('PRCODE', data.LeaveType);
+            oListItem.set_item('PRCODE', JSON.parse(data.LeaveType).leave_type_text);
             oListItem.set_item('LeaveType', data.pallroll_code);
             //oListItem.set_item('PayrollCode', data.pallroll_code);
 
@@ -304,7 +305,7 @@
                      
                         try {
                             remarkStr   = $(oListItem.get_fieldValues().Remarks).text();
-                            PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRCODE);
+                            PRcodeObj = $(oListItem.get_fieldValues().LeaveType).leave_type_text();
                         } catch (ex) {
                             console.log(ex);
                         }
@@ -316,7 +317,7 @@
                                 'Department': oListItem.get_fieldValues().DepartmentName,
                                 'Designation': oListItem.get_fieldValues().Designation,
                                 'ReportsTo': oListItem.get_fieldValues().ReportTo,
-                                'LeaveType': oListItem.get_fieldValues().PRCODE,
+                                'LeaveType': oListItem.get_fieldValues().PRcodeObj,
                                 'pallroll_code': oListItem.get_fieldValues().LeaveType,
                                 // 'LeaveCategory': oListItem.get_fieldValues().PayrollCode,
                                 'StartDate': oListItem.get_fieldValues().Firstdayofleave,
@@ -485,9 +486,13 @@
                 var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
                 var hostweb = hostcontext.get_web();
                 var list = hostweb.get_lists().getByTitle(listTitle);
-                var olistitem = list.getItemById(171);
+                 var i = oListItem.set_item('ID', data.EmployeeEmail);
+                var olistitem = list.getItemById(i);
                 olistitem.deleteObject();
-                alert("Nidhi implement delete on click action here - result: " + result);
+              
+                //alert("Nidhi implement delete on click action here - result: " + result);
+                var result = listTitle + 'deleted';
+                alert(result);
             });
         }
 
