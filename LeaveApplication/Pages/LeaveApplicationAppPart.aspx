@@ -63,6 +63,18 @@
     <script src="https://localhost:44326/scripts/directives/LeaveApplication/LeaveApplication.js"></script>
     <script src="https://localhost:44326/scripts/services/ListService.js"></script>
 
+    <%--<link rel="stylesheet" href="https://sharepointapps.blob.core.windows.net/content/app.css"> 
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/app.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/external/bootstrap3-typeahead.min.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/controllers/SharePointOnlineControllers.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/services/SharePointOnlineServices.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/services/EnvironmentService.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/filesinput/FilesInput.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.js"></script>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/services/ListService.js"></script>--%>
+
+
 </head>
 <body>
      <form runat="server">
