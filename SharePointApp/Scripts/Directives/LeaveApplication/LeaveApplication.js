@@ -83,6 +83,12 @@
                 console.log(ex);
             }
         });
+        //caluculate start day and last day
+        $scope.$watch('[selectedLeaveApplication.StartDate ,selectedLeaveApplication.ReturnDate]' , function () {
+            $scope.selectedLeaveApplication.TotalDays = dateDifference($scope.selectedLeaveApplication.StartDate, $scope.selectedLeaveApplication.ReturnDate);
+
+
+        });
 
         //constructor
         init();
@@ -150,7 +156,6 @@
             LeaveApplicationService.LeaveApplication_DeleteLeaveData(data);
 
         }
-
         $scope.editLeaveApplication_Click = function (data) {
             $scope.selectedLeaveApplication = data;
             $scope.leave_type.forEach(function (item) {
@@ -252,6 +257,42 @@
                 });
 
             })
+        }
+
+        //https://stackoverflow.com/questions/28949911/what-does-this-format-means-t000000-000z
+        function dateDifference(start, end) {
+
+            // Copy date objects so don't modify originals
+            var s = new Date(start);
+            var e = new Date(end);
+
+            // Set time to midday to avoid dalight saving and browser quirks
+            s.setHours(12, 0, 0, 0);
+            e.setHours(12, 0, 0, 0);
+
+            // Get the difference in whole days
+            var totalDays = Math.round((e - s) / 8.64e7);
+
+            // Get the difference in whole weeks
+            var wholeWeeks = totalDays / 7 | 0;
+
+            // Estimate business days as number of whole weeks * 5
+            var days = wholeWeeks * 5;
+
+            // If not even number of weeks, calc remaining weekend days
+            if (totalDays % 7) {
+                s.setDate(s.getDate() + wholeWeeks * 7);
+
+                while (s < e) {
+                    s.setDate(s.getDate() + 1);
+
+                    // If day isn't a Sunday or Saturday, add to business days
+                    if (s.getDay() != 0 && s.getDay() != 6) {
+                        ++days;
+                    }
+                }
+            }
+            return days;
         }
     }
 })();
