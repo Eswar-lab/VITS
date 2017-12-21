@@ -272,8 +272,17 @@
             var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
             var hostweb = hostcontext.get_web();
             var list = hostweb.get_lists().getByTitle(listTitle);
-            var itemCreateInfo = new SP.ListItemCreationInformation();
-            var oListItem = list.addItem(itemCreateInfo);
+
+            // TODO: Check the the data.ID property is not null.
+            // If it is not NULL, then first load the data and update, instead of create a new leave application row
+            var oListItem;
+            if (data.ID == undefined || data.ID == null) {
+                var itemCreateInfo = new SP.ListItemCreationInformation();
+                oListItem = list.addItem(itemCreateInfo);
+            } else {
+                // go and fect the list item based on its data.ID property
+            }
+
             //var leaveTypeObj = JSON.parse(data.LeaveType.text());
             oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
             oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
