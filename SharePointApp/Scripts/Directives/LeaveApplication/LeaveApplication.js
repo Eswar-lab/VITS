@@ -287,7 +287,7 @@
             var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'Approve selected Leave Application ',
-                headerText: 'Reject ' + " the selected application " + '?',
+                headerText: 'Approve ' + " the selected application " + '?',
                 bodyText: 'Are you sure you want to approve this application?'
             };
 
