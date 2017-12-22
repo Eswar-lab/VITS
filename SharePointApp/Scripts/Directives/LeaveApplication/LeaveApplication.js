@@ -22,8 +22,8 @@
             controller: Controller
         };
     });
-    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'ListService', '$q', 'LeaveApplicationService'];
-    function Controller($scope, SharePointOnlineService, $timeout, ListService, $q, LeaveApplicationService) {
+    Controller.$inject = ['$scope', 'SharePointOnlineService', '$timeout', 'ListService', '$q', 'LeaveApplicationService','modalService'];
+    function Controller($scope, SharePointOnlineService, $timeout, ListService, $q, LeaveApplicationService, modalService) {
 
         var vm = this;
         var searchData = [];
@@ -154,7 +154,25 @@
         }
 
         $scope.deleteLeaveApplication_Click = function (data) {
-            LeaveApplicationService.LeaveApplication_DeleteLeaveData(data);
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Delete selected Leave Application form',
+                headerText: 'Delete ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to delete this application?'
+            };
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                if(result == 'ok')
+                    LeaveApplicationService.LeaveApplication_DeleteLeaveData(data).then(function (data) {
+                        //load application data
+                        var inputEmail = null;
+                        if ($scope.stage.view == 'UserView') {
+                            inputEmail = userProfile.WorkEmail;
+                        }
+                        loadLeaveApplication(inputEmail);
+                    });
+            });
+           
 
         }
         $scope.editLeaveApplication_Click = function (data) {
@@ -173,7 +191,7 @@
 
         $scope.newLeaveApplication_Click = function () {
 
-
+            $scope.selectedLeaveApplication.ID = undefined;
             $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData(userProfile).then(function (data) {
                 $scope.selectedLeaveApplication = data;
                 $('#modalLeaveApplication').modal('show');
@@ -189,17 +207,31 @@
             $scope.selectedLeaveApplication.Status = "Draft";
             console.log("Saving leave application");
             console.log($scope.selectedLeaveApplication.ReportsTo);
-            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                alert("successfully create a new item!");
-                //load application data
-                var inputEmail = null;
-                if ($scope.stage.view == 'UserView') {
-                    inputEmail = userProfile.WorkEmail;
-                }
-                loadLeaveApplication(inputEmail);
-            }, function (err) {
-                alert("Not successfully create a new item!");
-            });
+            if ( $scope.selectedLeaveApplication.ID !== undefined) {
+                LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
+                    alert("successfully create a new item!");
+                    //load application data
+                    var inputEmail = null;
+                    if ($scope.stage.view == 'UserView') {
+                        inputEmail = userProfile.WorkEmail;
+                    }
+                    loadLeaveApplication(inputEmail);
+                }, function (err) {
+                    alert("Not successfully update a new item!");
+                });
+            } else {
+                LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
+                    alert("successfully create a new item!");
+                    //load application data
+                    var inputEmail = null;
+                    if ($scope.stage.view == 'UserView') {
+                        inputEmail = userProfile.WorkEmail;
+                    }
+                    loadLeaveApplication(inputEmail);
+                }, function (err) {
+                    alert("Not successfully create a new item!");
+                });
+            }
             //files = $scope.selectedLeaveApplication.SupportingFiles;
             $('#modalLeaveApplication').modal('hide');
         }
@@ -207,16 +239,16 @@
             $scope.selectedLeaveApplication.Status = "Pending";
             console.log("Saving leave application");
             console.log($scope.selectedLeaveApplication.ReportsTo);
-            LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                alert("successfully create a new item!");
+            LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
+                alert("successfully submit the application!");
                 //load application data
                 var inputEmail = null;
                 if ($scope.stage.view == 'UserView') {
                     inputEmail = userProfile.WorkEmail;
                 }
-                loadLeaveApplication();
+                loadLeaveApplication(inputEmail);
             }, function (err) {
-                alert("Not successfully create a new item!");
+                alert("Not successfully submit the application!");
             });
             files = $scope.selectedLeaveApplication.SupportingFiles;
             $('#modalLeaveApplication').modal('hide');
