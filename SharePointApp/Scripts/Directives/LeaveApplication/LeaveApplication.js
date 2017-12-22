@@ -286,9 +286,9 @@
          
             var modalOptions = {
                 closeButtonText: 'Cancel',
-                actionButtonText: 'Reject selected Leave Application ',
+                actionButtonText: 'Approve selected Leave Application ',
                 headerText: 'Reject ' + " the selected application " + '?',
-                bodyText: 'Are you sure you want to reject this application?'
+                bodyText: 'Are you sure you want to approve this application?'
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
