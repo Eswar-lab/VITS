@@ -52,7 +52,6 @@
                 return null;
             }
         };
-
         AppServiceFactory.GetAppWebUrl = function () {
             var appweburl = decodeURIComponent(AppServiceFactory.getQueryStringParameter("SPAppWebUrl"));
             appweburl = appweburl.replace('#/', '');
@@ -61,7 +60,6 @@
         AppServiceFactory.GetHostWebUrl = function () {
             return decodeURIComponent(getQueryStringParameter("SPHostUrl"));
         };
-
         AppServiceFactory.setHtmlStorage = function (name, value) {
             //var name = name + '_' + AppServiceFactory.GetURLParameters("wpId");
 
