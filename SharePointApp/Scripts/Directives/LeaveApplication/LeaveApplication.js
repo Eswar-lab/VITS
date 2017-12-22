@@ -253,6 +253,60 @@
             $('#modalLeaveApplication').modal('hide');
         }
 
+        $scope.RejectLeaveApplication = function (data) {
+
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Reject selected Leave Application ',
+                headerText: 'Reject ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to reject this application?'
+            };
+
+            data.Status = "Rejected";
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                if (result == 'ok')
+                    LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+                        var inputEmail = null;
+                        if ($scope.stage.view == 'UserView') {
+                            inputEmail = userProfile.WorkEmail;
+                        }
+                        loadLeaveApplication(inputEmail);
+                        alert("Application has been  rejected successfully");
+                    }, function (err) {
+                        alert("Application has been not rejected successfully");
+                    });
+            });
+
+           
+            
+        }
+        $scope.ApproveLeaveApplication = function (data) {
+            data.Status = "Approved";
+         
+            var modalOptions = {
+                closeButtonText: 'Cancel',
+                actionButtonText: 'Reject selected Leave Application ',
+                headerText: 'Reject ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to reject this application?'
+            };
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                if (result == 'ok')
+                    LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+                        var inputEmail = null;
+                        if ($scope.stage.view == 'UserView') {
+                            inputEmail = userProfile.WorkEmail;
+                        }
+                        loadLeaveApplication(inputEmail);
+                        alert("Application has been  approved successfully");
+                    }, function (err) {
+                        alert("Application has been not approved successfully");
+                    });
+            });
+
+        }
+
 
         $("#ppReportsTo").typeahead({
             source: LeaveApplicationService.LeaveApplication_Get_Approvers(),

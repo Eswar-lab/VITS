@@ -210,8 +210,8 @@
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
                 <td>{{data.ReportTo}}</td>
-                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'">Approve</button></td>
-                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
