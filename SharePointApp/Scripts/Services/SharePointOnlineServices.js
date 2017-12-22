@@ -229,7 +229,7 @@
     LeaveApplicationService.$inject = ['$http', '$rootScope', '$timeout', '$q', '$localStorage', '$location', 'SharePointOnlineService', 'modalService'];
 
     function LeaveApplicationService($http, $rootScope, $timeout, $q, $localStorage, $location, SharePointOnlineService, modalService) {
-
+        var listTitle = "Staff Leave Application";
         var AppServiceFactory = {};
         var LeaveApplicationObj = {
             'ID': undefined,
@@ -253,6 +253,31 @@
             'Remarks': undefined,
 
         };
+        var LeaveApplicationFields = {
+            'ID': 'ID',
+            'EmployeeEmail': 'EmployeeEmail',
+            'EmployeeSurname': 'EmployeeSurname',
+            'EmployeeFirstname': 'FirstName',
+            'EmployeeID': 'EmployeeID',
+            'Department': 'Designation',
+            'Designation': 'Designation',
+            'ReportTo': 'ReportTo',
+            'LeaveType': 'LeaveType',
+            'PayrollCode': 'PayrollCode',
+            'LeaveCategory': 'LeaveCategory',
+            'StartDate': 'StartDate',
+            'ReturnDate': 'ReturnDate',
+            'TotalDays': 'TotalDays',
+            'ActualLeaveChecked': 'ActualLeaveChecked',
+            'ActualLeave': 'ActualLeave',
+            'Status': 'Status',
+            'RejectionReason': 'RejectionReason',
+            'Remarks': 'Remarks',
+            'PRCODE': 'PRCODE',
+            'Firstdayofleave': 'Firstdayofleave',
+            'Lastdayofleave': 'Lastdayofleave'
+
+        }
 
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
@@ -260,11 +285,9 @@
             { id: "someId2", name: "Display name 2" }];
         };
 
-        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
+        AppServiceFactory.LeaveApplication_UpdateLeaveData = function (data) {
             //... Nidhi's code will go here > JSOM
             var deferred = $q.defer();
-            var listTitle = "Staff Leave Application";
-
             ///This function will save data in Staff Leave Application list
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
@@ -272,25 +295,71 @@
             var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
             var hostweb = hostcontext.get_web();
             var list = hostweb.get_lists().getByTitle(listTitle);
+            var oListItem = list.getItemById(data.ID);
+           
+            //var leaveTypeObj = JSON.parse(data.LeaveType.text());
+
+            oListItem.set_item(LeaveApplicationFields.EmployeeEmail, data.EmployeeEmail);
+            oListItem.set_item(LeaveApplicationFields.EmployeeSurname, data.EmployeeSurname);
+            oListItem.set_item(LeaveApplicationFields.EmployeeFirstname, data.EmployeeFirstname);
+            oListItem.set_item(LeaveApplicationFields.EmployeeID, data.EmployeeID);
+            oListItem.set_item(LeaveApplicationFields.Department, data.Department);
+            oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
+            oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+
+            oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
+            oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
+
+            oListItem.set_item(LeaveApplicationFields.Status, data.Status);
+            oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
+            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+            oListItem.update();
+          
+            appcontext.executeQueryAsync(
+                function (sender, args) {
+
+                    deferred.resolve(args);
+                },
+                function (sender, args) {
+
+                    deferred.reject(args);
+                });
+            return deferred.promise;
+        }
+
+        AppServiceFactory.LeaveApplication_SaveOrCreateData = function (data) {
+            //... Nidhi's code will go here > JSOM
+            var deferred = $q.defer();
+            ///This function will save data in Staff Leave Application list
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var list = hostweb.get_lists().getByTitle(listTitle);
+
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
+          
             //var leaveTypeObj = JSON.parse(data.LeaveType.text());
-            oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
-            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
-            oListItem.set_item('FirstName', data.EmployeeFirstname);
-            oListItem.set_item('EmployeeID', data.EmployeeID);
-            oListItem.set_item('DepartmentName', data.Department);
-            oListItem.set_item('Designation', data.Designation);
-            oListItem.set_item('ReportTo', data.ReportTo);
-            oListItem.set_item('LeaveType', data.LeaveType);
-            oListItem.set_item('PRCODE', data.pallroll_code);
-            //  oListItem.set_item('PayrollCode', data.pallroll_code);
 
-            oListItem.set_item('Firstdayofleave', data.StartDate);
-            oListItem.set_item('Lastdayofleave', data.ReturnDate);
-            oListItem.set_item('Totalnumberofdays', data.TotalDays);
-            oListItem.set_item('Status', data.Status);
-            oListItem.set_item('Remarks', data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.EmployeeEmail, data.EmployeeEmail);
+            oListItem.set_item(LeaveApplicationFields.EmployeeSurname, data.EmployeeSurname);
+            oListItem.set_item(LeaveApplicationFields.EmployeeFirstname, data.EmployeeFirstname);
+            oListItem.set_item(LeaveApplicationFields.EmployeeID, data.EmployeeID);
+            oListItem.set_item(LeaveApplicationFields.Department, data.Department);
+            oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
+            oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+           
+            oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
+            oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
+           
+            oListItem.set_item(LeaveApplicationFields.Status, data.Status);
+            oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -321,21 +390,21 @@
             var oListItem = list.addItem(itemCreateInfo);
             var leaveTypeObj = JSON.parse(data.LeaveType.text());
 
-            oListItem.set_item('EmployeeEmail', data.EmployeeEmail);
-            oListItem.set_item('EmployeeSurname', data.EmployeeSurname);
-            oListItem.set_item('FirstName', data.EmployeeFirstname);
-            oListItem.set_item('EmployeeID', data.EmployeeID);
-            oListItem.set_item('DepartmentName', data.Department);
-            oListItem.set_item('Designation', data.Designation);
-            oListItem.set_item('ReportTo', data.ReportTo);
-            //oListItem.set_item('PayrollCode', data.LeaveType);
-            oListItem.set_item('LeaveType', leaveTypeObj.leave_type_code);
-            oListItem.set_item('PRCODE', leaveTypeObj.leave_type_text);
-            oListItem.set_item('Firstdayofleave', data.StartDate);
-            oListItem.set_item('Lastdayofleave', data.ReturnDate);
-            oListItem.set_item('Totalnumberofdays', data.TotalDays);
-            oListItem.set_item('Status', data.Status);
-            oListItem.set_item('Remarks', data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.EmployeeEmail, data.EmployeeEmail);
+            oListItem.set_item(LeaveApplicationFields.EmployeeSurname, data.EmployeeSurname);
+            oListItem.set_item(LeaveApplicationFields.FirstName, data.EmployeeFirstname);
+            oListItem.set_item(LeaveApplicationFields.EmployeeID, data.EmployeeID);
+            oListItem.set_item(LeaveApplicationFields.DepartmentName, data.Department);
+            oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
+            oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+          
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.leave_type_text);
+            oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
+            oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
+            oListItem.set_item(LeaveApplicationFields.Totalnumberofdays, data.TotalDays);
+            oListItem.set_item(LeaveApplicationFields.Status, data.Status);
+            oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -354,8 +423,6 @@
         AppServiceFactory.LeaveApplication_LoadUserData = function (email) {
 
             var deffer = $q.defer();
-            var listTitle = "Staff Leave Application";
-
             ///This function will filter data in Staff Leave Application list with status column
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
@@ -441,17 +508,25 @@
 
         };
         AppServiceFactory.LeaveApplication_DeleteLeaveData = function (data) {
-            var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Delete selected Leave Application form',
-                headerText: 'Delete ' + " the selected application " + '?',
-                bodyText: 'Are you sure you want to delete this application?'
-            };
+            var deferred = $q.defer();
+            var itemId = data.ID;
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);
+            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+            var hostweb = hostcontext.get_web();
+            var oList = hostweb.get_lists().getByTitle(listTitle);
+            var oListItem = oList.getItemById(itemId);
 
-            modalService.showModal({}, modalOptions).then(function (result) {
-                //Nidhi implement delete on click action here
-                alert("Nidhi implement delete on click action here - result: " + result);
-            });
+            oListItem.deleteObject();
+            appcontext.executeQueryAsync(Function.createDelegate(this, function () {
+                alert("successful");
+                deferred.resolve(oListItem);
+            }), Function.createDelegate(this, function () {
+                    alert("unsuccessful");
+                    deferred.reject(null);
+                }));
+            return deferred.promise;
         };
 
 
