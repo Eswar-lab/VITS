@@ -461,8 +461,43 @@
 
             modalService.showModal({}, modalOptions).then(function (result) {
                 //Nidhi implement delete on click action here
-                alert("Nidhi implement delete on click action here - result: " + result);
+
+                var listTitle = "Staff Leave Application";
+                
+                ///This function will save data in Staff Leave Application list
+               
+                var listTitle = "Staff Leave Application";
+                ///This function will save data in Staff Leave Application list
+                var hostUrl = SharePointOnlineService.GetHostWebUrl();
+                var appUrl = SharePointOnlineService.GetAppWebUrl();
+                var appcontext = new SP.ClientContext(appUrl);
+                var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
+                var hostweb = hostcontext.get_web();
+                var list = hostweb.get_lists().getByTitle(listTitle);
+                var itemID1 = 227;
+
+               
+                var olistitem = list.getItemById(itemID1);
+                olistitem.deleteObject();
+                //alert(olistitem);
+                //var result = 'item  deleted';
+                
+                appcontext.executeQueryAsync(
+                    LeaveApplication_DeleteLeaveData_onQueryItemSucceeded,
+                    LeaveApplication_DeleteLeaveData_onQueryItemFailed);
+
+                //alert("Nidhi implement delete on click action here - result: " + result);
             });
+
+            function LeaveApplication_DeleteLeaveData_onQueryItemSucceeded(sender, args) {
+                var result = 'item deleted';
+                alert(result);
+            }
+
+            function LeaveApplication_DeleteLeaveData_onQueryItemFailed(sender, args) {
+                alert('Request failed. ' + args.get_message() + '\n' + args.get_stackTrace());
+            }
+
         };
 
 
