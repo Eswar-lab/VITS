@@ -467,8 +467,9 @@
                     var obj = JSON.parse(JSON.stringify(LeaveApplicationObj));
                     obj.ID = oListItem.get_fieldValues().ID;
                     obj.EmployeeEmail = oListItem.get_fieldValues().Author['$6_2'];
-                    obj.EmployeeSurname = oListItem.get_fieldValues().LastName;
-                    obj.EmployeeID = oListItem.get_fieldValues().FirstName;
+                    obj.EmployeeSurname = oListItem.get_fieldValues().EmployeeSurname;
+                    obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
+                    //obj.EmployeeID = oListItem.get_fieldValues().FirstName;
                     obj.Department = oListItem.get_fieldValues().Title;
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
