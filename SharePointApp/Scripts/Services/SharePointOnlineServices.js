@@ -257,7 +257,7 @@
             'EmployeeSurname': 'EmployeeSurname',
             'EmployeeFirstname': 'FirstName',
             'EmployeeID': 'EmployeeID',
-            'Department': 'Designation',
+            'Department': 'DepartmentName',
             'Designation': 'Designation',
             'ReportTo': 'ReportTo',
             'LeaveType': 'LeaveType',
@@ -273,7 +273,9 @@
             'Remarks': 'Remarks',
             'PRCODE': 'PRCODE',
             'Firstdayofleave': 'Firstdayofleave',
-            'Lastdayofleave': 'Lastdayofleave'
+            'Lastdayofleave': 'Lastdayofleave',
+            'SupportingFiles': 'Attachments'
+
 
         }
 
@@ -355,6 +357,7 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+            //oListItem.set_item(LeaveApplicationFields.SupportingFiles, data.SupportingFiles);
           
             LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
                 if (item.leave_type_code == data.LeaveType) {
@@ -403,7 +406,7 @@
             oListItem.set_item(LeaveApplicationFields.EmployeeSurname, data.EmployeeSurname);
             oListItem.set_item(LeaveApplicationFields.FirstName, data.EmployeeFirstname);
             oListItem.set_item(LeaveApplicationFields.EmployeeID, data.EmployeeID);
-            oListItem.set_item(LeaveApplicationFields.DepartmentName, data.Department);
+            oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
             LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
@@ -478,7 +481,7 @@
                     obj.EmployeeSurname = oListItem.get_fieldValues().EmployeeSurname;
                     obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
                     //obj.EmployeeID = oListItem.get_fieldValues().FirstName;
-                    obj.Department = oListItem.get_fieldValues().Title;
+                    obj.Department = oListItem.get_fieldValues().Department;
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
                     obj.LeaveType = oListItem.get_fieldValues().LeaveType;
