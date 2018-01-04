@@ -401,15 +401,8 @@
 
         }
 
-        $("#ppReportsTo").typeahead({
-            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
-            //autoSelect: trueFFF
-        });
-
-        $('#userTabs a').click(function (e) {
-            e.preventDefault()
-            $(this).tab('show');
-        });
+        
+        
 
 
         function loadLeaveApplication(inputEmail, isManager) {
@@ -488,5 +481,20 @@
             }
             return days;
         }
+
+        //JQuery code for Leave Application
+        $("#ppReportsTo").typeahead({
+            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
+            //autoSelect: trueFFF
+        });
+
+        $('#userTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
+        $('#managerTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
     }
 })();

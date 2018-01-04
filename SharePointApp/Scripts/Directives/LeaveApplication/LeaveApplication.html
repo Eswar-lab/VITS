@@ -182,19 +182,19 @@
     </div>
 
     <!-- Manager View -->
-    <div class="panel panel-default" ng-show="stage.view == 'ManagerView'">
+    <div class="panel panel-primary" ng-show="stage.view == 'ManagerView'">
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
-        <ul class="nav nav-pills">
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+        <ul id="managerTabs"class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
         <!-- Table -->
-        <table class="table">
+        <table class="table table-condensed">
             <thead>
                 <tr>
                     <th>Employee Email</th>
