@@ -304,7 +304,12 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+           
+            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                if (item.leave_type_code == data.LeaveType) {
+                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                }
+            })
             oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
 
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
@@ -401,8 +406,11 @@
             oListItem.set_item(LeaveApplicationFields.DepartmentName, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-          
-            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                if (item.leave_type_code == data.LeaveType) {
+                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                }
+            })
             oListItem.set_item(LeaveApplicationFields.PRCODE, data.leave_type_text);
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
