@@ -45,7 +45,7 @@ const LEAVE_APPLICATION_FIELDS = [
     { 'name': 'ID', 'required': false },
     { 'name': 'EmployeeEmail', 'required': true },
     { 'name': 'EmployeeSurname', 'required': true },
-    { 'name': 'FirstName', 'required': true },
+    { 'name': 'FirstName', 'required': false },
     { 'name': 'EmployeeID', 'required': false },
     { 'name': 'Designation', 'required': false },
     { 'name': 'Designation', 'required': false },

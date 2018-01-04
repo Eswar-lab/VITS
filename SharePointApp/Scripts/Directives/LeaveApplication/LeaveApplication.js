@@ -117,8 +117,8 @@
 
                 //load application data
                 var inputEmail = null;
+                inputEmail = userProfile.WorkEmail;
                 if ($scope.stage.view == 'UserView') {
-                    inputEmail = userProfile.WorkEmail;
                     loadLeaveApplication(inputEmail, false);
                 }
                 else
