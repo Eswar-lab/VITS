@@ -418,7 +418,7 @@
             return deferred.promise;
         };
 
-        AppServiceFactory.LeaveApplication_LoadUserData = function (email) {
+        AppServiceFactory.LeaveApplication_LoadUserData = function (email, isManager) {
 
             var deffer = $q.defer();
             ///This function will filter data in Staff Leave Application list with status column
@@ -432,10 +432,10 @@
             var camlQuery = new SP.CamlQuery();
 
             var camlQ = undefined;
-            if (email !== null && email !== undefined)
+            if (isManager == false)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="EmployeeEmail" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>';
             else
-                camlQ = '<View><Query><Where></Where></Query></View>'
+                camlQ = '<View><Query><Where><Eq><FieldRef Name="ReportTo" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>'
             camlQuery.set_viewXml(camlQ);
             var collListItem = oList.getItems(camlQuery);
             appcontext.load(collListItem);
@@ -518,10 +518,10 @@
 
             oListItem.deleteObject();
             appcontext.executeQueryAsync(Function.createDelegate(this, function () {
-                alert("successful");
+             
                 deferred.resolve(oListItem);
             }), Function.createDelegate(this, function () {
-                    alert("unsuccessful");
+                  
                     deferred.reject(null);
                 }));
             return deferred.promise;

@@ -41,7 +41,29 @@
     }
 })();
 
+const LEAVE_APPLICATION_FIELDS = [
+    { 'name': 'ID', 'required': false },
+    { 'name': 'EmployeeEmail', 'required': true },
+    { 'name': 'EmployeeSurname', 'required': true },
+    { 'name': 'FirstName', 'required': true },
+    { 'name': 'EmployeeID', 'required': false },
+    { 'name': 'Designation', 'required': false },
+    { 'name': 'Designation', 'required': false },
+    { 'name': 'ReportTo', 'required': true },
+    { 'name': 'LeaveType', 'required': false },
+    { 'name': 'PayrollCode', 'required': false },
+    { 'name': 'LeaveCategory', 'required': false },
+    { 'name': 'StartDate', 'required': true },
+    { 'name': 'ReturnDate', 'required': true },
+    { 'name': 'TotalDays', 'required': false },
+    { 'name': 'ActualLeaveChecked', 'required': false },
+    { 'name': 'ActualLeave', 'required': false },
+    { 'name': 'Status', 'required': false },
+    { 'name': 'RejectionReason', 'required': false },
+    { 'name': 'Remarks', 'required': false },
+    { 'name': 'PRCODE', 'required': false },
 
+];
 const LEAVE_TYPE_PAYROLL_CODE = [
     {
         leave_type_code: 'ANN',
