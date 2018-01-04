@@ -119,9 +119,12 @@
                     inputEmail = userProfile.WorkEmail;
                     loadLeaveApplication(inputEmail, false);
                 }
-                loadLeaveApplication(inputEmail, true);
+                else
+                    loadLeaveApplication(inputEmail, true);
 
             });
+
+
 
 
 
@@ -215,8 +218,8 @@
                 headerText: 'Save ' + " the selected application " + '',
                 bodyText: undefined
             };
-          
-          
+
+
             if ($scope.selectedLeaveApplication.ID !== undefined) {
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
@@ -236,8 +239,8 @@
             } else {
 
                 LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                   
-                    modalOptions.bodyText ="successfully create a new item!";
+
+                    modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                     //load application data
                     var inputEmail = null;
@@ -278,7 +281,7 @@
                     }
 
                     if ($scope.selectedLeaveApplication.ID !== null && $scope.selectedLeaveApplication.ID !== undefined) {
-                       
+
                         LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                             modalOptions.bodyText = "successfully submit the application!";
                             modalService.showModal({}, modalOptions);
@@ -328,7 +331,7 @@
             });
 
             files = $scope.selectedLeaveApplication.SupportingFiles;
-          
+
         }
 
         $scope.RejectLeaveApplication = function (data) {
@@ -356,7 +359,7 @@
                             loadLeaveApplication(inputEmail, true);
                         modalOptions.bodyText = "Application has been  rejected successfully";
                         modalService.showModal({}, modalOptions);
-                       
+
                     }, function (err) {
                         modalOptions.bodyText = "Application has been not rejected successfully";
                         modalService.showModal({}, modalOptions);
@@ -434,12 +437,15 @@
 
             })
         }
+
+       
+
         function validateLeaveApplication(leaveApplication) {
             var errs = [];
             LEAVE_APPLICATION_FIELDS.forEach(function (item) {
                 if (item.required == true) {
                     if (leaveApplication[item.name] == null || leaveApplication[item.name] == undefined) {
-                        errs.push( item.name);
+                        errs.push(item.name);
                     }
                 }
             });
