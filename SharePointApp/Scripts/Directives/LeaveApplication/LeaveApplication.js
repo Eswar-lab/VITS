@@ -224,10 +224,14 @@
 
 
             if ($scope.selectedLeaveApplication.ID !== undefined) {
-                var parts = document.getElementById("inpFile").value.split("\\");
-                var filename = parts[parts.length - 1];
-                var file = document.getElementById("inpFile").files[0];
-                LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+                try {
+                    var parts = document.getElementById("inpFile").value.split("\\");
+                    var filename = parts[parts.length - 1];
+                    var file = document.getElementById("inpFile").files[0];
+                    LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+                } catch (ex) {
+                    console.log(ex);
+                }
 
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
@@ -247,12 +251,14 @@
             } else {
 
                 LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-
-                    var parts = document.getElementById("inpFile").value.split("\\");
-                    var filename = parts[parts.length - 1];
-                    var file = document.getElementById("inpFile").files[0];
-                    LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
-
+                    try {
+                        var parts = document.getElementById("inpFile").value.split("\\");
+                        var filename = parts[parts.length - 1];
+                        var file = document.getElementById("inpFile").files[0];
+                        LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
+                    } catch (ex) {
+                        console.log(ex);
+                    }
 
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
