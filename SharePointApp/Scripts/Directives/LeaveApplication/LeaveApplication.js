@@ -45,6 +45,8 @@
         $scope.selectedLeaveApplication.LeaveType = undefined;
         $scope.selectedLeaveApplication.PayrollCode = undefined;
         $scope.selectedLeaveApplication.enable_leave_category = false;
+        $scope.selectedLeaveApplication.SupportingFiles = undefined;
+        
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
@@ -221,6 +223,11 @@
 
 
             if ($scope.selectedLeaveApplication.ID !== undefined) {
+                var parts = document.getElementById("inpFile").value.split("\\");
+                var filename = parts[parts.length - 1];
+                var file = document.getElementById("inpFile").files[0];
+                LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
@@ -239,6 +246,12 @@
             } else {
 
                 LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
+
+                    var parts = document.getElementById("inpFile").value.split("\\");
+                    var filename = parts[parts.length - 1];
+                    var file = document.getElementById("inpFile").files[0];
+                    LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
+
 
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
