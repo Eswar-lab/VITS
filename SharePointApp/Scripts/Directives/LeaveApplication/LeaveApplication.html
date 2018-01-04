@@ -63,7 +63,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpLeaveType">Leave Type</label>
-                            <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
+                            <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.PayrollCode">
                                
                                 <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
 
@@ -73,7 +73,7 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpPayrollCode">Payroll Code</label>
-                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.pallroll_code" disabled>
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpLeaveCat">Leave Category</label>
@@ -182,19 +182,19 @@
     </div>
 
     <!-- Manager View -->
-    <div class="panel panel-default" ng-show="stage.view == 'ManagerView'">
+    <div class="panel panel-primary" ng-show="stage.view == 'ManagerView'">
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
-        <ul class="nav nav-pills">
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+        <ul id="managerTabs"class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
         <!-- Table -->
-        <table class="table">
+        <table class="table table-condensed">
             <thead>
                 <tr>
                     <th>Employee Email</th>

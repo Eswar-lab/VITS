@@ -44,8 +44,10 @@
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
         $scope.selectedLeaveApplication.LeaveType = undefined;
-        $scope.selectedLeaveApplication.pallroll_code = undefined;
+        $scope.selectedLeaveApplication.PayrollCode = undefined;
         $scope.selectedLeaveApplication.enable_leave_category = false;
+        $scope.selectedLeaveApplication.SupportingFiles = undefined;
+        
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
@@ -77,7 +79,7 @@
             try {
                 $scope.leave_type.forEach(function (item) {
                     if ($scope.selectedLeaveApplication.LeaveType == item.leave_type_code) {
-                        $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
+                        $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
                         $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
                         return;
                     }
@@ -120,9 +122,12 @@
                     inputEmail = userProfile.WorkEmail;
                     loadLeaveApplication(inputEmail, false);
                 }
-                loadLeaveApplication(inputEmail, true);
+                else
+                    loadLeaveApplication(inputEmail, true);
 
             });
+
+
 
 
 
@@ -183,8 +188,8 @@
         $scope.editLeaveApplication_Click = function (data) {
             $scope.selectedLeaveApplication = data;
             $scope.leave_type.forEach(function (item) {
-                if (data.LeaveType == item.leave_type_code) {
-                    $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
+                if (data.PayrollCode == item.leave_type_code) {
+                    $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
                     $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
                     return;
                 }
@@ -216,9 +221,14 @@
                 headerText: 'Save ' + " the selected application " + '',
                 bodyText: undefined
             };
-          
-          
+
+
             if ($scope.selectedLeaveApplication.ID !== undefined) {
+                var parts = document.getElementById("inpFile").value.split("\\");
+                var filename = parts[parts.length - 1];
+                var file = document.getElementById("inpFile").files[0];
+                LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
@@ -237,8 +247,14 @@
             } else {
 
                 LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                   
-                    modalOptions.bodyText ="successfully create a new item!";
+
+                    var parts = document.getElementById("inpFile").value.split("\\");
+                    var filename = parts[parts.length - 1];
+                    var file = document.getElementById("inpFile").files[0];
+                    LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
+
+
+                    modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                     //load application data
                     var inputEmail = null;
@@ -279,7 +295,7 @@
                     }
 
                     if ($scope.selectedLeaveApplication.ID !== null && $scope.selectedLeaveApplication.ID !== undefined) {
-                       
+
                         LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                             modalOptions.bodyText = "successfully submit the application!";
                             modalService.showModal({}, modalOptions);
@@ -329,7 +345,7 @@
             });
 
             files = $scope.selectedLeaveApplication.SupportingFiles;
-          
+
         }
 
         $scope.RejectLeaveApplication = function (data) {
@@ -357,7 +373,7 @@
                             loadLeaveApplication(inputEmail, true);
                         modalOptions.bodyText = "Application has been  rejected successfully";
                         modalService.showModal({}, modalOptions);
-                       
+
                     }, function (err) {
                         modalOptions.bodyText = "Application has been not rejected successfully";
                         modalService.showModal({}, modalOptions);
@@ -399,15 +415,8 @@
 
         }
 
-        $("#ppReportsTo").typeahead({
-            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
-            //autoSelect: trueFFF
-        });
-
-        $('#userTabs a').click(function (e) {
-            e.preventDefault()
-            $(this).tab('show');
-        });
+        
+        
 
 
         function loadLeaveApplication(inputEmail, isManager) {
@@ -435,12 +444,15 @@
 
             })
         }
+
+       
+
         function validateLeaveApplication(leaveApplication) {
             var errs = [];
             LEAVE_APPLICATION_FIELDS.forEach(function (item) {
                 if (item.required == true) {
                     if (leaveApplication[item.name] == null || leaveApplication[item.name] == undefined) {
-                        errs.push( item.name);
+                        errs.push(item.name);
                     }
                 }
             });
@@ -483,5 +495,20 @@
             }
             return days;
         }
+
+        //JQuery code for Leave Application
+        $("#ppReportsTo").typeahead({
+            source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
+            //autoSelect: trueFFF
+        });
+
+        $('#userTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
+        $('#managerTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
     }
 })();

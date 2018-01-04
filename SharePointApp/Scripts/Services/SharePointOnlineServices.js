@@ -304,8 +304,13 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+           
+            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                if (item.leave_type_code == data.LeaveType) {
+                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                }
+            })
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
 
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
@@ -350,8 +355,14 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+          
+            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                if (item.leave_type_code == data.LeaveType) {
+                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                }
+            })
+
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
            
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
@@ -395,8 +406,11 @@
             oListItem.set_item(LeaveApplicationFields.DepartmentName, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-          
-            oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                if (item.leave_type_code == data.LeaveType) {
+                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                }
+            })
             oListItem.set_item(LeaveApplicationFields.PRCODE, data.leave_type_text);
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
@@ -461,8 +475,9 @@
                     var obj = JSON.parse(JSON.stringify(LeaveApplicationObj));
                     obj.ID = oListItem.get_fieldValues().ID;
                     obj.EmployeeEmail = oListItem.get_fieldValues().Author['$6_2'];
-                    obj.EmployeeSurname = oListItem.get_fieldValues().LastName;
-                    obj.EmployeeID = oListItem.get_fieldValues().FirstName;
+                    obj.EmployeeSurname = oListItem.get_fieldValues().EmployeeSurname;
+                    obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
+                    //obj.EmployeeID = oListItem.get_fieldValues().FirstName;
                     obj.Department = oListItem.get_fieldValues().Title;
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
@@ -527,7 +542,53 @@
             return deferred.promise;
         };
 
+       
+        AppServiceFactory.LeaveApplication_AddAttachedData = function ( id, fileName, file) {
+            var deferred = $.Deferred();
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            getFileBuffer(file).then(
+                function (buffer) {
+                    var bytes = new Uint8Array(buffer);
+                    var content = new SP.Base64EncodedByteArray();
+                    var queryUrl = hostUrl + "/_api/lists/GetByTitle('" + listTitle + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')";
+                    $.ajax({
+                        url: queryUrl,
+                        type: "POST",
+                        processData: false,
+                        contentType: "application/json;odata=verbose",
+                        data: buffer,
+                        headers: {
+                            "accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "content-length": buffer.byteLength
+                        }, success: function (data) {
+                            alert(data);
+                        },
+                        error: function (err) {
+                            alert(err.responseText);
+                        }
+                    });
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise();
+        }
 
+
+        function getFileBuffer(file) {
+            var deferred = $.Deferred();
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                deferred.resolve(e.target.result);
+            }
+            reader.onerror = function (e) {
+                deferred.reject(e.target.error);
+            }
+            reader.readAsArrayBuffer(file);
+            return deferred.promise();
+        }      
         return AppServiceFactory;
 
     }
