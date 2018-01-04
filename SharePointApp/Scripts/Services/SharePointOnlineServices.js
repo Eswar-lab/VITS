@@ -310,7 +310,7 @@
                     oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
                 }
             })
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
 
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
@@ -362,7 +362,7 @@
                 }
             })
 
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.pallroll_code);
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
            
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);

@@ -43,7 +43,7 @@
         $scope.selectedLeaveApplication = {};
         $scope.selectedLeaveApplication.selectedManager = undefined;
         $scope.selectedLeaveApplication.LeaveType = undefined;
-        $scope.selectedLeaveApplication.pallroll_code = undefined;
+        $scope.selectedLeaveApplication.PayrollCode = undefined;
         $scope.selectedLeaveApplication.enable_leave_category = false;
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
@@ -76,7 +76,7 @@
             try {
                 $scope.leave_type.forEach(function (item) {
                     if ($scope.selectedLeaveApplication.LeaveType == item.leave_type_code) {
-                        $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
+                        $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
                         $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
                         return;
                     }
@@ -185,8 +185,8 @@
         $scope.editLeaveApplication_Click = function (data) {
             $scope.selectedLeaveApplication = data;
             $scope.leave_type.forEach(function (item) {
-                if (data.LeaveType == item.leave_type_code) {
-                    $scope.selectedLeaveApplication.pallroll_code = item.leave_type_code;
+                if (data.PayrollCode == item.leave_type_code) {
+                    $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
                     $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
                     return;
                 }
