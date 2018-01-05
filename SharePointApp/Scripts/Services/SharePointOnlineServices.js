@@ -244,12 +244,12 @@
             'StartDate': undefined,
             'ReturnDate': undefined,
             'TotalDays': undefined,
-            'ActualLeaveChecked': 'false',
-            'ActualLeave': '0',
+            'ActualLeaveChecked': undefined,
+            'ActualLeave': undefined,
             'Status': undefined,
             'RejectionReason': undefined,
             'Remarks': undefined,
-
+            'Totaldays': undefined,
         };
         var LeaveApplicationFields = {
             'ID': 'ID',
@@ -372,6 +372,8 @@
            
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
+            oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);

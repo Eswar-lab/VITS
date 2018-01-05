@@ -67,7 +67,7 @@ const LEAVE_APPLICATION_FIELDS = [
 const LEAVE_TYPE_PAYROLL_CODE = [
     {
         leave_type_code: 'ANN',
-        leave_type_text: 'annual leave',
+        leave_type_text: 'Annual Leave',
         enable_leave_category: false
 
     },
@@ -85,7 +85,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'FAM',
-        leave_type_text: 'Family leave',
+        leave_type_text: 'Family Leave',
         enable_leave_category: true
 
     },
@@ -97,13 +97,13 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'STY',
-        leave_type_text: 'study leave',
+        leave_type_text: 'Study Leave',
         enable_leave_category: false
 
     },
     {
         leave_type_code: 'PAT',
-        leave_type_text: 'Parental leave',
+        leave_type_text: 'Parental Leave',
         enable_leave_category: false
 
     },
@@ -115,7 +115,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long servide leave',
+        leave_type_text: 'Long Servide Leave',
         enable_leave_category: false
 
     },

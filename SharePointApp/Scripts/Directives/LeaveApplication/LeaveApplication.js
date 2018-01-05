@@ -350,7 +350,7 @@
                 }
             });
 
-            files = $scope.selectedLeaveApplication.SupportingFiles;
+           // files = $scope.selectedLeaveApplication.SupportingFiles;
 
         }
 
