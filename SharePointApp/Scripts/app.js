@@ -43,8 +43,8 @@
 
 const LEAVE_APPLICATION_FIELDS = [
     { 'name': 'ID', 'required': false },
-    { 'name': 'EmployeeEmail', 'required': false },
-    { 'name': 'EmployeeSurname', 'required': false },
+    { 'name': 'EmployeeEmail', 'required': true },
+    { 'name': 'EmployeeSurname', 'required': true },
     { 'name': 'FirstName', 'required': false },
     { 'name': 'EmployeeID', 'required': false },
     { 'name': 'Designation', 'required': false },
@@ -67,7 +67,7 @@ const LEAVE_APPLICATION_FIELDS = [
 const LEAVE_TYPE_PAYROLL_CODE = [
     {
         leave_type_code: 'ANN',
-        leave_type_text: 'Annual Leave',
+        leave_type_text: 'annual leave',
         enable_leave_category: false
 
     },
@@ -85,26 +85,25 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'FAM',
-        leave_type_text: 'Family Leave',
+        leave_type_text: 'Family leave',
         enable_leave_category: true
 
     },
     {
-
         leave_type_code: 'CMP',
-        leave_type_text: 'Compassionate Leave',
+        leave_type_text: 'Copassitionate Leave',
         enable_leave_category: true
 
     },
     {
         leave_type_code: 'STY',
-        leave_type_text: 'Study Leave',
+        leave_type_text: 'study leave',
         enable_leave_category: false
 
     },
     {
         leave_type_code: 'PAT',
-        leave_type_text: 'Parental Leave',
+        leave_type_text: 'Parental leave',
         enable_leave_category: false
 
     },
@@ -116,12 +115,10 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Service Leave',
+        leave_type_text: 'Long servide leave',
         enable_leave_category: false
 
     },
-
-
 
 ]
 
