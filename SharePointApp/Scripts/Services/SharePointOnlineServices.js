@@ -261,7 +261,7 @@
             'Designation': 'Designation',
             'ReportTo': 'ReportTo',
             'LeaveType': 'LeaveType',
-            'PayrollCode': 'PayrollCode',
+            'PayrollCode': 'PRCODE',
             'LeaveCategory': 'LeaveCategory',
             'StartDate': 'StartDate',
             'ReturnDate': 'ReturnDate',
@@ -271,7 +271,7 @@
             'Status': 'Status',
             'RejectionReason': 'RejectionReason',
             'Remarks': 'Remarks',
-            'PRCODE': 'PRCODE',
+            //'PRCODE': 'PRCODE',
             'Firstdayofleave': 'Firstdayofleave',
             'Lastdayofleave': 'Lastdayofleave',
             'SupportingFiles': 'Attachments'
@@ -306,12 +306,13 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+          
            
-            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.LeaveType) {
-                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
-                }
-            })
+            //LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+            //    if (item.leave_type_code == data.LeaveType) {
+            //        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+            //    }
+            //})
             oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
 
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
@@ -357,15 +358,16 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-            //oListItem.set_item(LeaveApplicationFields.SupportingFiles, data.SupportingFiles);
+           
           
-            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.LeaveType) {
-                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
-                }
-            })
-
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
+            //LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+            //    if (item.leave_type_code == data.LeaveType) {
+            //        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+            //    }
+            //})
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.PayrollCode);
+            //oListItem.set_item(LeaveApplicationFields.PayrollCode, data.PayrollCode.text());
+           
            
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
@@ -422,6 +424,8 @@
             oListItem.set_item(LeaveApplicationFields.Totalnumberofdays, data.TotalDays);
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
+            oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -482,8 +486,9 @@
                     obj.EmployeeEmail = oListItem.get_fieldValues().Author['$6_2'];
                     obj.EmployeeSurname = oListItem.get_fieldValues().EmployeeSurname;
                     obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
-                    //obj.EmployeeID = oListItem.get_fieldValues().FirstName;
-                    obj.Department = oListItem.get_fieldValues().Department;
+                    obj.EmployeeID = oListItem.get_fieldValues().EmployeeID;
+                    obj.Department = oListItem.get_fieldValues().DepartmentName;
+                 
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
                     obj.LeaveType = oListItem.get_fieldValues().LeaveType;
