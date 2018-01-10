@@ -150,8 +150,11 @@
             $scope.stage.tab = filter;
             $scope.FilterLeaveApplicationData = [];
 
+
             $scope.LeaveApplicationData.forEach(function (item) {
                 if (item.Status == filter) {
+                   
+
                     $scope.FilterLeaveApplicationData.push(item);
                 }
             });

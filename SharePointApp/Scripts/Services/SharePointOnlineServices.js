@@ -249,7 +249,7 @@
             'Status': undefined,
             'RejectionReason': undefined,
             'Remarks': undefined,
-            'Totaldays': undefined,
+           
         };
         var LeaveApplicationFields = {
             'ID': 'ID',
@@ -488,7 +488,11 @@
                     obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
                     obj.EmployeeID = oListItem.get_fieldValues().EmployeeID;
                     obj.Department = oListItem.get_fieldValues().DepartmentName;
-                 
+                 //total days and actual leave
+                    obj.TotalDays = oListItem.get_fieldValues().TotalDays;
+                    obj.ActualLeave = oListItem.get_fieldValues().ActualLeave;
+                    
+
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
                     obj.LeaveType = oListItem.get_fieldValues().LeaveType;

@@ -1,4 +1,9 @@
 ﻿<section>
+    <style>
+        .required-field {
+            color:red;
+        }
+    </style>
     <!-- Create Leave Application -->
     <div id="modalLeaveApplication" class="modal fade" role="dialog" data-backdrop="static">
         <div class="modal-dialog">
@@ -62,7 +67,7 @@
                     
                     <div class="row">
                         <div class="col-xs-12 form-group">
-                            <label for="inpLeaveType" required name="input1">Leave Type</label>
+                            <label for="inpLeaveType" required name="input1">Leave Type <span class="required-field">*</span></label>
                             <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.PayrollCode">
                                
                                 <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
