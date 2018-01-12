@@ -271,7 +271,7 @@
             'Status': 'Status',
             'RejectionReason': 'RejectionReason',
             'Remarks': 'Remarks',
-            //'PRCODE': 'PRCODE',
+            'PRCODE': 'PRCODE',
             'Firstdayofleave': 'Firstdayofleave',
             'Lastdayofleave': 'Lastdayofleave',
             'SupportingFiles': 'Attachments'
@@ -321,10 +321,9 @@
             oListItem.set_item(LeaveApplicationFields.PRCODE, data.LeaveType);
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
-
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
-            //  oListItem.set_item('ActualLeave', data.ActualLeave);
+           
             oListItem.update();
           
             appcontext.executeQueryAsync(
