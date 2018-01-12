@@ -199,6 +199,15 @@
             $('#modalLeaveApplication').modal('show');
         }
 
+
+        //$.scope.deleteLeaveApplication_Click = function() {
+
+        //    $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_DeleteLeaveApplication().then(function (data) {
+        //        $scope.selectedLeaveApplication = data;
+        //    });
+
+        //}
+
         $scope.newLeaveApplication_Click = function () {
 
             $scope.selectedLeaveApplication.ID = undefined;
