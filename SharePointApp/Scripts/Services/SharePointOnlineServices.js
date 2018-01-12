@@ -275,10 +275,7 @@
             'Firstdayofleave': 'Firstdayofleave',
             'Lastdayofleave': 'Lastdayofleave',
             'SupportingFiles': 'Attachments'
-
-
         }
-
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
             return [{ id: "someId1", name: "Display name 1" },

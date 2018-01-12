@@ -150,7 +150,7 @@
         <br />
         <ul id="userTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Draft')">Draft</a></li>
-            <li role="presentation" ><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+            <li role="presentation" ><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
@@ -189,7 +189,7 @@
             <p>Please review the following leave applications</p>
         </div>
         <ul id="managerTabs"class="nav nav-tabs nav-justified">
-            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
         </ul>
@@ -210,8 +210,8 @@
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
                 <td>{{data.ReportTo}}</td>
-                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
+                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>

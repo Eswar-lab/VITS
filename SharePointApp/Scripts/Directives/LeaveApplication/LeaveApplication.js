@@ -200,13 +200,7 @@
         }
 
 
-        //$.scope.deleteLeaveApplication_Click = function() {
-
-        //    $scope.selectedLeaveApplication = SharePointOnlineService.LeaveApplication_DeleteLeaveApplication().then(function (data) {
-        //        $scope.selectedLeaveApplication = data;
-        //    });
-
-        //}
+       
 
         $scope.newLeaveApplication_Click = function () {
 
@@ -254,6 +248,8 @@
 
                         loadLeaveApplication(inputEmail, true);
                 }, function (err) {
+                    $scope.selectedLeaveApplication.Status = "Draft";
+                    console.log(err);
                     modalOptions.bodyText = "Not successfully update a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                 });
@@ -282,6 +278,8 @@
 
                         loadLeaveApplication(inputEmail, true);
                 }, function (err) {
+                    $scope.selectedLeaveApplication.Status = "Draft";
+                    console.log(err);
                     modalOptions.bodyText = "Not successfully update a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                 });
@@ -290,7 +288,7 @@
             $('#modalLeaveApplication').modal('hide');
         }
         $scope.SubmitLeaveApplication = function () {
-            $scope.selectedLeaveApplication.Status = "Pending";
+            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
             var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'OK',
@@ -352,8 +350,12 @@
 
                                 loadLeaveApplication(inputEmail, true);
                         }, function (err) {
+                            $scope.selectedLeaveApplication.Status = "Draft";
+                            console.log(err);
                             modalOptions.bodyText = "Not successfully create a new item!";
                             modalService.showModal({}, modalOptions);
+                            
+                              
                         });
                     }
                 }
@@ -450,10 +452,10 @@
 
                     }
                     if ($scope.stage.view == 'ManagerView') {
-                        if (item.Status == 'Pending') {
+                        if (item.Status == 'Pending Line Manager') {
                             $scope.FilterLeaveApplicationData.push(item);
                         }
-                        $scope.stage.tab = 'Pending';
+                        $scope.stage.tab = 'Pending Line Manager';
                     }
 
                 });
