@@ -244,12 +244,12 @@
             'StartDate': undefined,
             'ReturnDate': undefined,
             'TotalDays': undefined,
-            'ActualLeaveChecked': 'false',
-            'ActualLeave': '0',
+            'ActualLeaveChecked': undefined,
+            'ActualLeave': undefined,
             'Status': undefined,
             'RejectionReason': undefined,
             'Remarks': undefined,
-
+            'Totaldays': undefined,
         };
         var LeaveApplicationFields = {
             'ID': 'ID',
@@ -257,11 +257,11 @@
             'EmployeeSurname': 'EmployeeSurname',
             'EmployeeFirstname': 'FirstName',
             'EmployeeID': 'EmployeeID',
-            'Department': 'Designation',
+            'Department': 'DepartmentName',
             'Designation': 'Designation',
             'ReportTo': 'ReportTo',
             'LeaveType': 'LeaveType',
-            'PayrollCode': 'PayrollCode',
+            'PayrollCode': 'PRCODE',
             'LeaveCategory': 'LeaveCategory',
             'StartDate': 'StartDate',
             'ReturnDate': 'ReturnDate',
@@ -271,9 +271,11 @@
             'Status': 'Status',
             'RejectionReason': 'RejectionReason',
             'Remarks': 'Remarks',
-            'PRCODE': 'PRCODE',
+            //'PRCODE': 'PRCODE',
             'Firstdayofleave': 'Firstdayofleave',
-            'Lastdayofleave': 'Lastdayofleave'
+            'Lastdayofleave': 'Lastdayofleave',
+            'SupportingFiles': 'Attachments'
+
 
         }
 
@@ -304,14 +306,19 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-           
-            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.LeaveType) {
-                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
-                }
-            })
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
 
+            if (data.LeaveType != null ){
+
+                LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+                    if (item.leave_type_code === data.LeaveType) {
+                        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+                    }
+                })
+            }else{
+                oListItem.set_item(LeaveApplicationFields.LeaveType, null);
+            }
+
+            oListItem.set_item(LeaveApplicationFields.PRCODE, data.LeaveType);
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
 
@@ -355,20 +362,24 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
+           
           
-            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.LeaveType) {
-                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
-                }
-            })
-
-            oListItem.set_item(LeaveApplicationFields.PRCODE, data.PayrollCode);
+            //LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
+            //    if (item.leave_type_code == data.LeaveType) {
+            //        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
+            //    }
+            //})
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.PayrollCode);
+            //oListItem.set_item(LeaveApplicationFields.PayrollCode, data.PayrollCode.text());
+           
            
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
            
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
+            oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -403,7 +414,7 @@
             oListItem.set_item(LeaveApplicationFields.EmployeeSurname, data.EmployeeSurname);
             oListItem.set_item(LeaveApplicationFields.FirstName, data.EmployeeFirstname);
             oListItem.set_item(LeaveApplicationFields.EmployeeID, data.EmployeeID);
-            oListItem.set_item(LeaveApplicationFields.DepartmentName, data.Department);
+            oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
             LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
@@ -417,6 +428,8 @@
             oListItem.set_item(LeaveApplicationFields.Totalnumberofdays, data.TotalDays);
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
+            oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
+            oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -477,8 +490,9 @@
                     obj.EmployeeEmail = oListItem.get_fieldValues().Author['$6_2'];
                     obj.EmployeeSurname = oListItem.get_fieldValues().EmployeeSurname;
                     obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
-                    //obj.EmployeeID = oListItem.get_fieldValues().FirstName;
-                    obj.Department = oListItem.get_fieldValues().Title;
+                    obj.EmployeeID = oListItem.get_fieldValues().EmployeeID;
+                    obj.Department = oListItem.get_fieldValues().DepartmentName;
+                 
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
                     obj.LeaveType = oListItem.get_fieldValues().LeaveType;
@@ -544,50 +558,53 @@
 
        
         AppServiceFactory.LeaveApplication_AddAttachedData = function ( id, fileName, file) {
-            var deferred = $.Deferred();
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            getFileBuffer(file).then(
-                function (buffer) {
-                    var bytes = new Uint8Array(buffer);
-                    var content = new SP.Base64EncodedByteArray();
-                    var queryUrl = hostUrl + "/_api/lists/GetByTitle('" + listTitle + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')";
-                    $.ajax({
-                        url: queryUrl,
-                        type: "POST",
-                        processData: false,
-                        contentType: "application/json;odata=verbose",
-                        data: buffer,
-                        headers: {
-                            "accept": "application/json;odata=verbose",
-                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                            "content-length": buffer.byteLength
-                        }, success: function (data) {
-                            alert(data);
-                        },
-                        error: function (err) {
-                            alert(err.responseText);
-                        }
-                    });
-                },
-                function (err) {
-                    deferred.reject(err);
-                });
-            return deferred.promise();
+            //var deferred = $.Deferred();
+            //var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            //var appUrl = SharePointOnlineService.GetAppWebUrl();
+            //getFileBuffer(file).then(
+            //    function (buffer) {
+            //        var bytes = new Uint8Array(buffer);
+            //        var content = new SP.Base64EncodedByteArray();
+            //        var queryUrl = hostUrl + "/_api/lists/GetByTitle('" + listTitle + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')";
+            //        $.ajax({
+            //            url: queryUrl,
+            //            type: "POST",
+            //            processData: false,
+            //            contentType: "application/json;odata=verbose",
+            //            data: buffer,
+            //            headers: {
+            //                "accept": "application/json;odata=verbose",
+            //                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            //                "content-length": buffer.byteLength
+            //            }, success: function (data) {
+            //                alert(data);
+            //            },
+            //            error: function (err) {
+            //                alert(err.responseText);
+            //            }
+            //        });
+            //    },
+            //    function (err) {
+            //        deferred.reject(err);
+            //    });
+            //return deferred.promise();
         }
 
 
         function getFileBuffer(file) {
-            var deferred = $.Deferred();
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                deferred.resolve(e.target.result);
-            }
-            reader.onerror = function (e) {
-                deferred.reject(e.target.error);
-            }
-            reader.readAsArrayBuffer(file);
-            return deferred.promise();
+           
+            //var deferred = $.Deferred();
+            //var reader = new FileReader();
+            //reader.onload = function (e) {
+            //    deferred.resolve(e.target.result);
+            //}
+            //reader.onerror = function (e) {
+            //    deferred.reject(e.target.error);
+            //}
+            //reader.readAsArrayBuffer(file);
+            //if (file === null || typeof file === 'undefined')
+            //    deferred.reject(e.target.error);
+            //return deferred.promise();
         }      
         return AppServiceFactory;
 

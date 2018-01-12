@@ -16,6 +16,7 @@
                 tenant: '='
             },
             templateUrl: 'https://localhost:44326/scripts/Directives/LeaveApplication/LeaveApplication.html',
+            //templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.html',
             replace: true,
             //require: 'ngModel',
             link: function ($scope, elem, attr, ctrl) {
@@ -227,7 +228,7 @@
                     var parts = document.getElementById("inpFile").value.split("\\");
                     var filename = parts[parts.length - 1];
                     var file = document.getElementById("inpFile").files[0];
-                    LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+                    //LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
                 } catch (ex) {
                     console.log(ex);
                 }
@@ -254,7 +255,7 @@
                         var parts = document.getElementById("inpFile").value.split("\\");
                         var filename = parts[parts.length - 1];
                         var file = document.getElementById("inpFile").files[0];
-                        LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
+                        //LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
                     } catch (ex) {
                         console.log(ex);
                     }
@@ -349,7 +350,7 @@
                 }
             });
 
-            files = $scope.selectedLeaveApplication.SupportingFiles;
+           // files = $scope.selectedLeaveApplication.SupportingFiles;
 
         }
 
@@ -367,9 +368,10 @@
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result == 'ok')
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
-                        var inputEmail = null;
+                    
                         //load application data
                         var inputEmail = null;
+                        inputEmail = userProfile.WorkEmail;
                         if ($scope.stage.view == 'UserView') {
                             inputEmail = userProfile.WorkEmail;
                             loadLeaveApplication(inputEmail, false);
