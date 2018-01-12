@@ -441,7 +441,7 @@
             return deferred.promise;
         };
 
-        AppServiceFactory.LeaveApplication_LoadUserData = function (email, isManager) {
+        AppServiceFactory.LeaveApplication_LoadUserData = function (email, userType) {
 
             var deffer = $q.defer();
             ///This function will filter data in Staff Leave Application list with status column
@@ -455,10 +455,12 @@
             var camlQuery = new SP.CamlQuery();
 
             var camlQ = undefined;
-            if (isManager == false)
+            if (userType == USER_TYPE.user)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="EmployeeEmail" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>';
-            else
+            else if (userType == USER_TYPE.lineManager)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="ReportTo" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>'
+            else if (userType == USER_TYPE.mainManager)
+                camlQ = '<View><Query><Where><Eq><FieldRef Name="Status" /> <Value Type="Text">' + LEAVE_APPLICATION_STATUS.PendingFinalApproval + '</Value></Eq></Where></Query></View>'
             camlQuery.set_viewXml(camlQ);
             var collListItem = oList.getItems(camlQuery);
             appcontext.load(collListItem);

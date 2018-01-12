@@ -215,5 +215,42 @@
             </tr>
         </table>
     </div>
+
+
+    <!-- Main Manager View -->
+    <div class="panel panel-primary" ng-show="stage.view == 'MainManagerView'">
+        <!-- Default panel contents -->
+        <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
+        <div class="panel-body">
+            <p>Please review the following leave applications</p>
+        </div>
+        <ul id="managerTabs" class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Final Approval')">Pending Final Approval</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+        </ul>
+        <!-- Table -->
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Employee Email</th>
+                    <th>First Day of Leave</th>
+                    <th>Last Day of Leave</th>
+                    <th>Reports To</th>
+                    <td></td>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="data in FilterLeaveApplicationData">
+                <td>{{data.EmployeeEmail}}</td>
+                <td>{{data.StartDate}}</td>
+                <td>{{data.ReturnDate}}</td>
+                <td>{{data.ReportTo}}</td>
+                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Approved'" ng-click="RejectLeaveApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Rejected'" ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
+            </tr>
+        </table>
+    </div>
+
     <div id="validationErrors"></div>
 </section>

@@ -40,7 +40,18 @@
 
     }
 })();
+const USER_TYPE = {
+    'user': 1,
+    'lineManager': 2,
+    'mainManager': 3
+};
 
+const LEAVE_APPLICATION_STATUS = {
+    'Draft': 'Draft',
+    'PendingFinalApproval': 'Pending Final Approval',
+    'Rejected': 'Rejected',
+    'Approved': 'Approved'
+}
 const LEAVE_APPLICATION_FIELDS = [
     { 'name': 'ID', 'required': false },
     { 'name': 'EmployeeEmail', 'required': true },
