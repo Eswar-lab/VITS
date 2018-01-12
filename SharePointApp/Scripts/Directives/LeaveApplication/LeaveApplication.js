@@ -284,7 +284,7 @@
             $('#modalLeaveApplication').modal('hide');
         }
         $scope.SubmitLeaveApplication = function () {
-            $scope.selectedLeaveApplication.Status = "Pending";
+            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
             var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'OK',
