@@ -12,6 +12,7 @@
     <Properties>
       <Property Name="View" Type="enum" RequiresDesignerPermission="true" DefaultValue="UserView" WebDisplayName="View" WebDescription="What is the view to display in this app part?" WebCategory="Settings">
         <EnumItems>
+          <EnumItem Value="MainManagerView" WebDisplayName="Main Manager View" />
           <EnumItem Value="ManagerView" WebDisplayName="Manager View" />
           <EnumItem Value="UserView" WebDisplayName="User View" />
         </EnumItems>
