@@ -190,8 +190,10 @@
         }
 
 
-       
 
+        $scope.refreshLeaveApplication_Click = function () {
+            init();
+        }
         $scope.newLeaveApplication_Click = function () {
 
             $scope.selectedLeaveApplication.ID = undefined;
@@ -521,6 +523,8 @@
         }
 
         //JQuery code for Leave Application
+       
+
         $("#ppReportsTo").typeahead({
             source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
             //autoSelect: trueFFF
@@ -534,5 +538,13 @@
             e.preventDefault()
             $(this).tab('show');
         });
+        //date formate
+        //date formate
+        $("#inpStartDateCover").click(function (event) {
+            event.preventDefault();
+            $("#inpStartDate").val("02-01-2018");
+        });
+
+       
     }
 })();

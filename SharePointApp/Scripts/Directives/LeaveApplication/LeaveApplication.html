@@ -1,5 +1,10 @@
 ﻿<section>
     <!-- Create Leave Application -->
+   
+    <style>
+        .md-datepicker-calendar-pane{
+            z-index: 1200}
+    </style>
     <div id="modalLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -102,12 +107,13 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-6 form-group">
-                            <label for="inpStartDate">Start Date</label>
-                            <input type="date" class="form-control" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
+                            <label for="inpStartDate" >Start Date</label>
+                            <input  type="date" class="form-control" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
+                           
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpReturnDate">Return Start Date</label>
-                            <input type="date" class="form-control" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
+                            <input  type="date" class="form-control" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
                         </div>
                     </div>
                     <div class="row">
@@ -146,6 +152,7 @@
         </div>
         <div>
             <button type="button" class="btn btn-primary" ng-click="newLeaveApplication_Click()">New Leave Application</button>
+            <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
         </div>
         <br />
         <ul id="userTabs" class="nav nav-tabs nav-justified">
@@ -183,11 +190,14 @@
 
     <!-- Manager View -->
     <div class="panel panel-primary" ng-show="stage.view == 'ManagerView'">
+
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
+        <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
+
         <ul id="managerTabs"class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
@@ -219,6 +229,7 @@
 
     <!-- Main Manager View -->
     <div class="panel panel-primary" ng-show="stage.view == 'MainManagerView'">
+        <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
         <div class="panel-body">
