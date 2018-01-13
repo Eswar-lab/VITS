@@ -4,6 +4,10 @@
     <style>
         .md-datepicker-calendar-pane{
             z-index: 1200}
+        .required-field {
+            color: red;
+        }
+
     </style>
     <div id="modalLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -54,7 +58,7 @@
                             <input type="text" readonly class="form-control" id="inpDesignation" ng-model="selectedLeaveApplication.Designation">
                         </div>
                         <div class="col-xs-6 form-group">
-                            <label for="ppReportsTo">Reports To</label>
+                            <label for="ppReportsTo">Reports To <span class="required-field">*</span></label>
                             <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
                             <select data-provide="typeahead" class="form-control" id="ppReportsTo"
                                    ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
@@ -67,7 +71,7 @@
                     
                     <div class="row">
                         <div class="col-xs-12 form-group">
-                            <label for="inpLeaveType">Leave Type</label>
+                            <label for="inpLeaveType">Leave Type <span class="required-field">*</span></label>
                             <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
                                
                                 <option ng-repeat="item in leave_type"  value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
@@ -107,12 +111,12 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-6 form-group">
-                            <label for="inpStartDate" >Start Date</label>
+                            <label for="inpStartDate" >Start Date <span class="required-field">*</span></label>
                             <input  type="date" class="form-control" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
                            
                         </div>
                         <div class="col-xs-6 form-group">
-                            <label for="inpReturnDate">Return Start Date</label>
+                            <label for="inpReturnDate">Return Start Date <span class="required-field">*</span></label>
                             <input  type="date" class="form-control" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
                         </div>
                     </div>
@@ -210,15 +214,17 @@
                     <th>Employee Email</th>
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
+                    <th>Total Days</th>
+                    <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
-                    <td></td>
-                    <th></th>
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
+                <td>{{data.TotalDays}}</td>
+                <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
                 <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>

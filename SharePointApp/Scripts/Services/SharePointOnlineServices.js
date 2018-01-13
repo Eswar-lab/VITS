@@ -490,6 +490,7 @@
                     obj.EmployeeFirstname = oListItem.get_fieldValues().FirstName;
                     obj.EmployeeID = oListItem.get_fieldValues().EmployeeID;
                     obj.Department = oListItem.get_fieldValues().DepartmentName;
+
                     obj.TotalDays = oListItem.get_fieldValues().TotalDays;
                     obj.ActualLeave = oListItem.get_fieldValues().ActualLeave;
                     obj.Designation = oListItem.get_fieldValues().Designation;
