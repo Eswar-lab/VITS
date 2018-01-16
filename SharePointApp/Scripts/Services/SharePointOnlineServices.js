@@ -425,7 +425,7 @@
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
-            oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
+          //  oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -525,7 +525,7 @@
             obj.EmployeeID = userPro.EmployeeId;
             obj.Department = userPro.Department;
             obj.Designation = userPro.Title;
-            obj.Remarks = 'My remarks are remarkable';
+            obj.Remarks = '';
             if (userPro === null || userPro === undefined)
                 deferred.reject(obj);
             else

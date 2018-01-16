@@ -111,12 +111,12 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-6 form-group">
-                            <label for="inpStartDate" >Start Date <span class="required-field">*</span></label>
+                            <label for="inpStartDate" >Start Date 1day=8.0 hours <span class="required-field">*</span></label>
                             <input  type="date" class="form-control" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
                            
                         </div>
                         <div class="col-xs-6 form-group">
-                            <label for="inpReturnDate">Return Start Date <span class="required-field">*</span></label>
+                            <label for="inpReturnDate">Return Date <span class="required-field">*</span></label>
                             <input  type="date" class="form-control" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
                         </div>
                     </div>
@@ -152,7 +152,7 @@
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications for {{username}}</div>
         <div class="panel-body">
-            <p>Please select an existing leave application form or click on the Create button to create a new one</p>
+            <p>Please select an existing leave application form or click to create a new one</p>
         </div>
         <div>
             <button type="button" class="btn btn-primary" ng-click="newLeaveApplication_Click()">New Leave Application</button>
