@@ -288,8 +288,8 @@
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result == 'ok') {
                     var errs = validateLeaveApplication($scope.selectedLeaveApplication);
-                    modalOptions.headerText = "Errs ";
-                    modalOptions.bodyText = "Errs:  " + errs.join(',');
+                    modalOptions.headerText = "Error ";
+                    modalOptions.bodyText = "Error:  " + errs.join(',');
                     if (errs.length > 0) {
                         modalService.showModal({}, modalOptions);
                         $('#modalLeaveApplication').modal('show');
@@ -310,8 +310,8 @@
                     }
                     else {
                         var errs = validateLeaveApplication($scope.selectedLeaveApplication);
-                        modalOptions.headerText = "Errs ";
-                        modalOptions.bodyText = "Errs:  " + errs.join(',');
+                        modalOptions.headerText = "Error  ";
+                        modalOptions.bodyText = "Error:  " + errs.join(',');
                         if (errs.length > 0) {
                             modalService.showModal({}, modalOptions);
                             $('#modalLeaveApplication').modal('show');
