@@ -7,7 +7,9 @@
         .required-field {
             color: red;
         }
-
+        .controll-button button:nth-child(2){
+            float:right;
+        }
     </style>
     
     <div id="modalLeaveApplication" class="modal fade" role="dialog">
@@ -130,7 +132,9 @@
                         <div class="col-xs-6 form-group">
                             <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
                             <label for="inpActualLeave">Actual Leave (Hours)</label>
+                          
                             <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
+                            <span id="error-message" style="color: red"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -156,7 +160,7 @@
         <div class="panel-body">
             <p>Please select an existing leave application form or click to create a new one</p>
         </div>
-        <div>
+        <div class="controll-button">
             <button type="button" class="btn btn-primary" ng-click="newLeaveApplication_Click()">New Leave Application</button>
             <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
         </div>

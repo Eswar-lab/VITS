@@ -74,6 +74,14 @@
                 }
             }
         }
+        //Actual leave 
+        $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
+            if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
+               /// alert("incorrect");
+                $("#error-message").html("eorro message");
+
+            }
+        });
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
             try {
@@ -485,6 +493,9 @@
 
         function validateLeaveApplication(leaveApplication) {
             var errs = [];
+            //validate for actual leave and leave
+            if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave)
+                errs.push("actual leave is greater than total days * 8");
             LEAVE_APPLICATION_FIELDS.forEach(function (item) {
                 if (item.required == true) {
                     if (leaveApplication[item.name] == null || leaveApplication[item.name] == undefined) {
