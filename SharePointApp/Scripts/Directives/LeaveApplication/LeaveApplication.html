@@ -129,13 +129,13 @@
                         </div>
                         <div class="col-xs-6 form-group">
                             <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
-                            <label for="inpActualLeave">Actual Leave</label>
+                            <label for="inpActualLeave">Actual Leave (Hours)</label>
                             <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 form-group">
-                            <label for="inpRemarks">Remarks</label>
+                            <label for="inpRemarks">Commentes </label>
                             <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
                         </div>
                     </div>
@@ -189,6 +189,7 @@
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
+                    
                 </tr>
             </tbody>
         </table>
@@ -202,7 +203,7 @@
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
+        <button type="button"  class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
 
         <ul id="managerTabs"class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
@@ -228,8 +229,8 @@
                 <td>{{data.TotalDays}}</td>
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
-                <td><button type="button" class="btn btn-sm btn-primary" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
+                <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'"  ng-click="RejectLeaveApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
@@ -237,12 +238,14 @@
 
     <!-- Main Manager View -->
     <div class="panel panel-primary" ng-show="stage.view == 'MainManagerView'">
-        <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
+       
         <!-- Default panel contents -->
         <div id="titleDiv" class="panel-heading">Leave Applications pending review by {{username}}</div>
+        
         <div class="panel-body">
             <p>Please review the following leave applications</p>
         </div>
+        <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()">Refesh</button>
         <ul id="managerTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Final Approval')">Pending Final Approval</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
