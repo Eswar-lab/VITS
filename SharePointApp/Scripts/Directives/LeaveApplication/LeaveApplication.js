@@ -78,9 +78,22 @@
         $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
                /// alert("incorrect");
-                $("#error-message").html("eorro message");
+                $("#error-message").html("It should be based on  hours");
 
             }
+            //else ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave)
+            //{
+
+            //    $("#error-message").html("It should be between 9 to 16 hours");
+            //}
+            //else($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
+
+            //    $("#error-message").html("It should be between 17 to 32 hours");
+            //}
+            //else($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
+
+            //    $("#error-message").html("It should be between 33 to 40 hours");
+            //}
         });
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
