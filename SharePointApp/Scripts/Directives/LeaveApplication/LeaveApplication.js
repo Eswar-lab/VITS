@@ -511,7 +511,25 @@
 
             // Estimate business days as number of whole weeks * 5
             var days = totalDays - wholeWeeks * 2;
-          
+
+            if (s.isoWeekday() > e.isoWeekday()) {
+                days = totalDays - 2; 
+            }
+            if (days < 0)
+                return 0;
+            // If not even number of weeks, calc remaining weekend days
+            //if (totalDays % 7) {
+            //    s.setDate(s.getDate() + wholeWeeks * 7);
+
+            //    while (s < e) {
+            //        s.setDate(s.getDate() + 1);
+
+            //        // If day isn't a Sunday or Saturday, add to business days
+            //        if (s.getDay() != 0 && s.getDay() != 6) {
+            //            ++days;
+            //        }
+            //    }
+            //}
             return days;
         }
 
