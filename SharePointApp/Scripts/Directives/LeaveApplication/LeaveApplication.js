@@ -47,7 +47,7 @@
         $scope.selectedLeaveApplication.PayrollCode = undefined;
         $scope.selectedLeaveApplication.enable_leave_category = false;
         $scope.selectedLeaveApplication.SupportingFiles = undefined;
-        
+
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
@@ -197,6 +197,10 @@
         $scope.newLeaveApplication_Click = function () {
 
             $scope.selectedLeaveApplication.ID = undefined;
+            if (userProfile == null || userProfile == undefined) {
+                $('#modalLeaveApplication').modal('show');
+                return;
+            }
             $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData(userProfile).then(function (data) {
                 $scope.selectedLeaveApplication = data;
                 $('#modalLeaveApplication').modal('show');
@@ -227,6 +231,12 @@
                 } catch (ex) {
                     console.log(ex);
                 }
+
+                //reformat startdate and enddate
+                $scope.selectedLeaveApplication.StartDate = moment($scope.selectedLeaveApplication.StartDate).format('DD-MM-YYYY');
+                $scope.selectedLeaveApplication.ReturnDate = startDate = moment($scope.selectedLeaveApplication.ReturnDate).format('DD-MM-YYYY');
+                
+
 
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
@@ -318,14 +328,14 @@
                             console.log(err);
                             modalOptions.bodyText = "Not successfully create a new item!";
                             modalService.showModal({}, modalOptions);
-                            
-                              
+
+
                         });
                     }
                 }
             });
 
-           // files = $scope.selectedLeaveApplication.SupportingFiles;
+            // files = $scope.selectedLeaveApplication.SupportingFiles;
 
         }
 
@@ -343,7 +353,7 @@
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result == 'ok')
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
-                    
+
                         //load application data
                         loadLeaveApplication();
 
@@ -388,7 +398,7 @@
         }
 
         $scope.ApproveLeaveApplication = function (data) {
-           
+
 
             var modalOptions = {
                 closeButtonText: 'Cancel',
@@ -408,7 +418,7 @@
                         modalOptions.bodyText = "Application has been  approved successfully";
                         modalService.showModal({}, modalOptions);
                     }, function (err) {
-                      
+
                         modalOptions.bodyText = "Application has been not approved successfully";
                         modalService.showModal({}, modalOptions);
                     });
@@ -432,12 +442,12 @@
                 loadLeaveApplicationByUserType(inputEmail, USER_TYPE.mainManager);
             }
         }
-        
+
         //Load Leave Application
         // 1 : user
         // 2 : lineManager
         // 3 : mainManager
-        
+
         function loadLeaveApplicationByUserType(inputEmail, userType) {
             LeaveApplicationService.LeaveApplication_LoadUserData(inputEmail, userType).then(function (data) {
                 $scope.LeaveApplicationData = data;
@@ -471,7 +481,7 @@
             })
         }
 
-       
+
 
         function validateLeaveApplication(leaveApplication) {
             var errs = [];
@@ -488,42 +498,25 @@
 
         //https://stackoverflow.com/questions/28949911/what-does-this-format-means-t000000-000z
         function dateDifference(start, end) {
-
+            
             // Copy date objects so don't modify originals
-            var s = new Date(start);
-            var e = new Date(end);
-
-            // Set time to midday to avoid dalight saving and browser quirks
-            s.setHours(12, 0, 0, 0);
-            e.setHours(12, 0, 0, 0);
-
+            var s = new moment(start, "DD/MM/YYYY");
+            var e = new moment(end, "DD/MM/YYYY");
+           
             // Get the difference in whole days
-            var totalDays = Math.round((e - s) / 8.64e7);
+            var totalDays = e.diff(s, 'days');
 
             // Get the difference in whole weeks
             var wholeWeeks = totalDays / 7 | 0;
 
             // Estimate business days as number of whole weeks * 5
-            var days = wholeWeeks * 5;
-
-            // If not even number of weeks, calc remaining weekend days
-            if (totalDays % 7) {
-                s.setDate(s.getDate() + wholeWeeks * 7);
-
-                while (s < e) {
-                    s.setDate(s.getDate() + 1);
-
-                    // If day isn't a Sunday or Saturday, add to business days
-                    if (s.getDay() != 0 && s.getDay() != 6) {
-                        ++days;
-                    }
-                }
-            }
+            var days = totalDays - wholeWeeks * 2;
+          
             return days;
         }
 
         //JQuery code for Leave Application
-       
+
 
         $("#ppReportsTo").typeahead({
             source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
@@ -540,11 +533,16 @@
         });
         //date formate
         //date formate
-        $("#inpStartDateCover").click(function (event) {
-            event.preventDefault();
-            $("#inpStartDate").val("02-01-2018");
-        });
 
+
+
+        //datetimepicker for start and end date
+      
+        $("#inpStartDate").datepicker({ format: 'dd/mm/yyyy' });
+        $("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
        
+       
+
+
     }
 })();

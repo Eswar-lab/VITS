@@ -5,6 +5,7 @@
         .md-datepicker-calendar-pane{
             z-index: 1200}
     </style>
+    
     <div id="modalLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -108,12 +109,13 @@
                     <div class="row">
                         <div class="col-xs-6 form-group">
                             <label for="inpStartDate" >Start Date</label>
-                            <input  type="date" class="form-control" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
+                            <input  type="text" class="hasDatepicker" id="inpStartDate"  ng-model="selectedLeaveApplication.StartDate">
                            
                         </div>
                         <div class="col-xs-6 form-group">
                             <label for="inpReturnDate">Return Start Date</label>
-                            <input  type="date" class="form-control" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
+                            <input  type="text" class="hasDatepicker" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
+
                         </div>
                     </div>
                     <div class="row">
