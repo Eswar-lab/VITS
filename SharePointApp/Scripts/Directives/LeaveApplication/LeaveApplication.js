@@ -360,32 +360,36 @@
 
         }
 
+       
+
         $scope.RejectLeaveApplication = function (data) {
 
-            var modalOptions = {
-                closeButtonText: 'Cancel',
-                actionButtonText: 'Reject selected Leave Application ',
-                headerText: 'Reject ' + " the selected application " + '?',
-                bodyText: 'Are you sure you want to reject this application?'
-            };
+            
+            $('#modalRejectLeaveApplication').modal('show');
+            //var modalOptions = {
+            //    closeButtonText: 'Cancel',
+            //    actionButtonText: 'Reject selected Leave Application ',
+            //    headerText: 'Reject ' + " the selected application " + '?',
+            //    bodyText: 'Are you sure you want to reject this application?'
+            //};
 
-            data.Status = "Rejected";
+            //data.Status = "Rejected";
 
-            modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok')
-                    LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+            //modalService.showModal({}, modalOptions).then(function (result) {
+            //    if (result == 'ok')
+            //        LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
 
-                        //load application data
-                        loadLeaveApplication();
+            //            //load application data
+            //            loadLeaveApplication();
 
-                        modalOptions.bodyText = "Application has been  rejected successfully";
-                        modalService.showModal({}, modalOptions);
+            //            modalOptions.bodyText = "Application has been  rejected successfully";
+            //            modalService.showModal({}, modalOptions);
 
-                    }, function (err) {
-                        modalOptions.bodyText = "Application has been not rejected successfully";
-                        modalService.showModal({}, modalOptions);
-                    });
-            });
+            //        }, function (err) {
+            //            modalOptions.bodyText = "Application has been not rejected successfully";
+            //            modalService.showModal({}, modalOptions);
+            //        });
+            //});
 
 
 
