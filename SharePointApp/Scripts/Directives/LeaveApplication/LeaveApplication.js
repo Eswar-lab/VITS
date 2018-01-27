@@ -78,7 +78,7 @@
         $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
                /// alert("incorrect");
-                $("#error-message").html("It should be based on  hours");
+                $("#error-message").html("Invalid hours");
 
             }
             //else ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave)
@@ -169,6 +169,22 @@
                 if (item.Status == filter) {
                     $scope.FilterLeaveApplicationData.push(item);
                 }
+                if (filter == 'Cancel' && item.Status == 'Withdraw') {
+                    $scope.FilterLeaveApplicationData.push(item);
+
+                }
+                if (filter == 'Pending') {
+                    if (item.Status.includes('Pending')) {
+                        $scope.FilterLeaveApplicationData.push(item);
+
+                    }
+                //}
+                //if (filter == 'Approved') {
+                //    if (item.Status.includes('Pending')) {
+                //        $scope.FilterLeaveApplicationData.push(item);
+
+                //    }
+                }
             });
 
         }
@@ -210,8 +226,65 @@
             $('#modalLeaveApplication').modal('show');
         }
 
+        $scope.CancelLeaveApplication_Click = function (data) {
+            data.Status = "Cancel";
+            
+            //$scope.selectedLeaveApplication = data;
+            var modalOptions = {
+                closeButtonText: 'Back',
+                actionButtonText: 'Cancel selected Leave Application ',
+                headerText: 'Cancel ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to Cancel this application?'
+            };
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                if (result == 'ok')
+                    LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+                        var inputEmail = null;
+                        //load application data
+                        loadLeaveApplication();
+
+                        modalOptions.bodyText = "Application has been  Cancel successfully";
+                        modalService.showModal({}, modalOptions);
+                    }, function (err) {
+
+                        modalOptions.bodyText = "Application has been not Cancel successfully";
+                        modalService.showModal({}, modalOptions);
+                    });
+            });
 
 
+        }
+
+        $scope.WithdrawLeaveApplication_Click = function (data) {
+            data.Status = "Withdraw";
+
+            //$scope.selectedLeaveApplication = data;
+            var modalOptions = {
+                closeButtonText: 'Back',
+                actionButtonText: 'Withdraw selected Leave Application ',
+                headerText: 'Withdraw ' + " the selected application " + '?',
+                bodyText: 'Are you sure you want to Withdraw this application?'
+            };
+
+            modalService.showModal({}, modalOptions).then(function (result) {
+                if (result == 'ok')
+                    LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+                        var inputEmail = null;
+                        //load application data
+                        loadLeaveApplication();
+
+                        modalOptions.bodyText = "Application has been  Withdraw successfully";
+                        modalService.showModal({}, modalOptions);
+                    }, function (err) {
+
+                        modalOptions.bodyText = "Application has been not Withdraw successfully";
+                        modalService.showModal({}, modalOptions);
+                    });
+            });
+
+
+        }
         $scope.refreshLeaveApplication_Click = function () {
             init();
         }
@@ -450,7 +523,6 @@
             });
 
         }
-
 
 
 

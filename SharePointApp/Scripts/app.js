@@ -50,7 +50,9 @@ const LEAVE_APPLICATION_STATUS = {
     'Draft': 'Draft',
     'PendingFinalApproval': 'Pending Final Approval',
     'Rejected': 'Rejected',
-    'Approved': 'Approved'
+    'Approved': 'Approved',
+    'Cancel': 'Cancel',
+    'Withdraw': 'Withdraw'
 }
 const LEAVE_APPLICATION_FIELDS = [
     { 'name': 'ID', 'required': false },

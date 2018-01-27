@@ -141,7 +141,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-6 form-group">
-                            <label for="inpStartDate">Start Date 1day=8.0hours <span class="required-field">*</span></label>
+                            <label for="inpStartDate">Start Date 1day=8hours <span class="required-field">*</span></label>
                             <input type="text" class="hasDatepicker" id="inpStartDate" ng-model="selectedLeaveApplication.StartDate">
 
                         </div>
@@ -194,9 +194,10 @@
         <br />
         <ul id="userTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Draft')">Draft</a></li>
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <table class="table table-condensed">
@@ -206,7 +207,10 @@
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
                     <th>Reports To</th>
+                    <th>Status</th>
+            
                     <th ng-if="stage.tab == 'Rejected'">Rejection Reason</th>
+                    <th ng-if="stage.tab == 'Pending Line Manager'">Status</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -217,11 +221,13 @@
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
                     <td>{{data.ReportTo}}</td>
+                    <td>{{data.Status}}</td>
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager'" ng-click="">Cancel</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Approved'" ng-click="">Withdraw</button></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager'" ng-click="CancelLeaveApplication_Click(data)">Cancel</button></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Approved'" ng-click="WithdrawLeaveApplication_Click(data)">Withdraw</button></td>
+                   
 
                 </tr>
             </tbody>
@@ -242,6 +248,7 @@
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <table class="table table-condensed">
@@ -253,6 +260,7 @@
                     <th>Total Days</th>
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
@@ -262,6 +270,7 @@
                 <td>{{data.TotalDays}}</td>
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
+                <td>{{data.Status}}</td>
                 <td><button type="button"  class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'" >Reject</button></td>
                 <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
@@ -283,6 +292,7 @@
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Final Approval')">Pending Final Approval</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
+             <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <table class="table table-condensed">
@@ -292,6 +302,7 @@
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
                     <th>Reports To</th>
+                    <th>Status</th>
                     <td></td>
                     <th></th>
                 </tr>
@@ -301,7 +312,8 @@
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
                 <td>{{data.ReportTo}}</td>
-                <td><type="button"  class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Approved'">Reject</button></td>
+                <td>{{data.Status}}</td>
+                <td><button type="button"  class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Approved'">Reject</button></td>
                 <td><button type="button" class="btn btn-sm btn-danger" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Rejected'" ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>

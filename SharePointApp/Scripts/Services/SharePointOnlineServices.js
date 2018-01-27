@@ -478,7 +478,7 @@
                     listItemInfo = oListItem.get_id();
                     try {
                         remarkStr = $(oListItem.get_fieldValues().Remarks).text();
-                        //PRcodeObj = JSON.parse(oListItem.get_fieldValues().PRcode);
+                        PRcodeObj = $(oListItem.get_fieldValues().PRCODE).text();
                     } catch (ex) {
                         console.log(ex);
                     }
@@ -496,7 +496,7 @@
                     obj.Designation = oListItem.get_fieldValues().Designation;
                     obj.ReportTo = oListItem.get_fieldValues().ReportTo;
                     obj.LeaveType = oListItem.get_fieldValues().LeaveType;
-                    obj.PayrollCode = oListItem.get_fieldValues().PRCODE;
+                    obj.PayrollCode = oListItem.get_fieldValues().PayrollCode;
                     obj.StartDate = oListItem.get_fieldValues().Firstdayofleave;
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
                     obj.Status = oListItem.get_fieldValues().Status;
