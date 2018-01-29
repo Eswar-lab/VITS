@@ -293,7 +293,7 @@
             var hostweb = hostcontext.get_web();
             var list = hostweb.get_lists().getByTitle(listTitle);
             var oListItem = list.getItemById(data.ID);
-           
+
             //var leaveTypeObj = JSON.parse(data.LeaveType.text());
 
             oListItem.set_item(LeaveApplicationFields.EmployeeEmail, data.EmployeeEmail);
@@ -304,14 +304,14 @@
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
 
-            if (data.LeaveType != null ){
+            if (data.LeaveType != null) {
 
                 LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
                     if (item.leave_type_code === data.LeaveType) {
                         oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
                     }
                 })
-            }else{
+            } else {
                 oListItem.set_item(LeaveApplicationFields.LeaveType, null);
             }
 
@@ -320,9 +320,9 @@
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
-           
+
             oListItem.update();
-          
+
             appcontext.executeQueryAsync(
                 function (sender, args) {
 
@@ -348,7 +348,7 @@
 
             var itemCreateInfo = new SP.ListItemCreationInformation();
             var oListItem = list.addItem(itemCreateInfo);
-          
+
             //var leaveTypeObj = JSON.parse(data.LeaveType.text());
 
             oListItem.set_item(LeaveApplicationFields.EmployeeEmail, data.EmployeeEmail);
@@ -358,8 +358,8 @@
             oListItem.set_item(LeaveApplicationFields.Department, data.Department);
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
-           
-          
+
+
             //LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
             //    if (item.leave_type_code == data.LeaveType) {
             //        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
@@ -367,11 +367,11 @@
             //})
             oListItem.set_item(LeaveApplicationFields.LeaveType, data.PayrollCode);
             //oListItem.set_item(LeaveApplicationFields.PayrollCode, data.PayrollCode.text());
-           
-           
+
+
             oListItem.set_item(LeaveApplicationFields.Firstdayofleave, data.StartDate);
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
-           
+
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
@@ -425,7 +425,7 @@
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
-          //  oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
+            //  oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -440,6 +440,7 @@
                 });
             return deferred.promise;
         };
+
 
         AppServiceFactory.LeaveApplication_LoadUserData = function (email, userType) {
 
@@ -547,17 +548,17 @@
 
             oListItem.deleteObject();
             appcontext.executeQueryAsync(Function.createDelegate(this, function () {
-             
+
                 deferred.resolve(oListItem);
             }), Function.createDelegate(this, function () {
-                  
-                    deferred.reject(null);
-                }));
+
+                deferred.reject(null);
+            }));
             return deferred.promise;
         };
 
-       
-        AppServiceFactory.LeaveApplication_AddAttachedData = function ( id, fileName, file) {
+
+        AppServiceFactory.LeaveApplication_AddAttachedData = function (id, fileName, file) {
             //var deferred = $.Deferred();
             //var hostUrl = SharePointOnlineService.GetHostWebUrl();
             //var appUrl = SharePointOnlineService.GetAppWebUrl();
@@ -592,7 +593,7 @@
 
 
         function getFileBuffer(file) {
-           
+
             //var deferred = $.Deferred();
             //var reader = new FileReader();
             //reader.onload = function (e) {
@@ -605,7 +606,7 @@
             //if (file === null || typeof file === 'undefined')
             //    deferred.reject(e.target.error);
             //return deferred.promise();
-        }      
+        }
         return AppServiceFactory;
 
     }

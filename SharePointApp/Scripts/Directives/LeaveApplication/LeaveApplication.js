@@ -77,7 +77,7 @@
         //Actual leave 
         $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
-               /// alert("incorrect");
+                /// alert("incorrect");
                 $("#error-message").html("Invalid hours");
 
             }
@@ -110,12 +110,58 @@
                 console.log(ex);
             }
         });
+
         //caluculate start day and last day
         $scope.$watch('[selectedLeaveApplication.StartDate ,selectedLeaveApplication.ReturnDate]', function () {
             $scope.selectedLeaveApplication.TotalDays = dateDifference($scope.selectedLeaveApplication.StartDate, $scope.selectedLeaveApplication.ReturnDate);
 
 
         });
+
+        //This function is used to return if user is part of Line Manager Group - Nidhi
+        function isUserLineManager() {
+            var userId = getCurrentUserREST();
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?$filter=Id eq" + userId;
+
+            $.ajax({
+                url: userUrl,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    if (data.d.results[0] != undefined) {
+                        return true;
+                    }
+                }
+            });
+
+            return false;
+        }
+
+         //This function is used to return UserId - Nidhi
+        function getCurrentUserREST() {
+
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/currentUser";
+
+            $.ajax({
+                url: userUrl,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var UserId = data.d.Id; //Assigning UserId Variable  
+                    return UserId;
+                },
+                error: function (data) { return ""; }
+            });
+            return "";
+        }
 
         //constructor
         init();
@@ -141,10 +187,6 @@
                 loadLeaveApplication();
 
             });
-
-
-
-
 
         }
 
@@ -178,12 +220,12 @@
                         $scope.FilterLeaveApplicationData.push(item);
 
                     }
-                //}
-                //if (filter == 'Approved') {
-                //    if (item.Status.includes('Pending')) {
-                //        $scope.FilterLeaveApplicationData.push(item);
+                    //}
+                    //if (filter == 'Approved') {
+                    //    if (item.Status.includes('Pending')) {
+                    //        $scope.FilterLeaveApplicationData.push(item);
 
-                //    }
+                    //    }
                 }
             });
 
@@ -228,7 +270,7 @@
 
         $scope.CancelLeaveApplication_Click = function (data) {
             data.Status = "Cancel";
-            
+
             //$scope.selectedLeaveApplication = data;
             var modalOptions = {
                 closeButtonText: 'Back',
@@ -329,7 +371,7 @@
                 //reformat startdate and enddate
                 $scope.selectedLeaveApplication.StartDate = moment($scope.selectedLeaveApplication.StartDate).format('DD-MM-YYYY');
                 $scope.selectedLeaveApplication.ReturnDate = startDate = moment($scope.selectedLeaveApplication.ReturnDate).format('DD-MM-YYYY');
-                
+
 
 
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
@@ -433,11 +475,11 @@
 
         }
 
-       
+
 
         $scope.RejectLeaveApplication = function (data) {
 
-            
+
             $('#modalRejectLeaveApplication').modal('show');
             //var modalOptions = {
             //    closeButtonText: 'Cancel',
@@ -598,11 +640,11 @@
 
         //https://stackoverflow.com/questions/28949911/what-does-this-format-means-t000000-000z
         function dateDifference(start, end) {
-            
+
             // Copy date objects so don't modify originals
             var s = new moment(start, "DD/MM/YYYY");
             var e = new moment(end, "DD/MM/YYYY");
-           
+
             // Get the difference in whole days
             var totalDays = e.diff(s, 'days');
 
@@ -613,7 +655,7 @@
             var days = totalDays - wholeWeeks * 2;
 
             if (s.isoWeekday() > e.isoWeekday()) {
-                days = totalDays - 2; 
+                days = totalDays - 2;
             }
             if (days < 0)
                 return 0;
@@ -655,11 +697,11 @@
 
 
         //datetimepicker for start and end date
-      
+
         $("#inpStartDate").datepicker({ format: 'dd/mm/yyyy' });
         $("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
-       
-       
+
+
 
 
     }
