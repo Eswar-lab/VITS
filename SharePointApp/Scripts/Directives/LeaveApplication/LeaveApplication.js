@@ -38,7 +38,8 @@
             view: '',
             tab: ''
         };
-
+        var main_managers = [];
+        var is_line_manager = false;
 
         $scope.applications = [];
         $scope.selectedLeaveApplication = {};
@@ -123,7 +124,7 @@
             var userId = getCurrentUserREST();
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?$filter=Id eq" + userId;
+            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users??@target=%27" + hostUrl + "%27 $filter=Id eq" + userId;
 
             $.ajax({
                 url: userUrl,
@@ -146,7 +147,7 @@
 
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/currentUser";
+            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/currentUser?@target=%27" + hostUrl + "%27";
 
             $.ajax({
                 url: userUrl,
@@ -169,24 +170,55 @@
             var hostUrl = SharePointOnlineService.GetHostWebUrl();
             var appUrl = SharePointOnlineService.GetAppWebUrl();
             var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
-
-
+            var main_manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Main Managers')/users?@target=%27" + hostUrl + "%27";
+            
+            // load line managers
             ListService.GetListByTitle(manageUrl).then(function (data) {
                 console.log(data);
                 $scope.managers = data;
+                //load main mangers
+                //main_managers
+                ListService.GetListByTitle(main_manageUrl).then(function (data) {
+                    console.log(data);
+                    main_managers = data;
+
+                    //load current user infor
+                    SharePointOnlineService.LoadUserProfile().then(function (data) {
+                        userProfile = data.userProfileProperties;
+
+                        //load application data
+                        loadLeaveApplication();
+
+                        //check if login user is line manger
+                        //Author['$6_2']
+                        //{manager.Email
+                        var full_name = userProfile.FirstName + " " + userProfile.LastName;
+                        $scope.managers.forEach(function (item) {
+                            if (item.Email == userProfile.WorkEmail) {
+                                $scope.managers = main_managers;
+                                is_line_manager = true;
+                                return;
+                            }
+
+                        });
+
+                    });
+                }, function (err) {
+                    console.log(err);
+
+                });
+
             }, function (err) {
                 console.log(err);
 
-            });
 
-            //load current user infor
-            SharePointOnlineService.LoadUserProfile().then(function (data) {
-                userProfile = data.userProfileProperties;
+                });
+           
 
-                //load application data
-                loadLeaveApplication();
 
-            });
+
+
+           
 
         }
 
@@ -413,7 +445,12 @@
             $('#modalLeaveApplication').modal('hide');
         }
         $scope.SubmitLeaveApplication = function () {
-            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
+
+            if (is_line_manager )
+                $scope.selectedLeaveApplication.Status = "Pending Line Manager";
+            else
+                $scope.selectedLeaveApplication.Status = "Pending Final Approval";
+
             var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'OK',

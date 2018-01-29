@@ -454,7 +454,8 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             var oList = hostweb.get_lists().getByTitle(listTitle);
             var camlQuery = new SP.CamlQuery();
-
+//
+            
             var camlQ = undefined;
             if (userType == USER_TYPE.user)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="EmployeeEmail" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>';
