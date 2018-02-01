@@ -119,50 +119,7 @@
 
         });
 
-        //This function is used to return if user is part of Line Manager Group - Nidhi
-        function isUserLineManager() {
-            var userId = getCurrentUserREST();
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users??@target=%27" + hostUrl + "%27 $filter=Id eq" + userId;
-
-            $.ajax({
-                url: userUrl,
-                method: "GET",
-                headers: {
-                    "Accept": "application/json; odata=verbose"
-                },
-                success: function (data) {
-                    if (data.d.results[0] != undefined) {
-                        return true;
-                    }
-                }
-            });
-
-            return false;
-        }
-
-         //This function is used to return UserId - Nidhi
-        function getCurrentUserREST() {
-
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var userUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/currentUser?@target=%27" + hostUrl + "%27";
-
-            $.ajax({
-                url: userUrl,
-                method: "GET",
-                headers: {
-                    "Accept": "application/json; odata=verbose"
-                },
-                success: function (data) {
-                    var UserId = data.d.Id; //Assigning UserId Variable  
-                    return UserId;
-                },
-                error: function (data) { return ""; }
-            });
-            return "";
-        }
+        
 
         //constructor
         init();
@@ -446,10 +403,11 @@
         }
         $scope.SubmitLeaveApplication = function () {
 
-            if (is_line_manager )
-                $scope.selectedLeaveApplication.Status = "Pending Line Manager";
-            else
+            if (is_line_manager == true)
                 $scope.selectedLeaveApplication.Status = "Pending Final Approval";
+            else
+               
+            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
 
             var modalOptions = {
                 closeButtonText: 'Cancel',

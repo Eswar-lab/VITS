@@ -105,7 +105,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     {
         leave_type_code: 'CMP',
         leave_type_text: 'Copassitionate Leave',
-        enable_leave_category: true
+        enable_leave_category: false
 
     },
     {
