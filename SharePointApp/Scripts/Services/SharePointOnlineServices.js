@@ -274,7 +274,8 @@
             'PRCODE': 'PRCODE',
             'Firstdayofleave': 'Firstdayofleave',
             'Lastdayofleave': 'Lastdayofleave',
-            'SupportingFiles': 'Attachments'
+            'SupportingFiles': 'Attachments',
+            'RejectionReason': 'RejectionReason'
         }
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
@@ -320,7 +321,7 @@
             oListItem.set_item(LeaveApplicationFields.Lastdayofleave, data.ReturnDate);
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
-
+            oListItem.set_item(LeaveApplicationFields.RejectionReason, data.RejectionReason);
             oListItem.update();
 
             appcontext.executeQueryAsync(

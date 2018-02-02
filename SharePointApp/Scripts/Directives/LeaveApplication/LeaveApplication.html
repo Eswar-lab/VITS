@@ -26,12 +26,12 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpRemarks">Commentes </label>
-                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.RejectionReason"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="RejectLeaveApplication(selectedLeaveApplication)" data-dismiss="modal">Reject</button>
+                    <button type="button" class="btn btn-default" ng-click="RejectLeaveApplication(selectedLeaveApplication)">Reject</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

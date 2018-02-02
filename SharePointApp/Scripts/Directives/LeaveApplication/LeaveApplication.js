@@ -48,7 +48,7 @@
         $scope.selectedLeaveApplication.PayrollCode = undefined;
         $scope.selectedLeaveApplication.enable_leave_category = false;
         $scope.selectedLeaveApplication.SupportingFiles = undefined;
-
+        $scope.selectedLeaveApplication.RejectionReason = undefined;
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
@@ -217,6 +217,7 @@
                     //    }
                 }
             });
+            console.log($scope.FilterLeaveApplicationData);
 
         }
         $scope.ActualLeaveToggle = function (event) {
@@ -483,24 +484,18 @@
             //    bodyText: 'Are you sure you want to reject this application?'
             //};
 
-            //data.Status = "Rejected";
+                //load application data
+                loadLeaveApplication();
 
-            //modalService.showModal({}, modalOptions).then(function (result) {
-            //    if (result == 'ok')
-            //        LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
+                modalOptions.bodyText = "Application has been  rejected successfully";
+                modalService.showModal({}, modalOptions);
 
-            //            //load application data
-            //            loadLeaveApplication();
+            }, function (err) {
+                modalOptions.bodyText = "Application has been not rejected successfully";
+                modalService.showModal({}, modalOptions);
+            });
 
-            //            modalOptions.bodyText = "Application has been  rejected successfully";
-            //            modalService.showModal({}, modalOptions);
-
-            //        }, function (err) {
-            //            modalOptions.bodyText = "Application has been not rejected successfully";
-            //            modalService.showModal({}, modalOptions);
-            //        });
-            //});
-
+          
 
 
         }
