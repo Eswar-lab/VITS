@@ -75,6 +75,12 @@
                 }
             }
         }
+        //map selected item to selectedApplication
+        $scope.mapItemToSelApplication = function (item) {
+            $scope.selectedLeaveApplication = item;
+
+        }
+
         //Actual leave 
         $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
@@ -128,7 +134,7 @@
             var appUrl = SharePointOnlineService.GetAppWebUrl();
             var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
             var main_manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Main Managers')/users?@target=%27" + hostUrl + "%27";
-            
+           
             // load line managers
             ListService.GetListByTitle(manageUrl).then(function (data) {
                 console.log(data);
@@ -146,9 +152,6 @@
                         //load application data
                         loadLeaveApplication();
 
-                        //check if login user is line manger
-                        //Author['$6_2']
-                        //{manager.Email
                         var full_name = userProfile.FirstName + " " + userProfile.LastName;
                         $scope.managers.forEach(function (item) {
                             if (item.Email == userProfile.WorkEmail) {
@@ -216,6 +219,8 @@
 
                     //    }
                 }
+
+               
             });
             console.log($scope.FilterLeaveApplicationData);
 
@@ -473,32 +478,23 @@
 
 
 
-        $scope.RejectLeaveApplication = function (data) {
+        $scope.RejectLeaveApplication = function () {
 
-
-            $('#modalRejectLeaveApplication').modal('show');
-            //var modalOptions = {
-            //    closeButtonText: 'Cancel',
-            //    actionButtonText: 'Reject selected Leave Application ',
-            //    headerText: 'Reject ' + " the selected application " + '?',
-            //    bodyText: 'Are you sure you want to reject this application?'
-            //};
-
+            $scope.selectedLeaveApplication.Status = "Rejected";
+            LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
+                var inputEmail = null;
                 //load application data
                 loadLeaveApplication();
-
                 modalOptions.bodyText = "Application has been  rejected successfully";
                 modalService.showModal({}, modalOptions);
-
             }, function (err) {
+
                 modalOptions.bodyText = "Application has been not rejected successfully";
                 modalService.showModal({}, modalOptions);
             });
-
-          
-
-
         }
+
+
         $scope.MainManagerApproveLeaveApplication = function (data) {
             data.Status = "Approved";
 
@@ -577,8 +573,10 @@
         // 2 : lineManager
         // 3 : mainManager
 
-        function loadLeaveApplicationByUserType(inputEmail, userType) {
+        function loadLeaveApplicationByUserType(userType) {
+            var inputEmail = userProfile.WorkEmail;
             LeaveApplicationService.LeaveApplication_LoadUserData(inputEmail, userType).then(function (data) {
+
                 $scope.LeaveApplicationData = data;
                 $scope.FilterLeaveApplicationData = [];
                 //draft status by default
@@ -688,8 +686,9 @@
 
         //datetimepicker for start and end date
 
-        $("#inpStartDate").datepicker({ format: 'dd/mm/yyyy' });
-        $("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
+        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', min: 0});
+       
+        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
 
 
 
