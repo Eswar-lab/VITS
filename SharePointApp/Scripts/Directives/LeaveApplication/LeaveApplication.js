@@ -85,6 +85,8 @@
         $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
                 /// alert("incorrect");
+
+                $("#error-message").show();
                 $("#error-message").html("Invalid hours");
 
             }
@@ -134,7 +136,8 @@
             var appUrl = SharePointOnlineService.GetAppWebUrl();
             var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
             var main_manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Main Managers')/users?@target=%27" + hostUrl + "%27";
-           
+            // hide error message 
+            $("#error-message").hide();
             // load line managers
             ListService.GetListByTitle(manageUrl).then(function (data) {
                 console.log(data);
