@@ -339,10 +339,15 @@
                 $('#modalLeaveApplication').modal('show');
                 return;
             }
-            $scope.selectedLeaveApplication = LeaveApplicationService.LeaveApplication_CreateNewLeaveData(userProfile).then(function (data) {
-                $scope.selectedLeaveApplication = data;
-                $('#modalLeaveApplication').modal('show');
-            });
+
+            $scope.selectedLeaveApplication.EmployeeEmail = userPro.UserName;
+            $scope.selectedLeaveApplication.EmployeeSurname = userPro.LastName;
+            $scope.selectedLeaveApplication.EmployeeFirstname = userPro.FirstName;
+            $scope.selectedLeaveApplication.EmployeeID = userPro.EmployeeId;
+            $scope.selectedLeaveApplication.Department = userPro.Department;
+            $scope.selectedLeaveApplication.Designation = userPro.Title;
+            $scope.selectedLeaveApplication.Remarks = '';
+            $('#modalLeaveApplication').modal('show');
 
         }
 
