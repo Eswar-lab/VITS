@@ -502,8 +502,9 @@
                     obj.PayrollCode = oListItem.get_fieldValues().PayrollCode;
                     obj.StartDate = oListItem.get_fieldValues().Firstdayofleave;
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
+                    obj.RejectionReason = oListItem.get_fieldValues().RejectionReason;
                     obj.Status = oListItem.get_fieldValues().Status;
-                    obj.RejectionReason = remarkStr;
+                   // obj.RejectionReason = remarkStr;
                     data.push(obj);
                 }
                 deffer.resolve(data);
