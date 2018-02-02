@@ -334,18 +334,18 @@
             // hide error message 
             $("#error-message").hide();
 
-            $scope.selectedLeaveApplication.ID = undefined;
+            //$scope.selectedLeaveApplication.ID = undefined;
             if (userProfile == null || userProfile == undefined) {
                 $('#modalLeaveApplication').modal('show');
                 return;
             }
 
-            $scope.selectedLeaveApplication.EmployeeEmail = userPro.UserName;
-            $scope.selectedLeaveApplication.EmployeeSurname = userPro.LastName;
-            $scope.selectedLeaveApplication.EmployeeFirstname = userPro.FirstName;
-            $scope.selectedLeaveApplication.EmployeeID = userPro.EmployeeId;
-            $scope.selectedLeaveApplication.Department = userPro.Department;
-            $scope.selectedLeaveApplication.Designation = userPro.Title;
+            $scope.selectedLeaveApplication.EmployeeEmail = userProfile.UserName;
+            $scope.selectedLeaveApplication.EmployeeSurname = userProfile.LastName;
+            $scope.selectedLeaveApplication.EmployeeFirstname = userProfile.FirstName;
+            $scope.selectedLeaveApplication.EmployeeID = userProfile.EmployeeId;
+            $scope.selectedLeaveApplication.Department = userProfile.Department;
+            $scope.selectedLeaveApplication.Designation = userProfile.Title;
             $scope.selectedLeaveApplication.Remarks = '';
             $('#modalLeaveApplication').modal('show');
 

@@ -40,7 +40,7 @@
     </div>
 
     <div id="modalLeaveApplication" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
             <div class="modal-content panel-primary">
                 <div class="modal-header panel-heading">
@@ -57,18 +57,17 @@
                         </div>
                     </div>
                     <hr />
+                   
                     <div class="row">
-                        <div class="col-xs-12 form-group">
+                        <div class="col-xs-4 form-group">
                             <label for="inpEmployee">Employee Email</label>
                             <input type="text" readonly class="form-control" id="inpEmployeeEmail" ng-model="selectedLeaveApplication.EmployeeEmail">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
+                        <div class="col-xs-4 form-group">
                             <label for="inpFirstname">Firstname</label>
                             <input type="text" readonly class="form-control" id="inpFirstname" ng-model="selectedLeaveApplication.EmployeeFirstname">
                         </div>
-                        <div class="col-xs-6 form-group">
+                        <div class="col-xs-4 form-group">
                             <label for="inpLastname">Surname</label>
                             <input type="text" readonly class="form-control" id="inpLastname" ng-model="selectedLeaveApplication.EmployeeSurname">
                         </div>
