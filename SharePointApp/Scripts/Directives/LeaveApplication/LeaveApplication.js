@@ -89,6 +89,8 @@
                 $("#error-message").show();
                 $("#error-message").html("Invalid hours");
 
+            } else {
+                $("#error-message").hide();
             }
             //else ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave)
             //{
@@ -329,6 +331,8 @@
             init();
         }
         $scope.newLeaveApplication_Click = function () {
+            // hide error message 
+            $("#error-message").hide();
 
             $scope.selectedLeaveApplication.ID = undefined;
             if (userProfile == null || userProfile == undefined) {
