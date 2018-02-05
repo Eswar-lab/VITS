@@ -92,19 +92,7 @@
             } else {
                 $("#error-message").hide();
             }
-            //else ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave)
-            //{
-
-            //    $("#error-message").html("It should be between 9 to 16 hours");
-            //}
-            //else($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
-
-            //    $("#error-message").html("It should be between 17 to 32 hours");
-            //}
-            //else($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
-
-            //    $("#error-message").html("It should be between 33 to 40 hours");
-            //}
+           
         });
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
@@ -370,7 +358,7 @@
                     var parts = document.getElementById("inpFile").value.split("\\");
                     var filename = parts[parts.length - 1];
                     var file = document.getElementById("inpFile").files[0];
-                    //LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
+                   // LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
                 } catch (ex) {
                     console.log(ex);
                 }
@@ -699,7 +687,8 @@
         //datetimepicker for start and end date
 
         jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', min: 0});
-       
+      
+
         jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
 
 
