@@ -39,147 +39,153 @@
 
     </div>
 
-    <div id="modalLeaveApplication" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content panel-primary">
-                <div class="modal-header panel-heading">
-                    <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
-                    <h4 class="modal-title">New  Leave Application <span data-dismiss="modal" style=" position: absolute; right: 15px; ">X</span></h4>
-                   
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()" data-dismiss="modal">Save</button>
-                           
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label for="inpEmployee">Employee Email</label>
-                            <input type="text" readonly class="form-control" id="inpEmployeeEmail" ng-model="selectedLeaveApplication.EmployeeEmail">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpFirstname">Firstname</label>
-                            <input type="text" readonly class="form-control" id="inpFirstname" ng-model="selectedLeaveApplication.EmployeeFirstname">
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label for="inpLastname">Surname</label>
-                            <input type="text" readonly class="form-control" id="inpLastname" ng-model="selectedLeaveApplication.EmployeeSurname">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpEmployeeId">Employee ID</label>
-                            <input type="text" readonly class="form-control" id="inpEmployeeId" ng-model="selectedLeaveApplication.EmployeeID">
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label for="inpDepartment">Department</label>
-                            <input type="text" readonly class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpDesignation">Designation</label>
-                            <input type="text" readonly class="form-control" id="inpDesignation" ng-model="selectedLeaveApplication.Designation">
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label for="ppReportsTo">Reports To <span class="required-field">*</span></label>
-                            <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
-                            <select data-provide="typeahead" class="form-control" id="ppReportsTo"
-                                    ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
-                                <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
-                            </select>
-
-                        </div>
+    <div id="modalLeaveApplication" class="modal fade" role="dialog" data-backdrop="static">
+      
+            <div class="modal-dialog" style="margin: auto; width: 90%;">
+                <!-- Modal content-->
+                <div class="modal-content panel-primary">
+                    <div class="modal-header panel-heading">
+                        <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
+                        <h4 class="modal-title">New  Leave Application <span data-dismiss="modal" style=" position: absolute; right: 15px; ">X</span></h4>
 
                     </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
+                                <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()" data-dismiss="modal">Save</button>
 
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label for="inpLeaveType">Leave Type <span class="required-field">*</span></label>
-                            <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
-
-                                <option ng-repeat="item in leave_type" value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
-
-                            </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpPayrollCode">Payroll Code</label>
-                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label for="inpLeaveCat">Leave Category</label>
-                            <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
-                                <option selected value="1" ng-if="selectedLeaveApplication.enable_leave_category">With Certificate</option>
-                                <option value="2" ng-if="selectedLeaveApplication.enable_leave_category">WithOut Certificate</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label for="inpFile">Supporting file</label>
+                        <hr />
 
-                            <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.SupportingFiles">
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpEmployee">Employee Email</label>
+                                <input type="text" readonly class="form-control" id="inpEmployeeEmail" ng-model="selectedLeaveApplication.EmployeeEmail">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpFirstname">Firstname</label>
+                                <input type="text" readonly class="form-control" id="inpFirstname" ng-model="selectedLeaveApplication.EmployeeFirstname">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpLastname">Surname</label>
+                                <input type="text" readonly class="form-control" id="inpLastname" ng-model="selectedLeaveApplication.EmployeeSurname">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpEmployeeId">Employee ID</label>
+                                <input type="text" readonly class="form-control" id="inpEmployeeId" ng-model="selectedLeaveApplication.EmployeeID">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <label for="inpDepartment">Department</label>
+                                <input type="text" readonly class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
+                            </div>
 
-                            <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
-                                <div class="row"></div>
-                                <div class="col-xs-11">
-                                    {{file.name}}
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpDesignation">Designation</label>
+                                <input type="text" readonly class="form-control" id="inpDesignation" ng-model="selectedLeaveApplication.Designation">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="ppReportsTo">Reports To <span class="required-field">*</span></label>
+                                <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
+                                <select data-provide="typeahead" class="form-control" id="ppReportsTo"
+                                        ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
+                                    <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
+                                </select>
+
+                            </div>
+
+
+
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpLeaveType">Leave Type <span class="required-field">*</span></label>
+                                <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
+
+                                    <option ng-repeat="item in leave_type" value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
+
+                                </select>
+                            </div>
+
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpPayrollCode">Payroll Code</label>
+                                <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpLeaveCat">Leave Category</label>
+                                <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
+                                    <option selected value="1" ng-if="selectedLeaveApplication.enable_leave_category">With Certificate</option>
+                                    <option value="2" ng-if="selectedLeaveApplication.enable_leave_category">WithOut Certificate</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpFile">Supporting file</label>
+
+                                <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.SupportingFiles">
+
+                                <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
+                                    <div class="row"></div>
+                                    <div class="col-xs-11">
+                                        {{file.name}}
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
+                                    </div>
                                 </div>
-                                <div class="col-xs-1">
-                                    <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
-                                </div>
+                            </div>
+
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpStartDate">Start Date 1day=8hours <span class="required-field">*</span></label>
+                                <input type="text" class="hasDatepicker" id="inpStartDate" ng-model="selectedLeaveApplication.StartDate">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 form-group">
+                                <label for="inpReturnDate">Return Date <span class="required-field">*</span></label>
+                                <input type="text" class="hasDatepicker" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
+
+                            </div>
+
+
+                            <div class="col-xs-4 form-group">
+                                <label for="inpTotalDays">Total (days)</label>
+                                <input type="text" readonly class="form-control" id="inpTotalDays" ng-model="selectedLeaveApplication.TotalDays">
+                            </div>
+                            <div class="col-xs-4 form-group">
+                                <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
+                                <label for="inpActualLeave">Actual Leave (Hours)</label>
+
+                                <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
+                                <span id="error-message" style="color: red"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                <label for="inpRemarks">Comments </label>
+                                <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpStartDate">Start Date 1day=8hours <span class="required-field">*</span></label>
-                            <input type="text" class="hasDatepicker" id="inpStartDate" ng-model="selectedLeaveApplication.StartDate">
-
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <label for="inpReturnDate">Return Date <span class="required-field">*</span></label>
-                            <input type="text" class="hasDatepicker" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate">
-
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
+                        <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-6 form-group">
-                            <label for="inpTotalDays">Total (days)</label>
-                            <input type="text" readonly class="form-control" id="inpTotalDays" ng-model="selectedLeaveApplication.TotalDays">
-                        </div>
-                        <div class="col-xs-6 form-group">
-                            <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
-                            <label for="inpActualLeave">Actual Leave (Hours)</label>
-
-                            <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
-                            <span id="error-message" style="color: red"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group">
-                            <label for="inpRemarks">Comments </label>
-                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                    <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- User View -->
     <div class="panel panel-primary" ng-show="stage.view == 'UserView'">
