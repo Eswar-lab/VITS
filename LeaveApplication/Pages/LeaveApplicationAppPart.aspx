@@ -8,7 +8,10 @@
 <html>
 <head>
     <title>VIT Leave Application Form</title>
+
     <script type="text/javascript" src="../Scripts/jquery-1.9.1.min.js"></script>
+   
+
     <script type="text/javascript" src="/_layouts/15/MicrosoftAjax.js"></script>
     <script type="text/javascript" src="/_layouts/15/init.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.init.js"></script>
@@ -16,6 +19,11 @@
     <script type="text/javascript" src="/_layouts/15/sp.runtime.js"></script>
     <script type="text/javascript" src="/_layouts/15/sp.js"></script>
     <script type="text/javascript" src="/_layouts/15/SP.RequestExecutor.js"></script>    
+    <!-- Datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
+
 
    <!-- AngularJS-->
      <script src="//cdnjs.cloudflare.com/ajax/libs/api-check/7.5.5/api-check.min.js"></script>
@@ -34,7 +42,11 @@
     <!-- Angular Material Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"> </script>
 
-    
+    <!-- Datatime picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
     <!-- BootStrap 3 -->    
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> 
