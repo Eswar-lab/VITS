@@ -64,7 +64,7 @@
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://vitspoaddins.blob.core.windows.net/scripts/directives/Timesheet/Timesheet.js"></script>--%>
 
-    <link rel="stylesheet" href="https://vit1.sharepoint.com/sites/UAT/Style%20Library/Content/app.css"> 
+   <%-- <link rel="stylesheet" href="https://vit1.sharepoint.com/sites/UAT/Style%20Library/Content/app.css"> 
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/app.js"></script>
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/external/bootstrap3-typeahead.min.js"></script>
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/controllers/SharePointOnlineControllers.js"></script>
@@ -73,9 +73,9 @@
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/directives/FilesInput/FilesInput.js"></script>
     <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/directives/LeaveApplication/LeaveApplication.js"></script>
-    <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/services/ListService.js"></script>
+    <script src="https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/services/ListService.js"></script>--%>
 
-    <%--<link rel="stylesheet" href="https://sharepointapps.blob.core.windows.net/content/app.css"> 
+    <link rel="stylesheet" href="https://sharepointapps.blob.core.windows.net/content/app.css"> 
     <script src="https://sharepointapps.blob.core.windows.net/scripts/app.js"></script>
     <script src="https://sharepointapps.blob.core.windows.net/scripts/external/bootstrap3-typeahead.min.js"></script>
     <script src="https://sharepointapps.blob.core.windows.net/scripts/controllers/SharePointOnlineControllers.js"></script>
@@ -84,7 +84,7 @@
     <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/SharePointOnlineDirectives.js"></script>
     <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/filesinput/FilesInput.js"></script>
     <script src="https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.js"></script>
-    <script src="https://sharepointapps.blob.core.windows.net/scripts/services/ListService.js"></script>--%>
+    <script src="https://sharepointapps.blob.core.windows.net/scripts/services/ListService.js"></script>
 
 
 </head>

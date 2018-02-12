@@ -15,8 +15,8 @@
             scope: {
                 tenant: '='
             },
-            templateUrl: 'https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/Directives/LeaveApplication/LeaveApplication.html',
-            //templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.html',
+           // templateUrl: 'https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/Directives/LeaveApplication/LeaveApplication.html',
+           templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.html',
             replace: true,
             //require: 'ngModel',
             link: function ($scope, elem, attr, ctrl) {

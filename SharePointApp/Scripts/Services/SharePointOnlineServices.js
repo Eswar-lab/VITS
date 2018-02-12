@@ -669,7 +669,7 @@
                 backdrop: true,
                 keyboard: true,
                 modalFade: true,
-                templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
+                templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/services/modalTemplate.html'
             };
 
             var modalOptions = {

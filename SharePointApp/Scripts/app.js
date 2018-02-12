@@ -128,7 +128,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Servide Leave',
+        leave_type_text: 'Long Service Leave',
         enable_leave_category: false
 
     },
