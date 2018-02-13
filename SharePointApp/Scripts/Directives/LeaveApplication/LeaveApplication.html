@@ -175,7 +175,7 @@
                         <div class="row">
                             <div class="col-xs-12 form-group">
                                 <label for="inpRemarks">Comments </label>
-                                <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
+                                <textarea  class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
                             </div>
                         </div>
                     </div>
@@ -208,10 +208,11 @@
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
+        <!--test -->
         <table class="table table-condensed">
             <thead>
                 <tr>
-                    <th>Employee Email</th>
+                    <th>Leave type</th>
                     <th>First Day of Leave</th>
                     <th>Last Day of Leave</th>
                     <th>Reports To</th>
@@ -225,7 +226,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="data in FilterLeaveApplicationData">
-                    <td>{{data.EmployeeEmail}}</td>
+                    <td>{{data.LeaveType}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
                     <td>{{data.ReportTo}}</td>
