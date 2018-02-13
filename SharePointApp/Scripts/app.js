@@ -81,55 +81,64 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     {
         leave_type_code: 'ANN',
         leave_type_text: 'Annual Leave',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'LOP',
         leave_type_text: 'Loss Of Pay',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'SIC',
         leave_type_text: 'Sick Leave',
-        enable_leave_category: true
+        enable_leave_category: true,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'FAM',
         leave_type_text: 'Family Leave',
-        enable_leave_category: true
+        enable_leave_category: true,
+        enable_supporting_file: true
 
     },
     {
         leave_type_code: 'CMP',
         leave_type_text: 'Copassitionate Leave',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'STY',
         leave_type_text: 'Study Leave',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'PAT',
         leave_type_text: 'Parental Leave',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'JURY',
         leave_type_text: 'Jury Service Leave',
-        enable_leave_category: false
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Service Leave',
-        enable_leave_category: false
+        leave_type_text: 'Long Servide Leave',
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
 

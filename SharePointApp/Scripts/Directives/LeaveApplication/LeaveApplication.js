@@ -168,7 +168,7 @@
             }
             ClearCache();
         }
-
+		
         $scope.filterData = function ($event, filter) {
             $event.preventDefault();
             $scope.stage.tab = filter;
@@ -298,7 +298,8 @@
 
         }
         $scope.refreshLeaveApplication_Click = function () {
-            init();
+            loadLeaveApplication();
+			$scope.filterData(null, $scope.stage.tab);
         }
         $scope.newLeaveApplication_Click = function () {
             // hide error message 
@@ -670,10 +671,10 @@
 
         //datetimepicker for start and end date
 
-        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', startDate: 0 });
+        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
 
 
-        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy', startDate: 0 });
+        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
 
     }
 })();
