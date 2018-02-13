@@ -383,7 +383,7 @@
             appcontext.executeQueryAsync(
                 function (sender, args) {
 
-                    deferred.resolve(args);
+                    deferred.resolve(oListItem);
                 },
                 function (sender, args) {
 
@@ -425,7 +425,7 @@
             oListItem.set_item(LeaveApplicationFields.Totalnumberofdays, data.TotalDays);
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
-           
+
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
             //  oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('Attche', data.ActualLeave);
@@ -456,8 +456,8 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             var oList = hostweb.get_lists().getByTitle(listTitle);
             var camlQuery = new SP.CamlQuery();
-//
-            
+            //
+
             var camlQ = undefined;
             if (userType == USER_TYPE.user)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="EmployeeEmail" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>';
@@ -505,7 +505,7 @@
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
                     obj.RejectionReason = oListItem.get_fieldValues().RejectionReason;
                     obj.Status = oListItem.get_fieldValues().Status;
-                   // obj.RejectionReason = remarkStr;
+                    // obj.RejectionReason = remarkStr;
                     data.push(obj);
                 }
                 deffer.resolve(data);
@@ -560,103 +560,86 @@
             }));
             return deferred.promise;
         };
-
-
-        AppServiceFactory.LeaveApplication_AddAttachedData = function (id, fileName, file) {
-            var deferred = $.Deferred();
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            //get list by cross domain access
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
-            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-            var hostweb = hostcontext.get_web();
-            var list = hostweb.get_lists().getByTitle(listTitle);
-            //get updated item
-            var oListItem = list.getItemById(id);
-
-
-
-            var itemId = id;
-            var fileInput = $('#inpFile');
+		
+		//add attachement to a created item
+		AppServiceFactory.LeaveApplication_AttachFile = function (fileInput, itemID) {
+			AttachApplication(fileInput,itemID );
+		}
+		function AttachApplication(fileInput,itemID){
+			
             var fileCount = fileInput[0].files.length;
             var fileArray = [];
 
             for (var i = 0; i < fileCount; i++) {
                 fileArray.push(fileInput[0].files[i]);
             }
-            uploadFileSP("Staff Leave Application", itemId, fileArray, fileCount, listUrl);
+            uploadFileSP( itemID, fileArray, fileCount);
+	
+		}
+		function uploadFileSP( id, fileArray, fileCount) {
+            var FilesCount = 0;
+            var deferred = $q.defer();
+            var uploadStatus = "";
+            var file = fileArray[0];
+         
 
+            getFileBuffer(file).then(function (buffer, status, xhr) {
+				var hostUrl = SharePointOnlineService.GetHostWebUrl();
+				var appUrl = SharePointOnlineService.GetAppWebUrl();
+                var bytes = new Uint8Array(buffer);
+                var content = new SP.Base64EncodedByteArray();
+				var listUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/lists/getbytitle('Staff Leave Application')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')?@target=%27" + hostUrl + "%27";
+           
+                var queryUrl = listUrl;
+                var uploadCount = 0;
+							
+				$.ajax({
+                    url: queryUrl,
+                    type: "POST",
+                    processData: false,
+                    contentType: "application/json;odata=verbose",
+                    data: buffer,
+                    headers: {
+                        "accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "content-length": buffer.byteLength
+                    },
+                    success: function (data) {
+                       
+                        console.log("Your item has been submitted successfully!");
+                    },
+                    error: function (err) {
+                        console.log("Idea has been submitted but some files failed to upload.");
+                    }
+                });
+                deferred.resolve(uploadStatus);
+            });
 
+           
+            return deferred.promise;
         }
-
 
         function getFileBuffer(file) {
 
-            var deferred = $.Deferred();
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                deferred.resolve(e.target.result);
-            }
-            reader.onerror = function (e) {
-                deferred.reject(e.target.error);
-            }
-            reader.readAsArrayBuffer(file);
-            if (file === null || typeof file === 'undefined')
-                deferred.reject(e.target.error);
-            return deferred.promise();
-        }
+             var deferred = $q.defer();
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					deferred.resolve(e.target.result);
+				}
+				reader.onerror = function (e) {
+					deferred.reject(e.target.error);
+				}
+				reader.readAsArrayBuffer(file);
+				return deferred.promise;
+		
+		}
+		//Attachment end
+
+       
         return AppServiceFactory;
 
     }
-    function uploadFileSP(listName, id, fileArray, fileCount, listUrl) {
-        var FilesCount = 0;
-        var deferred = $.Deferred();
-        var uploadStatus = "";
-        var file = fileArray[0];
-        var getFile = getFileBuffer(file);
 
-        getFile.done(function (buffer, status, xhr) {
-            var bytes = new Uint8Array(buffer);
-            var content = new SP.Base64EncodedByteArray();
-            
-            var queryUrl = listUrl;
-            var uploadCount = 0;
-            $.ajax({
-                url: queryUrl,
-                type: "POST",
-                processData: false,
-                contentType: "application/json;odata=verbose",
-                data: buffer,
-                headers: {
-                    "accept": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "content-length": buffer.byteLength
-                },
-                success: function (data) {
-                    FilesCount++;
-                    uploadStatus = FilesCount;
-                    fileArray.shift();
-                    if (fileArray.length > 0) {
-                        uploadFileSP("ListName", id, fileArray, fileArray.length);
-                    }
-                    else {
-                        alert("Your item has been submitted successfully!");
-                    }
-                },
-                error: function (err) {
-                    alert("Idea has been submitted but some files failed to upload.");
-                }
-            });
-            deferred.resolve(uploadStatus);
-        });
-
-        getFile.fail(function (err) {
-            deferred.reject(err);
-        });
-        return deferred.promise();
-    }
 
 
 
@@ -669,7 +652,9 @@
                 backdrop: true,
                 keyboard: true,
                 modalFade: true,
-                templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
+                //templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
+				templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/services/modalTemplate.html'
+				
             };
 
             var modalOptions = {
