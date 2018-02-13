@@ -96,7 +96,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
         leave_type_code: 'SIC',
         leave_type_text: 'Sick Leave',
         enable_leave_category: true,
-        enable_supporting_file: false
+        enable_supporting_file: true
 
     },
     {
@@ -108,7 +108,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'CMP',
-        leave_type_text: 'Copassitionate Leave',
+        leave_type_text: 'compassionate leave',
         enable_leave_category: false,
         enable_supporting_file: false
 
@@ -136,7 +136,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Servide Leave',
+        leave_type_text: 'Long Service Leave',
         enable_leave_category: false,
         enable_supporting_file: false
 
