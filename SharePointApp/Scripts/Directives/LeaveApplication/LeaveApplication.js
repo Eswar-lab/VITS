@@ -15,8 +15,8 @@
             scope: {
                 tenant: '='
             },
-           // templateUrl: 'https://vit1.sharepoint.com/sites/UAT/Style%20Library/scripts/Directives/LeaveApplication/LeaveApplication.html',
-           templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.html',
+            //templateUrl: 'https://localhost:44326/scripts/Directives/LeaveApplication/LeaveApplication.html',
+            templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/directives/leaveapplication/LeaveApplication.html',
             replace: true,
             //require: 'ngModel',
             link: function ($scope, elem, attr, ctrl) {
@@ -92,7 +92,7 @@
             } else {
                 $("#error-message").hide();
             }
-           
+
         });
         //Leave Type and PayCode
         $scope.$watch('selectedLeaveApplication.LeaveType', function () {
@@ -117,7 +117,7 @@
 
         });
 
-        
+
 
         //constructor
         init();
@@ -129,49 +129,31 @@
             // hide error message 
             $("#error-message").hide();
             // load line managers
-            ListService.GetListByTitle(manageUrl).then(function (data) {
-                console.log(data);
-                $scope.managers = data;
-                //load main mangers
-                //main_managers
-                ListService.GetListByTitle(main_manageUrl).then(function (data) {
-                    console.log(data);
-                    main_managers = data;
+            var promise1 = ListService.GetListByTitle(manageUrl);
+            var promise2 = ListService.GetListByTitle(main_manageUrl);
+            var promise3 = SharePointOnlineService.LoadUserProfile();
 
-                    //load current user infor
-                    SharePointOnlineService.LoadUserProfile().then(function (data) {
-                        userProfile = data.userProfileProperties;
+            $q.all([promise1, promise2, promise3])
+                .then(function (data) {
+                    console.log(data[0], data[1], data[2]);
 
-                        //load application data
-                        loadLeaveApplication();
+                    $scope.managers = data[0];//line managers
+                    main_managers = data[1];//main managers
+                    userProfile = data[2].userProfileProperties //current user profile
+                    //load user leave applications
+                    loadLeaveApplication();
 
-                        var full_name = userProfile.FirstName + " " + userProfile.LastName;
-                        $scope.managers.forEach(function (item) {
-                            if (item.Email == userProfile.WorkEmail) {
-                                $scope.managers = main_managers;
-                                is_line_manager = true;
-                                return;
-                            }
-
-                        });
+                    //check if current user in line manager group
+                    $scope.managers.forEach(function (item) {
+                        if (item.Email == userProfile.WorkEmail) {
+                            $scope.managers = main_managers;
+                            is_line_manager = true;
+                            return;
+                        }
 
                     });
-                }, function (err) {
-                    console.log(err);
 
                 });
-
-            }, function (err) {
-                console.log(err);
-
-
-                });
-           
-
-
-
-
-           
 
         }
 
@@ -186,7 +168,7 @@
             }
             ClearCache();
         }
-
+		
         $scope.filterData = function ($event, filter) {
             $event.preventDefault();
             $scope.stage.tab = filter;
@@ -213,7 +195,7 @@
                     //    }
                 }
 
-               
+
             });
             console.log($scope.FilterLeaveApplicationData);
 
@@ -316,7 +298,8 @@
 
         }
         $scope.refreshLeaveApplication_Click = function () {
-            init();
+            loadLeaveApplication();
+			$scope.filterData(null, $scope.stage.tab);
         }
         $scope.newLeaveApplication_Click = function () {
             // hide error message 
@@ -327,14 +310,14 @@
                 $('#modalLeaveApplication').modal('show');
                 return;
             }
-
+            $scope.selectedLeaveApplication.ID = undefined;
             $scope.selectedLeaveApplication.EmployeeEmail = userProfile.UserName;
             $scope.selectedLeaveApplication.EmployeeSurname = userProfile.LastName;
             $scope.selectedLeaveApplication.EmployeeFirstname = userProfile.FirstName;
             $scope.selectedLeaveApplication.EmployeeID = userProfile.EmployeeId;
             $scope.selectedLeaveApplication.Department = userProfile.Department;
             $scope.selectedLeaveApplication.Designation = userProfile.Title;
-            $scope.selectedLeaveApplication.Remarks = '';
+
             $('#modalLeaveApplication').modal('show');
 
         }
@@ -354,26 +337,22 @@
 
 
             if ($scope.selectedLeaveApplication.ID !== undefined) {
-                try {
-                    var parts = document.getElementById("inpFile").value.split("\\");
-                    var filename = parts[parts.length - 1];
-                    var file = document.getElementById("inpFile").files[0];
-                   // LeaveApplicationService.LeaveApplication_AddAttachedData($scope.selectedLeaveApplication.ID, filename, file);
-                } catch (ex) {
-                    console.log(ex);
-                }
 
                 //reformat startdate and enddate
                 $scope.selectedLeaveApplication.StartDate = moment($scope.selectedLeaveApplication.StartDate).format('DD-MM-YYYY');
-                $scope.selectedLeaveApplication.ReturnDate = startDate = moment($scope.selectedLeaveApplication.ReturnDate).format('DD-MM-YYYY');
+                $scope.selectedLeaveApplication.ReturnDate = moment($scope.selectedLeaveApplication.ReturnDate).format('DD-MM-YYYY');
 
 
+                //attach document
+                attachDocument();
+                //end
 
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                     //load application data
                     loadLeaveApplication();
+
 
                 }, function (err) {
                     $scope.selectedLeaveApplication.Status = "Draft";
@@ -384,15 +363,12 @@
             } else {
 
                 LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                    try {
-                        var parts = document.getElementById("inpFile").value.split("\\");
-                        var filename = parts[parts.length - 1];
-                        var file = document.getElementById("inpFile").files[0];
-                        //LeaveApplicationService.LeaveApplication_AddAttachedData(success.ID, $scope.selectedLeaveApplication.SupportingFiles, $scope.selectedLeaveApplication.SupportingFile);
-                    } catch (ex) {
-                        console.log(ex);
-                    }
 
+                    console.log(success);
+                    $scope.selectedLeaveApplication.ID = success.$2_0.get_properties().Id;
+                    //attach document
+                    attachDocument();
+                    //end
                     modalOptions.bodyText = "successfully create a new item!";
                     modalService.showModal({}, modalOptions).then(function (result) { });
                     loadLeaveApplication();
@@ -409,11 +385,13 @@
         }
         $scope.SubmitLeaveApplication = function () {
 
+
+
             if (is_line_manager == true)
                 $scope.selectedLeaveApplication.Status = "Pending Final Approval";
             else
-               
-            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
+
+                $scope.selectedLeaveApplication.Status = "Pending Line Manager";
 
             var modalOptions = {
                 closeButtonText: 'Cancel',
@@ -438,6 +416,9 @@
                         LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                             modalOptions.bodyText = "successfully submit the application!";
                             modalService.showModal({}, modalOptions);
+                            //attach document
+                            attachDocument();
+                            //end
                             loadLeaveApplication();
 
                         }, function (err) {
@@ -459,6 +440,9 @@
                             alert("successfully create a new item!");
                             //load application data
                             loadLeaveApplication();
+                            //attach document
+                            attachDocument();
+                            //end
 
                         }, function (err) {
                             $scope.selectedLeaveApplication.Status = "Draft";
@@ -573,8 +557,8 @@
         // 2 : lineManager
         // 3 : mainManager
 
-        function loadLeaveApplicationByUserType(userType) {
-            var inputEmail = userProfile.WorkEmail;
+        function loadLeaveApplicationByUserType(inputEmail, userType) {
+
             LeaveApplicationService.LeaveApplication_LoadUserData(inputEmail, userType).then(function (data) {
 
                 $scope.LeaveApplicationData = data;
@@ -647,24 +631,25 @@
             }
             if (days < 0)
                 return 0;
-            // If not even number of weeks, calc remaining weekend days
-            //if (totalDays % 7) {
-            //    s.setDate(s.getDate() + wholeWeeks * 7);
 
-            //    while (s < e) {
-            //        s.setDate(s.getDate() + 1);
-
-            //        // If day isn't a Sunday or Saturday, add to business days
-            //        if (s.getDay() != 0 && s.getDay() != 6) {
-            //            ++days;
-            //        }
-            //    }
-            //}
             return days;
         }
 
         //JQuery code for Leave Application
 
+
+        //Attachment start
+        function attachDocument() {
+            var fileInput = $("#inpFile");
+            if ($scope.selectedLeaveApplication.ID == null || fileInput[0].files.length == 0)
+                return;
+
+
+            LeaveApplicationService.LeaveApplication_AttachFile(fileInput, $scope.selectedLeaveApplication.ID);
+
+        }
+
+        //Attachment end
 
         $("#ppReportsTo").typeahead({
             source: LeaveApplicationService.LeaveApplication_Get_Approvers(),
@@ -686,13 +671,10 @@
 
         //datetimepicker for start and end date
 
-        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', min: 0});
-      
-
-        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy' });
+        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
 
 
-
+        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
 
     }
 })();
