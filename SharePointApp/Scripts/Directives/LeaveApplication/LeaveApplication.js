@@ -540,8 +540,9 @@
 
         function loadLeaveApplication() {
             var inputEmail = null;
-            inputEmail = userProfile.WorkEmail;
+           // inputEmail = userProfile.WorkEmail;
             if ($scope.stage.view == 'UserView') {
+                inputEmail = userProfile.WorkEmail;
                 loadLeaveApplicationByUserType(inputEmail, USER_TYPE.user);
             }
             else if ($scope.stage.view == 'ManagerView') {
