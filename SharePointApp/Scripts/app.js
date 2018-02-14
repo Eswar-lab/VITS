@@ -108,7 +108,7 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'CMP',
-        leave_type_text: 'compassionate leave',
+        leave_type_text: 'Compassionate Leave',
         enable_leave_category: false,
         enable_supporting_file: false
 
