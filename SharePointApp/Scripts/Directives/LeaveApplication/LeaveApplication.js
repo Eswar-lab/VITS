@@ -385,7 +385,9 @@
         }
         $scope.SubmitLeaveApplication = function () {
 
-
+            //attach document
+            attachDocument();
+                //end
 
             if (is_line_manager == true)
                 $scope.selectedLeaveApplication.Status = "Pending Final Approval";
@@ -672,10 +674,14 @@
 
         //datetimepicker for start and end date
 
-        jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
+        jQuery("#inpStartDate").datepicker({
+            format: 'dd/mm/yyyy', startDate: new Date() ignoreReadonly: true,
+            allowInputToggle: true });
 
 
-        jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
+        jQuery("#inpReturnDate").datepicker({
+            format: 'dd/mm/yyyy', startDate: new Date() ignoreReadonly: true,
+            allowInputToggle: true });
 
     }
 })();
