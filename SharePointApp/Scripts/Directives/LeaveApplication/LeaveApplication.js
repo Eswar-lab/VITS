@@ -675,13 +675,13 @@
         //datetimepicker for start and end date
 
         jQuery("#inpStartDate").datepicker({
-            format: 'dd/mm/yyyy', startDate: new Date() ignoreReadonly: true,
-            allowInputToggle: true });
+            format: 'dd/mm/yyyy', startDate: new Date() 
+            });
 
 
         jQuery("#inpReturnDate").datepicker({
-            format: 'dd/mm/yyyy', startDate: new Date() ignoreReadonly: true,
-            allowInputToggle: true });
+            format: 'dd/mm/yyyy', startDate: new Date() 
+            });
 
     }
 })();
