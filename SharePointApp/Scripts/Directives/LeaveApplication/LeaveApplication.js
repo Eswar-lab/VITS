@@ -239,7 +239,7 @@
         }
 
         $scope.CancelLeaveApplication_Click = function (data) {
-            data.Status = "Cancel";
+          
 
             //$scope.selectedLeaveApplication = data;
             var modalOptions = {
@@ -248,7 +248,7 @@
                 headerText: 'Cancel ' + " the selected application " + '?',
                 bodyText: 'Are you sure you want to Cancel this application?'
             };
-
+            data.Status = "Cancel";
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result == 'ok')
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
@@ -385,9 +385,7 @@
         }
         $scope.SubmitLeaveApplication = function () {
 
-            //attach document
-            attachDocument();
-                //end
+          
 
             if (is_line_manager == true)
                 $scope.selectedLeaveApplication.Status = "Pending Final Approval";
