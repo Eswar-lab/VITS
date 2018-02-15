@@ -549,6 +549,11 @@
             var deferred = $q.defer();
             var itemId = data.ID;
            
+            var deferred = $q.defer();
+            var itemId = data.ID;
+            var hostUrl = SharePointOnlineService.GetHostWebUrl();
+            var appUrl = SharePointOnlineService.GetAppWebUrl();
+            var appcontext = new SP.ClientContext(appUrl);    
             var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
             var hostweb = hostcontext.get_web();
             var oList = hostweb.get_lists().getByTitle(listTitle);

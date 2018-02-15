@@ -190,6 +190,12 @@
 
         }
         $scope.editLeaveApplication_Click = function (data) {
+            LEAVE_APPLICATION_FIELDS.forEach(function (item) {
+                if (item.required == true) {
+                        jQuery("#" + item.id).removeClass("has-error");
+                        jQuery("#" + item.id + " input").removeClass("has-error");
+                }
+            });
             $scope.selectedLeaveApplication = data;
             $scope.leave_type.forEach(function (item) {
                 if (data.PayrollCode == item.leave_type_code) {
@@ -211,7 +217,7 @@
         }
 
         $scope.CancelLeaveApplication_Click = function (data) {
-            data.Status = "Cancel";
+           
 
             //$scope.selectedLeaveApplication = data;
             var modalOptions = {
@@ -222,7 +228,8 @@
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok')
+                if (result == 'ok'){
+                    data.Status = "Cancel";
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
                         //load application data
@@ -230,13 +237,14 @@
                     }, function (err) {
                        console.log(err);
                     });
-            });
+                }
+             });
 
+             
 
         }
 
         $scope.WithdrawLeaveApplication_Click = function (data) {
-            data.Status = "Withdraw";
 
             //$scope.selectedLeaveApplication = data;
             var modalOptions = {
@@ -247,7 +255,8 @@
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok')
+                if (result == 'ok'){
+                    data.Status = "Withdraw";
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
                         //load application data
@@ -255,6 +264,7 @@
                     }, function (err) {
                         console.log(err);
                     });
+                }
             });
 
 
@@ -424,7 +434,6 @@
             });
         }
         $scope.MainManagerApproveLeaveApplication = function (data) {
-            data.Status = "Approved";
 
             var modalOptions = {
                 closeButtonText: 'Cancel',
@@ -434,7 +443,8 @@
             };
 
             modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok')
+                data.Status = "Approved";
+                if (result == 'ok'){
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
                         //load application data
@@ -443,6 +453,7 @@
                     }, function (err) {
                         console.log(err);
                     });
+                }
             });
 
         }
@@ -637,8 +648,7 @@
         //caluculate start day and last day and set restricted return date
         $scope.$watch('[selectedLeaveApplication.StartDate ,selectedLeaveApplication.ReturnDate]', function () {
             $scope.selectedLeaveApplication.TotalDays = dateDifference($scope.selectedLeaveApplication.StartDate, $scope.selectedLeaveApplication.ReturnDate);
-            if($scope.selectedLeaveApplication.StartDate !== null || $scope.selectedLeaveApplication.StartDate !== undefined)
-                jQuery("#inpReturnDate").datepicker('setStartDate', $scope.selectedLeaveApplication.StartDate);
+            
         });
 
         $("#ppReportsTo").typeahead({
@@ -656,7 +666,13 @@
         });
       
         //datetimepicker for start and end date
-
+        $scope.$watch('[selectedLeaveApplication.StartDate]', function () {
+            $scope.selectedLeaveApplication.TotalDays = dateDifference($scope.selectedLeaveApplication.StartDate, $scope.selectedLeaveApplication.ReturnDate);
+            jQuery("#inpReturnDate").val("");
+            if($scope.selectedLeaveApplication.StartDate !== null || $scope.selectedLeaveApplication.StartDate !== undefined)
+                jQuery("#inpReturnDate").datepicker('setStartDate', $scope.selectedLeaveApplication.StartDate);
+                
+        });
         jQuery("#inpStartDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
         jQuery("#inpReturnDate").datepicker({ format: 'dd/mm/yyyy', startDate: new Date() });
         jQuery("#inpStartDate").prop("readonly", true);
