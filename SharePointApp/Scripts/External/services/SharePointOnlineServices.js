@@ -327,7 +327,7 @@
             appcontext.executeQueryAsync(
                 function (sender, args) {
 
-                    deferred.resolve(oListItem);
+                    deferred.resolve(args);
                 },
                 function (sender, args) {
 
@@ -366,12 +366,7 @@
             //        oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
             //    }
             //})
-            LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.LeaveType) {
-                    oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
-                }
-            })
-            // oListItem.set_item(LeaveApplicationFields.LeaveType, data.LeaveType);
+            oListItem.set_item(LeaveApplicationFields.LeaveType, data.PayrollCode);
             //oListItem.set_item(LeaveApplicationFields.PayrollCode, data.PayrollCode.text());
 
 
@@ -388,7 +383,7 @@
             appcontext.executeQueryAsync(
                 function (sender, args) {
 
-                    deferred.resolve(oListItem);
+                    deferred.resolve(args);
                 },
                 function (sender, args) {
 
@@ -420,7 +415,7 @@
             oListItem.set_item(LeaveApplicationFields.Designation, data.Designation);
             oListItem.set_item(LeaveApplicationFields.ReportTo, data.ReportTo);
             LEAVE_TYPE_PAYROLL_CODE.forEach(function (item) {
-                if (item.leave_type_code == data.leave_type_text) {
+                if (item.leave_type_code == data.LeaveType) {
                     oListItem.set_item(LeaveApplicationFields.LeaveType, item.leave_type_text);
                 }
             })
@@ -469,7 +464,7 @@
             else if (userType == USER_TYPE.lineManager)
                 camlQ = '<View><Query><Where><Eq><FieldRef Name="ReportTo" /> <Value Type="Text">' + email + '</Value></Eq></Where></Query></View>'
             else if (userType == USER_TYPE.mainManager)
-                camlQ = '<View><Query><Where></Where></Query></View>'
+                camlQ = '<View><Query><Where><Eq><FieldRef Name="Status" /> <Value Type="Text">' + LEAVE_APPLICATION_STATUS.PendingFinalApproval + '</Value></Eq></Where></Query></View>'
             camlQuery.set_viewXml(camlQ);
             var collListItem = oList.getItems(camlQuery);
             appcontext.load(collListItem);
@@ -516,7 +511,8 @@
                 deffer.resolve(data);
             },
                 function (sender, args) {
-                  
+                    alert('Request failed. ' + args.get_message() +
+                        '\n' + args.get_stackTrace());
                     deffer.reject(sender);
                 }
             );
@@ -579,6 +575,9 @@
             var list = hostweb.get_lists().getByTitle(listTitle);
             //get updated item
             var oListItem = list.getItemById(id);
+
+
+
             var itemId = id;
             var fileInput = $('#inpFile');
             var fileCount = fileInput[0].files.length;
@@ -588,6 +587,8 @@
                 fileArray.push(fileInput[0].files[i]);
             }
             uploadFileSP("Staff Leave Application", itemId, fileArray, fileCount, listUrl);
+
+
         }
 
 
@@ -611,7 +612,7 @@
     }
     function uploadFileSP(listName, id, fileArray, fileCount, listUrl) {
         var FilesCount = 0;
-        var deferred = $q.defer();
+        var deferred = $.Deferred();
         var uploadStatus = "";
         var file = fileArray[0];
         var getFile = getFileBuffer(file);
@@ -634,15 +635,27 @@
                     "content-length": buffer.byteLength
                 },
                 success: function (data) {
-                    deferred.resolve(data);
+                    FilesCount++;
+                    uploadStatus = FilesCount;
+                    fileArray.shift();
+                    if (fileArray.length > 0) {
+                        uploadFileSP("ListName", id, fileArray, fileArray.length);
+                    }
+                    else {
+                        alert("Your item has been submitted successfully!");
+                    }
                 },
                 error: function (err) {
-                    deferred.reject(err);
+                    alert("Idea has been submitted but some files failed to upload.");
                 }
             });
             deferred.resolve(uploadStatus);
         });
-        return deferred.promise;
+
+        getFile.fail(function (err) {
+            deferred.reject(err);
+        });
+        return deferred.promise();
     }
 
 
@@ -656,8 +669,7 @@
                 backdrop: true,
                 keyboard: true,
                 modalFade: true,
-                // templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
-                templateUrl: 'https://sharepointapps.blob.core.windows.net/scripts/services/modalTemplate.html'
+                templateUrl: 'https://localhost:44326/scripts/services/modalTemplate.html'
             };
 
             var modalOptions = {
