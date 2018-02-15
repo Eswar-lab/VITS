@@ -108,9 +108,9 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'CMP',
-        leave_type_text: 'COMPASSIONATE Leave',
-        enable_supporting_file: false,
-        enable_leave_category: false
+        leave_type_text: 'Copassitionate Leave',
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
     {
@@ -136,9 +136,9 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Service Leave',
-        enable_supporting_file: false,
-        enable_leave_category: false
+        leave_type_text: 'Long Servide Leave',
+        enable_leave_category: false,
+        enable_supporting_file: false
 
     },
 
