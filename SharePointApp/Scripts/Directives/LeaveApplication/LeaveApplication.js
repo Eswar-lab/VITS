@@ -578,7 +578,15 @@
 
         //Attachment end
 
+        $scope.$watch('selectedLeaveApplication.LeaveCategory', function () {
+            if ($scope.selectedLeaveApplication.LeaveCategory  == 2) {
+                // $scope.selectedLeaveApplication.enable_leave_category = false;
+                jQuery("#enable_leave_category").hide();
+            }else{
+                jQuery("#enable_leave_category").show();
+            }
 
+        });
          //Actual leave 
          $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
