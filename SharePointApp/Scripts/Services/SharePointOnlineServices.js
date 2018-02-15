@@ -485,12 +485,7 @@
                     var PRcodeObj = undefined;
 
                     listItemInfo = oListItem.get_id();
-                    try {
-                        remarkStr = $(oListItem.get_fieldValues().Remarks).text();
-                        PRcodeObj = $(oListItem.get_fieldValues().PRCODE).text();
-                    } catch (ex) {
-                        console.log(ex);
-                    }
+                  
 
                     var obj = JSON.parse(JSON.stringify(LeaveApplicationObj));
                     obj.ID = oListItem.get_fieldValues().ID;
@@ -510,6 +505,13 @@
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
                     obj.RejectionReason = oListItem.get_fieldValues().RejectionReason;
                     obj.Status = oListItem.get_fieldValues().Status;
+                    try {
+                        remarkStr = $(oListItem.get_fieldValues().Remarks).text();
+                        PRcodeObj = $(oListItem.get_fieldValues().PRCODE).text();
+                        obj.Remarks = remarkStr;
+                    } catch (ex) {
+                        console.log(ex);
+                    }
                    // obj.RejectionReason = remarkStr;
                     data.push(obj);
                 }
@@ -546,9 +548,7 @@
         AppServiceFactory.LeaveApplication_DeleteLeaveData = function (data) {
             var deferred = $q.defer();
             var itemId = data.ID;
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
+           
             var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
             var hostweb = hostcontext.get_web();
             var oList = hostweb.get_lists().getByTitle(listTitle);
@@ -566,19 +566,11 @@
         };
 
 
-        AppServiceFactory.LeaveApplication_AddAttachedData = function (id, fileName, file) {
+        AppServiceFactory.LeaveApplication_AddAttachedData = function (fileInput, id) {
             var deferred = $.Deferred();
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            //get list by cross domain access
-            var hostUrl = SharePointOnlineService.GetHostWebUrl();
-            var appUrl = SharePointOnlineService.GetAppWebUrl();
-            var appcontext = new SP.ClientContext(appUrl);
-            var hostcontext = new SP.AppContextSite(appcontext, hostUrl);
-            var hostweb = hostcontext.get_web();
-            var list = hostweb.get_lists().getByTitle(listTitle);
+            //var manageUrl = appUrl + "/_api/SP.AppContextSite(@target)/web/sitegroups/getbyname('Staff Leave Manager')/users?@target=%27" + hostUrl + "%27";
+
             //get updated item
-            var oListItem = list.getItemById(id);
             var itemId = id;
             var fileInput = $('#inpFile');
             var fileCount = fileInput[0].files.length;
@@ -587,7 +579,7 @@
             for (var i = 0; i < fileCount; i++) {
                 fileArray.push(fileInput[0].files[i]);
             }
-            uploadFileSP("Staff Leave Application", itemId, fileArray, fileCount, listUrl);
+            uploadFileSP("Staff Leave Application", itemId, fileArray, fileCount);
         }
 
 
@@ -606,45 +598,55 @@
                 deferred.reject(e.target.error);
             return deferred.promise();
         }
+
+        function uploadFileSP(listName, id, fileArray, fileCount, listUrl) {
+                var FilesCount = 0;
+                var deferred = $q.defer();
+                var uploadStatus = "";
+                var file = fileArray[0];
+                var getFile = getFileBuffer(file);
+
+                var hostUrl = SharePointOnlineService.GetHostWebUrl();
+                var appUrl = SharePointOnlineService.GetAppWebUrl();
+
+                var appcontext = new SP.ClientContext(appUrl);
+
+               // var listUrl = appUrl +  "/_api/lists/GetByTitle('" + listName + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')" + "?@target=%27" + hostUrl + "%27";
+                var listUrl = appUrl +  "/_api/SP.AppContextSite(@target)/web/lists/GetByTitle('"  + listName + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')" + "?@target=%27" + hostUrl + "%27";
+
+                getFile.then(function (buffer, status, xhr) {
+                    var bytes = new Uint8Array(buffer);
+                    var content = new SP.Base64EncodedByteArray();
+                    var queryUrl = listUrl;
+                    var uploadCount = 0;
+                    $.ajax({
+                        url: queryUrl,
+                        type: "POST",
+                        processData: false,
+                        contentType: "application/json;odata=verbose",
+                        data: buffer,
+                        headers: {
+                            "accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "content-length": buffer.byteLength
+                        },
+                        success: function (data) {
+                            deferred.resolve(data);
+                        },
+                        error: function (err) {
+                            deferred.reject(err);
+                        }
+                    });
+                    deferred.resolve(uploadStatus);
+                });
+                return deferred.promise;
+            }
+
+        
         return AppServiceFactory;
 
     }
-    function uploadFileSP(listName, id, fileArray, fileCount, listUrl) {
-        var FilesCount = 0;
-        var deferred = $q.defer();
-        var uploadStatus = "";
-        var file = fileArray[0];
-        var getFile = getFileBuffer(file);
-
-        getFile.done(function (buffer, status, xhr) {
-            var bytes = new Uint8Array(buffer);
-            var content = new SP.Base64EncodedByteArray();
-            
-            var queryUrl = listUrl;
-            var uploadCount = 0;
-            $.ajax({
-                url: queryUrl,
-                type: "POST",
-                processData: false,
-                contentType: "application/json;odata=verbose",
-                data: buffer,
-                headers: {
-                    "accept": "application/json;odata=verbose",
-                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
-                    "content-length": buffer.byteLength
-                },
-                success: function (data) {
-                    deferred.resolve(data);
-                },
-                error: function (err) {
-                    deferred.reject(err);
-                }
-            });
-            deferred.resolve(uploadStatus);
-        });
-        return deferred.promise;
-    }
-
+    
 
 
 })();

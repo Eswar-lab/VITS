@@ -193,6 +193,13 @@
             $scope.selectedLeaveApplication = data;
             $scope.leave_type.forEach(function (item) {
                 if (data.PayrollCode == item.leave_type_code) {
+                    $scope.selectedLeaveApplication.LeaveType = item.leave_type_code;
+                    $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
+                    $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
+                    return;
+                }
+                if (data.LeaveType == item.leave_type_text) {
+                    $scope.selectedLeaveApplication.LeaveType = item.leave_type_code;
                     $scope.selectedLeaveApplication.PayrollCode = item.leave_type_code;
                     $scope.selectedLeaveApplication.enable_leave_category = item.enable_leave_category;
                     return;
@@ -204,7 +211,7 @@
         }
 
         $scope.CancelLeaveApplication_Click = function (data) {
-          
+            data.Status = "Cancel";
 
             //$scope.selectedLeaveApplication = data;
             var modalOptions = {
@@ -213,7 +220,7 @@
                 headerText: 'Cancel ' + " the selected application " + '?',
                 bodyText: 'Are you sure you want to Cancel this application?'
             };
-            data.Status = "Cancel";
+
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result == 'ok')
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
@@ -255,7 +262,7 @@
         $scope.refreshLeaveApplication_Click = function () {
             loadLeaveApplication();
             $("#userTabs li").each(function(){$(this).removeClass("active")}); $("#userTabs li").first().addClass("active");
-            $("#managerTabs li").each(function(){$(this).removeClass("active")}); $("#userTabs li").first().addClass("active");
+            $("#managerTabs li").each(function(){$(this).removeClass("active")}); $("#managerTabs li").first().addClass("active");
 
         }
         $scope.newLeaveApplication_Click = function () {
@@ -356,14 +363,14 @@
                         $('#modalLeaveApplication').modal('show');
                         return;
                     }
-
+                    
                     if ($scope.selectedLeaveApplication.ID !== null && $scope.selectedLeaveApplication.ID !== undefined) {
-
+                        //attach document
+                        attachDocument();
+                        //end
                         LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
                            
-                            //attach document
-                            attachDocument();
-                            //end
+                            
                             $scope.refreshLeaveApplication_Click();
 
                         }, function (err) {
@@ -378,10 +385,11 @@
                         }
 
                         LeaveApplicationService.LeaveApplication_SaveOrCreateData($scope.selectedLeaveApplication).then(function (success) {
-                            alert("successfully create a new item!");
+                             
                             //load application data
                             $scope.refreshLeaveApplication_Click();
                             //attach document
+                            $scope.selectedLeaveApplication.ID = success.$2_0.get_properties().Id;
                             attachDocument();
                             //end
 
@@ -469,7 +477,7 @@
 
         function loadLeaveApplication() {
             var inputEmail = null;
-           // inputEmail = userProfile.WorkEmail;
+            inputEmail = userProfile.WorkEmail;
             if ($scope.stage.view == 'UserView') {
                 inputEmail = userProfile.WorkEmail;
                 loadLeaveApplicationByUserType(inputEmail, USER_TYPE.user);
@@ -557,16 +565,6 @@
         function attachDocument() {
          
             var process = false;
-            $scope.leave_type.forEach(function(item){
-                if(item.leave_type_code == $scope.selectedLeaveApplication.LeaveType){
-                    if(item.enable_supporting_file == false){
-                        process = true;
-                        return;
-                    }
-                }
-            })    
-            if(process)
-                return;
             var fileInput = $("#inpFile");
             if (fileInput.length < 0 || fileInput[0] == undefined ||typeof(fileInput[0].files) == 'undefined')
                 return;
@@ -574,7 +572,7 @@
                 return;
 
 
-            LeaveApplicationService.LeaveApplication_AttachFile(fileInput, $scope.selectedLeaveApplication.ID);
+            LeaveApplicationService.LeaveApplication_AddAttachedData(fileInput, $scope.selectedLeaveApplication.ID);
 
         }
 
