@@ -62,7 +62,7 @@ const LEAVE_APPLICATION_FIELDS = [
     {"id": 'EmployeeID-leave','name': 'EmployeeID', 'required': false , 'error_mess': ''},
     {"id": 'Designation-leave', 'name': 'Designation', 'required': false , 'error_mess': ''},
     {"id": 'ReportTo-leave', 'name': 'ReportTo', 'required': true, 'error_mess': 'Report to is required' },
-    {"id": 'LeaveType-leave', 'name': 'LeaveType', 'required': false , 'error_mess': ''},
+    {"id": 'LeaveType-leave', 'name': 'LeaveType', 'required': true , 'error_mess': ''},
     {"id": 'PayrollCode-leave', 'name': 'PayrollCode', 'required': false , 'error_mess': ''},
     {"id": 'LeaveCategory-leave', 'name': 'LeaveCategory', 'required': false , 'error_mess': ''},
     {"id": 'StartDate-leave', 'name': 'StartDate', 'required': true , 'error_mess': 'startdate is required'},
@@ -108,9 +108,9 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'CMP',
-        leave_type_text: 'Copassitionate Leave',
-        enable_leave_category: false,
-        enable_supporting_file: false
+        leave_type_text: 'Compassionate Leave',
+        enable_supporting_file: false,
+        enable_leave_category: false
 
     },
     {
@@ -136,9 +136,9 @@ const LEAVE_TYPE_PAYROLL_CODE = [
     },
     {
         leave_type_code: 'LSL',
-        leave_type_text: 'Long Servide Leave',
-        enable_leave_category: false,
-        enable_supporting_file: false
+        leave_type_text: 'Long Service Leave',
+        enable_supporting_file: false,
+        enable_leave_category: false
 
     },
 
