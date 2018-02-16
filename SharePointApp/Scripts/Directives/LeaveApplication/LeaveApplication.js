@@ -152,12 +152,7 @@
                         $scope.FilterLeaveApplicationData.push(item);
 
                     }
-                    //}
-                    //if (filter == 'Approved') {
-                    //    if (item.Status.includes('Pending')) {
-                    //        $scope.FilterLeaveApplicationData.push(item);
-
-                    //    }
+                  
                 }
 
 
@@ -218,17 +213,6 @@
 
         $scope.CancelLeaveApplication_Click = function (data) {
            
-
-            //$scope.selectedLeaveApplication = data;
-            var modalOptions = {
-                closeButtonText: 'Back',
-                actionButtonText: 'Cancel selected Leave Application ',
-                headerText: 'Cancel ' + " the selected application " + '?',
-                bodyText: 'Are you sure you want to Cancel this application?'
-            };
-
-            modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok'){
                     data.Status = "Cancel";
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
@@ -237,8 +221,6 @@
                     }, function (err) {
                        console.log(err);
                     });
-                }
-             });
 
              
 
@@ -272,8 +254,9 @@
         $scope.refreshLeaveApplication_Click = function () {
             loadLeaveApplication();
             $("#userTabs li").each(function(){$(this).removeClass("active")}); $("#userTabs li").first().addClass("active");
-            $("#managerTabs li").each(function(){$(this).removeClass("active")}); $("#managerTabs li").first().addClass("active");
-
+            $("#mainmanagerTabs li").each(function(){$(this).removeClass("active")}); $("#mainmanagerTabs li").first().addClass("active");
+            $("#linemanagerTabs li").each(function(){$(this).removeClass("active")}); $("#linemanagerTabs li").first().addClass("active");
+            
         }
         $scope.newLeaveApplication_Click = function () {
             // hide error message 
@@ -322,15 +305,11 @@
                 //end
                 //If leaveApplication is  exist, update selected leave application
                 LeaveApplicationService.LeaveApplication_UpdateLeaveData($scope.selectedLeaveApplication).then(function (success) {
-                  
                     //load application data
                     $scope.refreshLeaveApplication_Click();
-
-
                 }, function (err) {
                     $scope.selectedLeaveApplication.Status = "Draft";
                     console.log(err);
-                   
                 });
             } else {
                 //If leaveApplication is not exist, create a new leave application
@@ -346,7 +325,6 @@
                 }, function (err) {
                     $scope.selectedLeaveApplication.Status = "Draft";
                     console.log(err);
-                
                 });
             }
             //files = $scope.selectedLeaveApplication.SupportingFiles;
@@ -540,10 +518,6 @@
             })
         }
 
-
-
-       
-
         //https://stackoverflow.com/questions/28949911/what-does-this-format-means-t000000-000z
         function dateDifference(start, end) {
 
@@ -600,14 +574,30 @@
         });
          //Actual leave 
          $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
+           
+            var reg = new RegExp('^$|[-][0-9]+$'); 
+            $("#error-message").hide();
+            if(reg.test($scope.selectedLeaveApplication.ActualLeave ) == false){
+                $("#error-message").show();
+                $("#error-message").html("the input must be number");
+                return;
+            }
+
+            if($scope.selectedLeaveApplication.ActualLeave < 0){
+                $("#error-message").show();
+                $("#error-message").html("number must not be negative");
+                return;
+            }
+
             if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
                 /// alert("incorrect");
                 $("#error-message").show();
                 $("#error-message").html("Invalid hours");
+                return;
+            } 
 
-            } else {
-                $("#error-message").hide();
-            }
+            $("#error-message").hide();
+            
 
         });
         //Leave Type and PayCode
@@ -656,11 +646,16 @@
             //autoSelect: trueFFF
         });
 
+        //active selected tab
         $('#userTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
         });
-        $('#managerTabs a').click(function (e) {
+        $('#mainmanagerTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show');
+        });
+        $('#linemanagerTabs a').click(function (e) {
             e.preventDefault()
             $(this).tab('show');
         });

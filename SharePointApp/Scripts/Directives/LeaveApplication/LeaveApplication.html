@@ -9,25 +9,64 @@
         .required-field {
             color: red;
         }
+
         .controll-button {
             padding: 0px 15px;
         }
-        .controll-button button:nth-child(2) {
-            float: right;
-        }
+
+            .controll-button button:nth-child(2) {
+                float: right;
+            }
+
         .has-error, input.has-error {
             border-color: #b94a48 !important;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075)  !important;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075)  !important;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075) !important;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075) !important;
         }
-        textarea{
+
+        textarea {
             resize: none;
         }
+
         li.active > a {
-            background: #eeeeee !important;
-            color: red !important;
+            background: #de4814 !important;
+            color: white !important;
+            border-color: #df4814 !important;
+        }
+        thead {
+            background: #de4814;
+            color: white;
         }
     </style>
+      
+    <!--cancel/withdraw reason -->
+    <div id="modalWithdrawLeaveApplication" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="margin: auto; width: 90%;">
+            <!-- Modal content-->
+            <div class="modal-content panel-primary">
+                <div class="modal-header panel-heading">
+                    <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title">Withdraw  Leave Application</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <label for="inpRemarks">Comments </label>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="CancelLeaveApplication_Click(selectedLeaveApplication)">Withdraw</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--cancel/withdraw end -->
+  
+    <!--reject reason -->
     <div id="modalRejectLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
@@ -45,172 +84,169 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default"  data-dismiss="modal" ng-click="RejectLeaveApplication()">Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="RejectLeaveApplication()">Reject</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
 
     </div>
+    <!--reject reason end -->
 
+     <!--new leave application -->
     <div id="modalLeaveApplication" class="modal fade" role="dialog" data-backdrop="static">
-      
-            <div class="modal-dialog" style="margin: auto; width: 90%;">
-                <!-- Modal content-->
-                <div class="modal-content panel-primary">
-                    <div class="modal-header panel-heading">
-                        <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
-                        <h4 class="modal-title">New  Leave Application <span data-dismiss="modal" style=" position: absolute; right: 15px; cursor:pointer; " ng-click="selectedLeaveApplication = {}">X</span></h4>
 
+        <div class="modal-dialog" style="margin: auto; width: 90%;">
+            <!-- Modal content-->
+            <div class="modal-content panel-primary">
+                <div class="modal-header panel-heading">
+                    <h4 class="modal-title">New  Leave Application <span data-dismiss="modal" style=" position: absolute; right: 15px; cursor:pointer; " ng-click="selectedLeaveApplication = {}">X</span></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
+                            <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()" data-dismiss="modal">Save</button>
+
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                                <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication()" data-dismiss="modal">Save</button>
+                    <hr />
 
-                            </div>
+                    <div class="row">
+                        <div class="col-xs-4 form-group" id="EmployeeEmail-leave">
+                            <label for="inpEmployee">Employee Email</label>
+                            <input type="text" readonly class="form-control" id="inpEmployeeEmail" ng-model="selectedLeaveApplication.EmployeeEmail">
                         </div>
-                        <hr />
-
-                        <div class="row">
-                            <div class="col-xs-4 form-group" id="EmployeeEmail-leave">
-                                <label for="inpEmployee">Employee Email</label>
-                                <input type="text" readonly class="form-control" id="inpEmployeeEmail" ng-model="selectedLeaveApplication.EmployeeEmail">
-                            </div>
-                            <div class="col-xs-4 form-group" id="FirstName-leave">
-                                <label for="inpFirstname">Firstname</label>
-                                <input type="text" readonly class="form-control" id="inpFirstname" ng-model="selectedLeaveApplication.EmployeeFirstname">
-                            </div>
-                            <div class="col-xs-4 form-group" id="EmployeeSurname-leave">
-                                <label for="inpLastname">Surname</label>
-                                <input type="text" readonly class="form-control" id="inpLastname" ng-model="selectedLeaveApplication.EmployeeSurname">
-                            </div>
+                        <div class="col-xs-4 form-group" id="FirstName-leave">
+                            <label for="inpFirstname">Firstname</label>
+                            <input type="text" readonly class="form-control" id="inpFirstname" ng-model="selectedLeaveApplication.EmployeeFirstname">
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4 form-group" id="EmployeeID-leave">
-                                <label for="inpEmployeeId">Employee ID</label>
-                                <input type="text" readonly class="form-control" id="inpEmployeeId" ng-model="selectedLeaveApplication.EmployeeID">
-                            </div>
-                            <div class="col-xs-4 form-group">
-                                <label for="inpDepartment">Department</label>
-                                <input type="text" readonly class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
-                            </div>
-
-
-                            <div class="col-xs-4 form-group" id="Designation-leave">
-                                <label for="inpDesignation">Designation</label>
-                                <input type="text" readonly class="form-control" id="inpDesignation" ng-model="selectedLeaveApplication.Designation">
-                            </div>
+                        <div class="col-xs-4 form-group" id="EmployeeSurname-leave">
+                            <label for="inpLastname">Surname</label>
+                            <input type="text" readonly class="form-control" id="inpLastname" ng-model="selectedLeaveApplication.EmployeeSurname">
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4 form-group" id="ReportTo-leave">
-                                <label for="ppReportsTo">Reports To <span class="required-field">*</span></label>
-                                <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
-                                <select data-provide="typeahead" class="form-control" id="ppReportsTo"
-                                        ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
-                                    <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
-                                </select>
-
-                            </div>
-
-
-
-
-                            <div class="col-xs-4 form-group" id="StartDate-leave">
-                                
-                                <label for="inpStartDate">Start Date 1day=8hours <span class="required-field">*</span></label>
-                                <input type="text" class="hasDatepicker" id="inpStartDate" ng-model="selectedLeaveApplication.StartDate" style="width: 100%; height: 38px;">
-
-
-                            </div>
-
-
-                            <div class="col-xs-4 form-group" id="ReturnDate-leave">
-                               
-                                <label for="inpReturnDate" style="width:100%;">Return Date <span class="required-field">*</span></label>
-                                <input type="text" class="hasDatepicker" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate" style="width: 100%; height: 38px;">
-
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 form-group" id="EmployeeID-leave">
+                            <label for="inpEmployeeId">Employee ID</label>
+                            <input type="text" readonly class="form-control" id="inpEmployeeId" ng-model="selectedLeaveApplication.EmployeeID">
                         </div>
-                        <div class="row">
-                           
-
-                            
-
-
-                            <div class="col-xs-4 form-group" id="LeaveType-leave">
-                                    <label for="inpLeaveType">Leave Type <span class="required-field">*</span></label>
-                                    <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
-    
-                                        <option ng-repeat="item in leave_type" value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
-    
-                                    </select>
+                        <div class="col-xs-4 form-group">
+                            <label for="inpDepartment">Department</label>
+                            <input type="text" readonly class="form-control" id="inpDepartment" ng-model="selectedLeaveApplication.Department">
+                        </div>
 
 
-                            </div>
-                            <div class="col-xs-4 form-group" id="LeaveCategory-leave">
-                                    <label for="inpLeaveCat">Leave Category</label>
-                                    <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
-                                        <option selected value="1" ng-if="selectedLeaveApplication.enable_leave_category">With Certificate</option>
-                                        <option value="2" ng-if="selectedLeaveApplication.enable_leave_category">WithOut Certificate</option>
-                                    </select>
+                        <div class="col-xs-4 form-group" id="Designation-leave">
+                            <label for="inpDesignation">Designation</label>
+                            <input type="text" readonly class="form-control" id="inpDesignation" ng-model="selectedLeaveApplication.Designation">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 form-group" id="ReportTo-leave">
+                            <label for="ppReportsTo">Reports To <span class="required-field">*</span></label>
+                            <!--https://www.npmjs.com/package/bootstrap-3-typeahead-->
+                            <select data-provide="typeahead" class="form-control" id="ppReportsTo"
+                                    ng-model="selectedLeaveApplication.ReportTo" placeholder="Start typing a name...">
+                                <option ng-repeat="manager in managers " value="{{manager.Email}}">{{manager.Title}}</option>
+                            </select>
+
+                        </div>
+
+
+
+
+                        <div class="col-xs-4 form-group" id="StartDate-leave">
+
+                            <label for="inpStartDate">Start Date 1day=8hours <span class="required-field">*</span></label>
+                            <input type="text" class="hasDatepicker" id="inpStartDate" ng-model="selectedLeaveApplication.StartDate" style="width: 100%; height: 38px;">
+
+
+                        </div>
+
+
+                        <div class="col-xs-4 form-group" id="ReturnDate-leave">
+
+                            <label for="inpReturnDate" style="width:100%;">Return Date <span class="required-field">*</span></label>
+                            <input type="text" class="hasDatepicker" id="inpReturnDate" ng-model="selectedLeaveApplication.ReturnDate" style="width: 100%; height: 38px;">
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+
+
+
+                        <div class="col-xs-4 form-group" id="LeaveType-leave">
+                            <label for="inpLeaveType">Leave Type <span class="required-field">*</span></label>
+                            <select class="custom-select form-control" id="inpLeaveType" ng-model="selectedLeaveApplication.LeaveType">
+
+                                <option ng-repeat="item in leave_type" value="{{item.leave_type_code}}">{{item.leave_type_text}}</option>
+
+                            </select>
+
+
+                        </div>
+                        <div class="col-xs-4 form-group" id="LeaveCategory-leave">
+                            <label for="inpLeaveCat">Leave Category</label>
+                            <select class="custom-select form-control" id="inpLeaveCat" ng-model="selectedLeaveApplication.LeaveCategory">
+                                <option selected value="1" ng-if="selectedLeaveApplication.enable_leave_category">With Certificate</option>
+                                <option value="2" ng-if="selectedLeaveApplication.enable_leave_category">WithOut Certificate</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-xs-4 form-group" ng-if="selectedLeaveApplication.enable_leave_category" id="enable_leave_category">
+                            <label for="inpFile">Supporting file</label>
+
+                            <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.enable_file_attachment">
+
+                            <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
+                                <div class="row"></div>
+                                <div class="col-xs-11">
+                                    {{file.name}}
                                 </div>
-    
-
-                            <div class="col-xs-4 form-group" ng-if="selectedLeaveApplication.enable_leave_category" id="enable_leave_category">
-                                    <label for="inpFile">Supporting file</label>
-    
-                                    <input id="inpFile" type="file" files-input ng-model="selectedLeaveApplication.enable_file_attachment">
-    
-                                    <div ng-repeat="file in selectedLeaveApplication.SupportingFiles">
-                                        <div class="row"></div>
-                                        <div class="col-xs-11">
-                                            {{file.name}}
-                                        </div>
-                                        <div class="col-xs-1">
-                                            <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
-                                        </div>
-                                    </div>
+                                <div class="col-xs-1">
+                                    <button type="button" class="close btn-primary" ng-click="ClearFile()">&times;</button>
                                 </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4 form-group" id="PayrollCode-leave">
-                              
-                                    <label for="inpPayrollCode">Payroll Code</label>
-                                    <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
-    
-
-                            </div>
-
-
-                            <div class="col-xs-4 form-group">
-                                <label for="inpTotalDays">Total (days)</label>
-                                <input type="text" readonly class="form-control" id="inpTotalDays" ng-model="selectedLeaveApplication.TotalDays">
-                            </div>
-                            <div class="col-xs-4 form-group">
-                                <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
-                                <label for="inpActualLeave">Actual Leave (Hours)</label>
-
-                                <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
-                                <span id="error-message" style="color: red"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 form-group">
-                                <label for="inpRemarks">Comments </label>
-                                <textarea  class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks" ></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
-                        <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}">Cancel</button>
+                    <div class="row">
+                        <div class="col-xs-4 form-group" id="PayrollCode-leave">
+
+                            <label for="inpPayrollCode">Payroll Code</label>
+                            <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <label for="inpTotalDays">Total (days)</label>
+                            <input type="text" readonly class="form-control" id="inpTotalDays" ng-model="selectedLeaveApplication.TotalDays">
+                        </div>
+                        <div class="col-xs-4 form-group">
+                            <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
+                            <label for="inpActualLeave">Actual Leave (Hours round-up)</label>
+
+                            <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
+                            <span id="error-message" style="color: red"></span>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <label for="inpRemarks">Comments </label>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}"  >Cancel</button>
                 </div>
             </div>
         </div>
+    </div>
+     <!--new leave application end -->
 
     <!-- User View -->
     <div class="panel panel-primary" ng-show="stage.view == 'UserView'">
@@ -229,7 +265,7 @@
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')" >Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <!--test -->
@@ -237,15 +273,18 @@
             <thead>
                 <tr>
                     <th>Leave Type</th>
-                    <th>First Day of Leave</th>
-                    <th>Last Day of Leave</th>
+                    <th>Start Date of Leave</th>
+                    <th>Return Date of Leave</th>
+                    <th>Total Days</th>
+                    <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-            
-                    <th ng-if="stage.tab == 'Rejected'">Rejection Reason</th>
-                    <th ng-if="stage.tab == 'Pending Line Manager'">Status</th>
-                    <th></th>
-                    <th></th>
+                    <th><span   >Comment</span></th>
+                    <th><span ng-show="data.Status == 'Rejected'">Rejection Reason</span></th>
+                    <th><span ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" >Edit</span></th>
+                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" >Delete</span></th>
+                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'">Cancel</span></th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -253,21 +292,24 @@
                     <td>{{data.LeaveType}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
+                    <td>{{data.TotalDays}}</td>
+                    <td>{{data.ActualLeave}}</td>
                     <td>{{data.ReportTo}}</td>
                     <td>{{data.Status}}</td>
+                    <td  >{{data.Remarks}}</td>
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"" ng-click="CancelLeaveApplication_Click(data)">Cancel</button></td>
-                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" ng-click="WithdrawLeaveApplication_Click(data)">Withdraw</button></td>
-                   
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"  data-toggle="modal"  data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
+                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" data-toggle="modal"   data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Withdraw</button></td>
+
 
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Manager View -->
+    <!-- Manager View  -->
     <div class="panel panel-primary" ng-show="stage.view == 'ManagerView'">
 
         <!-- Default panel contents -->
@@ -277,7 +319,7 @@
         </div>
         <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()" style="margin-bottom: 20px; margin-left: 15px;">Refresh</button>
 
-        <ul id="managerTabs" class="nav nav-tabs nav-justified">
+        <ul id="linemanagerTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
@@ -288,12 +330,15 @@
             <thead>
                 <tr>
                     <th>Employee Email</th>
-                    <th>First Day of Leave</th>
-                    <th>Last Day of Leave</th>
+                    <th>Start Date of Leave</th>
+                    <th>Return Date of Leave</th>
                     <th>Total Days</th>
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
+                    <th>Comment</th>
+                    <th><span ng-if="stage.tab == 'Pending Line Manager' " ></button></th>
+                    <th><span ng-if="stage.tab == 'Pending Line Manager' "></span></th>
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
@@ -304,8 +349,9 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <td><button type="button"  class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>
+                <td  >{{data.Remarks}}</td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' " ng-click="mapItemToSelApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' " ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
@@ -321,33 +367,40 @@
             <p>Please review the following leave applications</p>
         </div>
         <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()" style="margin-bottom: 20px; margin-left: 15px;">Refresh</button>
-        <ul id="managerTabs" class="nav nav-tabs nav-justified">
+        <ul id="mainmanagerTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Final Approval')">Pending Final Approval</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
-             <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <table class="table table-condensed">
             <thead>
                 <tr>
                     <th>Employee Email</th>
-                    <th>First Day of Leave</th>
-                    <th>Last Day of Leave</th>
+                    <th>Start Date of Leave</th>
+                    <th>Return Date of Leave</th>
+                    <th>Total Days</th>
+                    <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <td></td>
-                    <th></th>
+                    <th>Comment</th>
+                    <th><span  ></span></th>
+                    <th><span ng-if="stage.tab == 'Pending Final Approval' "></span></th>
+            
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
                 <td>{{data.EmployeeEmail}}</td>
                 <td>{{data.StartDate}}</td>
                 <td>{{data.ReturnDate}}</td>
+                <td>{{data.TotalDays}}</td>
+                <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Approved'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Rejected'" ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
+                <td>{{data.Remarks}}</td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Final Approval' " ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
