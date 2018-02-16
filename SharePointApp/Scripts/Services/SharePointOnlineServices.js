@@ -250,6 +250,8 @@
             'RejectionReason': undefined,
             'Remarks': undefined,
             'Totaldays': undefined,
+            'Withdraw': undefined,
+            'Cancel': undefined,
         };
         var LeaveApplicationFields = {
             'ID': 'ID',
@@ -275,7 +277,9 @@
             'Firstdayofleave': 'Firstdayofleave',
             'Lastdayofleave': 'Lastdayofleave',
             'SupportingFiles': 'Attachments',
-            'RejectionReason': 'RejectionReason'
+            'RejectionReason': 'RejectionReason',
+            'Withdraw': 'Withdraw',
+            'Cancel': 'Cancel'
         }
 
         AppServiceFactory.LeaveApplication_Get_Approvers = function () {
@@ -322,6 +326,10 @@
             oListItem.set_item(LeaveApplicationFields.Status, data.Status);
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             oListItem.set_item(LeaveApplicationFields.RejectionReason, data.RejectionReason);
+            oListItem.set_item(LeaveApplicationFields.Withdraw, data.Withdraw);
+            oListItem.set_item(LeaveApplicationFields.Cancel, data.Cancel);
+            
+
             oListItem.update();
 
             appcontext.executeQueryAsync(
@@ -382,6 +390,9 @@
             oListItem.set_item(LeaveApplicationFields.Remarks, data.Remarks);
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
             oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
+            oListItem.set_item(LeaveApplicationFields.Withdraw, data.Withdraw);
+            oListItem.set_item(LeaveApplicationFields.Cancel, data.Cancel);
+            
             //  oListItem.set_item('ActualLeave', data.ActualLeave);
             oListItem.update();
             appcontext.load(oListItem);
@@ -434,6 +445,9 @@
             oListItem.set_item(LeaveApplicationFields.ActualLeave, data.ActualLeave);
             //  oListItem.set_item(LeaveApplicationFields.TotalDays, data.TotalDays);
             //  oListItem.set_item('Attche', data.ActualLeave);
+            oListItem.set_item(LeaveApplicationFields.Withdraw, data.Withdraw);
+            oListItem.set_item(LeaveApplicationFields.Cancel, data.Cancel);
+            
             oListItem.update();
             appcontext.load(oListItem);
             appcontext.executeQueryAsync(
@@ -505,6 +519,8 @@
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
                     obj.RejectionReason = oListItem.get_fieldValues().RejectionReason;
                     obj.Status = oListItem.get_fieldValues().Status;
+                    obj.Withdraw = oListItem.get_fieldValues().Withdraw;
+                    obj.Cancel = oListItem.get_fieldValues().Cancel;
                     try {
                         remarkStr = $(oListItem.get_fieldValues().Remarks).text();
                         PRcodeObj = $(oListItem.get_fieldValues().PRCODE).text();

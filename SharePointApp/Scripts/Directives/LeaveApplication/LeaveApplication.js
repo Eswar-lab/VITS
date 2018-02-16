@@ -49,6 +49,8 @@
         $scope.selectedLeaveApplication.enable_leave_category = false;
         $scope.selectedLeaveApplication.SupportingFiles = undefined;
         $scope.selectedLeaveApplication.RejectionReason = undefined;
+        $scope.selectedLeaveApplication.Withdraw = undefined;
+        $scope.selectedLeaveApplication.Cancel = undefined;
 
         $scope.leave_type = LEAVE_TYPE_PAYROLL_CODE;
         $scope.payroll_code = [];
@@ -113,7 +115,6 @@
                         if (item.Email == userProfile.WorkEmail) {
                             $scope.managers = main_managers;
                             is_line_manager = true;
-                            return;
                         }
 
                     });
@@ -212,8 +213,7 @@
         }
 
         $scope.CancelLeaveApplication_Click = function (data) {
-           
-                    data.Status = "Cancel";
+                   
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
                         //load application data
@@ -229,15 +229,6 @@
         $scope.WithdrawLeaveApplication_Click = function (data) {
 
             //$scope.selectedLeaveApplication = data;
-            var modalOptions = {
-                closeButtonText: 'Back',
-                actionButtonText: 'Withdraw selected Leave Application ',
-                headerText: 'Withdraw ' + " the selected application " + '?',
-                bodyText: 'Are you sure you want to Withdraw this application?'
-            };
-
-            modalService.showModal({}, modalOptions).then(function (result) {
-                if (result == 'ok'){
                     data.Status = "Withdraw";
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
@@ -246,8 +237,7 @@
                     }, function (err) {
                         console.log(err);
                     });
-                }
-            });
+                
 
 
         }
@@ -331,11 +321,8 @@
             $('#modalLeaveApplication').modal('hide');
         }
         $scope.SubmitLeaveApplication = function () {
-            if (is_line_manager == true)
-                $scope.selectedLeaveApplication.Status = "Pending Final Approval";
-            else
-
-                $scope.selectedLeaveApplication.Status = "Pending Line Manager";
+           
+                
 
             var modalOptions = {
                 closeButtonText: 'Cancel',
@@ -351,7 +338,11 @@
                         $('#modalLeaveApplication').modal('show');
                         return;
                     }
-                    
+                    if (is_line_manager == true)
+                            $scope.selectedLeaveApplication.Status = "Pending Final Approval";
+                    else
+                            $scope.selectedLeaveApplication.Status = "Pending Line Manager";
+                            
                     if ($scope.selectedLeaveApplication.ID !== null && $scope.selectedLeaveApplication.ID !== undefined) {
                         //attach document
                         attachDocument();
@@ -575,7 +566,7 @@
          //Actual leave 
          $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
            
-            var reg = new RegExp('^$|[-][0-9]+$'); 
+            var reg = new RegExp('^$|[-,0-9]+$'); 
             $("#error-message").hide();
             if(reg.test($scope.selectedLeaveApplication.ActualLeave ) == false){
                 $("#error-message").show();
@@ -589,13 +580,17 @@
                 return;
             }
 
-            if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave) {
+            if ($scope.selectedLeaveApplication.TotalDays * 8 < $scope.selectedLeaveApplication.ActualLeave   ) {
                 /// alert("incorrect");
                 $("#error-message").show();
                 $("#error-message").html("Invalid hours");
                 return;
             } 
-
+            if ($scope.selectedLeaveApplication.TotalDays > 1 &&  ($scope.selectedLeaveApplication.TotalDays  - 1) * 8 > $scope.selectedLeaveApplication.ActualLeave ){
+                $("#error-message").show();
+                $("#error-message").html("Invalid hours");
+                return;
+            }
             $("#error-message").hide();
             
 

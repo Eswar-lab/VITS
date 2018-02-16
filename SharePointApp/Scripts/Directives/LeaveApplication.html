@@ -29,10 +29,44 @@
         }
 
         li.active > a {
-            background: #eeeeee !important;
-            color: red !important;
+            background: #f99b7a !important;
+            color: white !important;
+            border-color: #df4814 !important;
+        }
+        thead {
+            background: #f99b7a;
+            color: white;
         }
     </style>
+      
+    <!--cancel/withdraw reason -->
+    <div id="modalWithdrawLeaveApplication" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="margin: auto; width: 90%;">
+            <!-- Modal content-->
+            <div class="modal-content panel-primary">
+                <div class="modal-header panel-heading">
+                    <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
+                    <h4 class="modal-title">Withdraw  Leave Application</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 form-group">
+                            <label for="inpRemarks">Comments </label>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="CancelLeaveApplication_Click(selectedLeaveApplication)">Withdraw</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--cancel/withdraw end -->
+  
+    <!--reject reason -->
     <div id="modalRejectLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
@@ -57,16 +91,16 @@
         </div>
 
     </div>
+    <!--reject reason end -->
 
+     <!--new leave application -->
     <div id="modalLeaveApplication" class="modal fade" role="dialog" data-backdrop="static">
 
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
             <div class="modal-content panel-primary">
                 <div class="modal-header panel-heading">
-                    <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
                     <h4 class="modal-title">New  Leave Application <span data-dismiss="modal" style=" position: absolute; right: 15px; cursor:pointer; " ng-click="selectedLeaveApplication = {}">X</span></h4>
-
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -184,18 +218,14 @@
 
                             <label for="inpPayrollCode">Payroll Code</label>
                             <input type="text" class="form-control" id="inpPayrollCode" ng-model="selectedLeaveApplication.PayrollCode" disabled>
-
-
                         </div>
-
-
                         <div class="col-xs-4 form-group">
                             <label for="inpTotalDays">Total (days)</label>
                             <input type="text" readonly class="form-control" id="inpTotalDays" ng-model="selectedLeaveApplication.TotalDays">
                         </div>
                         <div class="col-xs-4 form-group">
                             <input type="checkbox" ng-click="ActualLeaveToggle($event)" ng-model="selectedLeaveApplication.ActualLeaveChecked" />
-                            <label for="inpActualLeave">Actual Leave (Hours)</label>
+                            <label for="inpActualLeave">Actual Leave (Hours round-up)</label>
 
                             <input type="text" readonly class="form-control" id="inpActualLeave" ng-model="selectedLeaveApplication.ActualLeave">
                             <span id="error-message" style="color: red"></span>
@@ -211,11 +241,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}"  >Cancel</button>
                 </div>
             </div>
         </div>
     </div>
+     <!--new leave application end -->
 
     <!-- User View -->
     <div class="panel panel-primary" ng-show="stage.view == 'UserView'">
@@ -234,7 +265,7 @@
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')" >Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <!--test -->
@@ -248,11 +279,12 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-
-                    <th ng-if="stage.tab == 'Rejected'">Rejection Reason</th>
-                    <th ng-if="stage.tab == 'Pending Line Manager'">Status</th>
-                    <th></th>
-                    <th></th>
+                    <th><span   >Comment</span></th>
+                    <th><span ng-show="data.Status == 'Rejected'">Rejection Reason</span></th>
+                    <th><span ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" >Edit</span></th>
+                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" >Delete</span></th>
+                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'">Cancel</span></th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -260,15 +292,16 @@
                     <td>{{data.LeaveType}}</td>
                     <td>{{data.StartDate}}</td>
                     <td>{{data.ReturnDate}}</td>
-                    <td>{{data.ReportTo}}</td>
                     <td>{{data.TotalDays}}</td>
                     <td>{{data.ActualLeave}}</td>
+                    <td>{{data.ReportTo}}</td>
                     <td>{{data.Status}}</td>
+                    <td  >{{data.Remarks}}</td>
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'" " ng-click="CancelLeaveApplication_Click(data)">Cancel</button></td>
-                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" ng-click="WithdrawLeaveApplication_Click(data)">Withdraw</button></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"  data-toggle="modal"  data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
+                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" data-toggle="modal"   data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Withdraw</button></td>
 
 
                 </tr>
@@ -286,7 +319,7 @@
         </div>
         <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()" style="margin-bottom: 20px; margin-left: 15px;">Refresh</button>
 
-        <ul id="managerTabs" class="nav nav-tabs nav-justified">
+        <ul id="linemanagerTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Line Manager')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
@@ -303,6 +336,9 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
+                    <th>Comment</th>
+                    <th><span ng-if="stage.tab == 'Pending Line Manager' " ></button></th>
+                    <th><span ng-if="stage.tab == 'Pending Line Manager' "></span></th>
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
@@ -313,8 +349,9 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <!--<td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Approved'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' || stage.tab == 'Rejected'" ng-click="ApproveLeaveApplication(data)">Approve</button></td>-->
+                <td  >{{data.Remarks}}</td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' " ng-click="mapItemToSelApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' " ng-click="ApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
@@ -330,7 +367,7 @@
             <p>Please review the following leave applications</p>
         </div>
         <button type="button" class="btn btn-primary" ng-click="refreshLeaveApplication_Click()" style="margin-bottom: 20px; margin-left: 15px;">Refresh</button>
-        <ul id="managerTabs" class="nav nav-tabs nav-justified">
+        <ul id="mainmanagerTabs" class="nav nav-tabs nav-justified">
             <li role="presentation" class="active"><a href="#" ng-click="filterData($event, 'Pending Final Approval')">Pending Final Approval</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
@@ -347,8 +384,10 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <td></td>
-                    <th></th>
+                    <th>Comment</th>
+                    <th><span  ></span></th>
+                    <th><span ng-if="stage.tab == 'Pending Final Approval' "></span></th>
+            
                 </tr>
             </thead>
             <tr ng-repeat="data in FilterLeaveApplicationData">
@@ -359,8 +398,9 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <!--<td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Approved'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
-                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Final Approval' || stage.tab == 'Rejected'" ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>-->
+                <td>{{data.Remarks}}</td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
+                <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Final Approval' " ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
             </tr>
         </table>
     </div>
