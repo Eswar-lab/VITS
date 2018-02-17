@@ -388,7 +388,7 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <th>Comment</th>
+                    
                     <th><span ng-if="stage.tab == 'Pending Line Manager' " ></button></th>
                     <th><span ng-if="stage.tab == 'Pending Line Manager' "></span></th>
                 </tr>
@@ -401,8 +401,9 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
+             
                 <!-- <td  >{{data.Remarks }} </br> {{data.Withdraw}}</br> {{data.Cancel}}</td> -->
-               <!-- <td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)">Comment</span></td>-->
+                <!-- <td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)">Comment</span></td>-->
 
                 <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Line Manager' " ng-click="mapItemToSelApplication(data)">Reject</button></td>
                 <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Line Manager' " ng-click="ApproveLeaveApplication(data)">Approve</button></td>
@@ -438,7 +439,7 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <th>Comment</th>
+                    
                     <th><span  ></span></th>
                     <th><span ng-if="stage.tab == 'Pending Final Approval' "></span></th>
             
