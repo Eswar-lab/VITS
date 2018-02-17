@@ -453,7 +453,7 @@
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
                 <!-- <td>{{data.Remarks}} </br> {{data.Withdraw}}</br> {{data.Cancel}}</td> -->
-                <td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)" >Comment</span></td>
+                <!--<td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)" >Comment</span></td>-->
 
                 <td><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalRejectLeaveApplication" ng-if="stage.tab == 'Pending Final Approval'" ng-click="mapItemToSelApplication(data)">Reject</button></td>
                 <td><button type="button" class="btn btn-sm btn-success" ng-if="stage.tab == 'Pending Final Approval' " ng-click="MainManagerApproveLeaveApplication(data)">Approve</button></td>
