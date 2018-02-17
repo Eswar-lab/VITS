@@ -330,12 +330,12 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <th>Reject Reason</th>
+                    <th ng-if="stage.tab == 'Rejected'">Rejection Reason</th>
                     <th><span ng-show="data.Status == 'Rejected'">Rejection Reason</span></th>
-                    <th><span ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" >Edit</span></th>
-                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" >Delete</span></th>
-                    <th><span  class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'">Cancel</span></th>
-                   
+                    <th><span ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success">Edit</span></th>
+                    <th><span class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'">Delete</span></th>
+                    <th><span class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'">Cancel</span></th>
+
                 </tr>
             </thead>
             <tbody>
