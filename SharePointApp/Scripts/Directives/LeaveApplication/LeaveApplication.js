@@ -566,7 +566,7 @@
          //Actual leave 
          $scope.$watch('selectedLeaveApplication.ActualLeave', function () {
            
-            var reg = new RegExp('^$|[-,0-9]+$'); 
+            var reg = new RegExp('^$|[0-9]+$'); 
             $("#error-message").hide();
             if(reg.test($scope.selectedLeaveApplication.ActualLeave ) == false){
                 $("#error-message").show();
