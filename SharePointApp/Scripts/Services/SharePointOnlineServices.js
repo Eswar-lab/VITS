@@ -518,6 +518,7 @@
                     obj.StartDate = oListItem.get_fieldValues().Firstdayofleave;
                     obj.ReturnDate = oListItem.get_fieldValues().Lastdayofleave;
                     obj.RejectionReason = oListItem.get_fieldValues().RejectionReason;
+                    obj.Remarks = oListItem.get_fieldValues().Remarks;
                     obj.Status = oListItem.get_fieldValues().Status;
                     obj.Withdraw = oListItem.get_fieldValues().Withdraw;
                     obj.Cancel = oListItem.get_fieldValues().Cancel;
