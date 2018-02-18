@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication.Status = 'Cancel'; CancelLeaveApplication_Click(selectedLeaveApplication)">Cancel Application</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication.Status = 'Withdraw'; CancelLeaveApplication_Click(selectedLeaveApplication)">Withdraw Application</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -91,13 +91,13 @@
     <!--Cancel end -->
 
     <!--withdraw reason -->
-    <div id="modalWithdrawLeaveApplication" class="modal fade" role="dialog">
+    <div id="modalCancelLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
             <div class="modal-content panel-primary">
                 <div class="modal-header panel-heading">
                     <!--<button type="button" class="close btn-primary" data-dismiss="modal">&times;</button>-->
-                    <h4 class="modal-title">Withdraw  Leave Application</h4>
+                    <h4 class="modal-title">Cancel  Leave Application</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication.Status = 'Withdraw'; CancelLeaveApplication_Click(selectedLeaveApplication)">Withdraw</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication.Status = 'Cancel'; CancelLeaveApplication_Click(selectedLeaveApplication)">Cancel Application</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -352,7 +352,7 @@
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"  data-toggle="modal"  data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"  data-toggle="modal"  data-target="#modalCancelLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
                     <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" data-toggle="modal"   data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Withdraw</button></td>
 
 
