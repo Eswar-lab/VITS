@@ -213,7 +213,7 @@
         }
 
         $scope.CancelLeaveApplication_Click = function (data) {
-                   
+            data.Status = "Cancel";
                     LeaveApplicationService.LeaveApplication_UpdateLeaveData(data).then(function (success) {
                         var inputEmail = null;
                         //load application data
