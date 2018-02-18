@@ -33,14 +33,15 @@
             color: white !important;
             border-color: #df4814 !important;
         }
+
         thead {
             background: #B5B2B0;
             color: white;
         }
     </style>
-     <!--Comment box -->
+    <!--Comment box -->
 
-     <div id="modalCommentLeaveApplication" class="modal fade" role="dialog">
+    <div id="modalCommentLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
             <div class="modal-content panel-primary">
@@ -63,7 +64,7 @@
 
     </div>
     <!-- end -->
-     <!--Cancel reason -->
+    <!--withdraw reason -->
     <div id="modalWithdrawLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
@@ -76,7 +77,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpRemarks">Comments </label>
-                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Cancel"></textarea>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Withdraw"></textarea>
                         </div>
                     </div>
                 </div>
@@ -88,9 +89,8 @@
         </div>
 
     </div>
-    <!--Cancel end -->
-
-    <!--withdraw reason -->
+    <!--withdraw end -->
+    <!--Cancel reason -->
     <div id="modalCancelLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
             <!-- Modal content-->
@@ -103,7 +103,7 @@
                     <div class="row">
                         <div class="col-xs-12 form-group">
                             <label for="inpRemarks">Comments </label>
-                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Withdraw"></textarea>
+                            <textarea class="form-control" rows="5" id="inpRemarks" ng-model="selectedLeaveApplication.Cancel"></textarea>
                         </div>
                     </div>
                 </div>
@@ -115,8 +115,7 @@
         </div>
 
     </div>
-    <!--withdraw end -->
-  
+    <!--Cancel end -->
     <!--reject reason -->
     <div id="modalRejectLeaveApplication" class="modal fade" role="dialog">
         <div class="modal-dialog" style="margin: auto; width: 90%;">
@@ -143,8 +142,7 @@
 
     </div>
     <!--reject reason end -->
-
-     <!--new leave application -->
+    <!--new leave application -->
     <div id="modalLeaveApplication" class="modal fade" role="dialog" data-backdrop="static">
 
         <div class="modal-dialog" style="margin: auto; width: 90%;">
@@ -292,13 +290,12 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="SubmitLeaveApplication()" data-dismiss="modal">Submit</button>
                     <button type="button" class="btn btn-default" ng-click="SaveLeaveApplication();$event.stopPropagation();">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}"  >Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="selectedLeaveApplication = {}">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
-     <!--new leave application end -->
-
+    <!--new leave application end -->
     <!-- User View -->
     <div class="panel panel-primary" ng-show="stage.view == 'UserView'">
         <!-- Default panel contents -->
@@ -316,7 +313,7 @@
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Pending')">Pending</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Approved')">Approved</a></li>
             <li role="presentation"><a href="#" ng-click="filterData($event, 'Rejected')">Rejected</a></li>
-            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')" >Withdraw/Cancel</a></li>
+            <li role="presentation"><a href="#" ng-click="filterData($event, 'Cancel')">Withdraw/Cancel</a></li>
         </ul>
         <!-- Table -->
         <!--test -->
@@ -352,8 +349,8 @@
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
                     <td><button type="button" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success" ng-click="editLeaveApplication_Click(data)">Edit</button></td>
                     <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" ng-click="deleteLeaveApplication_Click(data)">Delete</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'"  data-toggle="modal"  data-target="#modalCancelLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
-                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" data-toggle="modal"   data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Withdraw</button></td>
+                    <td><button type="button" class="btn btn-sm btn-danger" ng-show="data.Status == 'Pending Line Manager' || data.Status == 'Pending Final Approval'" data-toggle="modal" data-target="#modalCancelLeaveApplication" ng-click="mapItemToSelApplication(data)">Cancel</button></td>
+                    <td><button type="button" class="btn btn-sm btn-success" ng-show="data.Status == 'Approved'" data-toggle="modal" data-target="#modalWithdrawLeaveApplication" ng-click="mapItemToSelApplication(data)">Withdraw</button></td>
 
 
                 </tr>
