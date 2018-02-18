@@ -385,7 +385,7 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
-                    <th ng-if="stage.tab == 'Pending Line Manager'">Comments</th>
+                  <!--  <th ng-if="stage.tab == 'Pending Line Manager'">Comments</th>-->
                   
 
                    
@@ -401,7 +401,7 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <td><span ng-show="data.Status == 'Pending Line Manager'">{{data.Remarks}}</span></td>
+                <!--<td><span ng-show="data.Status == 'Pending Line Manager'">{{data.Remarks}}</span></td>-->
                
                 <!-- <td  >{{data.Remarks }} </br> {{data.Withdraw}}</br> {{data.Cancel}}</td> -->
                 <!-- <td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)">Comment</span></td>-->
