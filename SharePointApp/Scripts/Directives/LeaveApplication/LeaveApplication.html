@@ -389,6 +389,7 @@
                     <th>Actual Leave(Hours)</th>
                     <th>Reports To</th>
                     <th>Status</th>
+                    <th>Comments</th>
                     <th ng-if="stage.tab == 'Pending Line Manager'">Comments</th>
                     <th ng-if="stage.tab == 'Cancel'">Cancel Reason</th>
                     <th ng-if="stage.tab == 'Cancel'">Withdraw Reason</th>
@@ -407,7 +408,8 @@
                 <td>{{data.ActualLeave}}</td>
                 <td>{{data.ReportTo}}</td>
                 <td>{{data.Status}}</td>
-                <td><span ng-show="data.Status == 'Pending Line Manager'">{{data.StartDate}}</span></td>
+                <td>{{data.Remarks}}</td>
+                <!--<td><span ng-show="data.Status == 'Pending Line Manager'">{{data.StartDate}}</span></td>-->
                 <td><span ng-show="data.Status == 'Cancel'">{{data.Cancel}}</span></td>
                 <td><span ng-show="data.Status == 'Withdraw'">{{data.Withdraw}}</span></td>
 
