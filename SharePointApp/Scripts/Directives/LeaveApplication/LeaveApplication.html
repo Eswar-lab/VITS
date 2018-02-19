@@ -328,6 +328,8 @@
                     <th>Reports To</th>
                     <th>Status</th>
                     <th ng-if="stage.tab == 'Rejected'">Rejection Reason</th>
+                    <th ng-if="stage.tab == 'Cancel'">Cancel Reason</th>
+                    <th ng-if="stage.tab == 'Cancel'">Withdraw Reason</th>
                     <th><span ng-show="data.Status == 'Rejected'">Rejection Reason</span></th>
                     <th><span ng-show="data.Status == 'Draft' || data.Status == 'Rejected'" class="btn btn-sm btn-success">Edit</span></th>
                     <th><span class="btn btn-sm btn-danger" ng-show="data.Status == 'Draft' || data.Status == 'Rejected'">Delete</span></th>
@@ -344,6 +346,8 @@
                     <td>{{data.ActualLeave}}</td>
                     <td>{{data.ReportTo}}</td>
                     <td>{{data.Status}}</td>
+                    <td><span ng-show="data.Status == 'Cancel'">{{data.Cancel}}</span></td>
+                    <td><span ng-show="data.Status == 'Withdraw'">{{data.Withdraw}}</span></td>
                     <!-- <td  >{{data.Remarks}} </br> {{data.Withdraw}}</br> {{data.Cancel}}</td> -->
                     <!--<td> <span class="btn btn-sm btn-danger"  data-toggle="modal"  data-target="#modalCommentLeaveApplication" ng-click="mapItemToSelApplication(data)">Comment</span></td>-->
                     <td><span ng-show="data.Status == 'Rejected'">{{data.RejectionReason}}</span></td>
